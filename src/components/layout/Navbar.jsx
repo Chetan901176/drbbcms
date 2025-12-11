@@ -68,6 +68,40 @@ const Navbar = () => {
     }
   };
 
+  const handleMouseEnter = (dropdownName) => {
+    setDropdowns(prev => {
+      const newDropdowns = { ...prev };
+      
+      if (dropdownName === 'schoolLevelCommittee') {
+        newDropdowns[dropdownName] = true;
+        return newDropdowns;
+      }
+      
+      Object.keys(newDropdowns).forEach(key => {
+        if (key !== dropdownName && key !== 'schoolLevelCommittee') {
+          newDropdowns[key] = false;
+        }
+      });
+      newDropdowns[dropdownName] = true;
+      return newDropdowns;
+    });
+  };
+
+  const handleMouseLeave = (dropdownName) => {
+    if (dropdownName !== 'schoolLevelCommittee') {
+      setDropdowns(prev => ({
+        ...prev,
+        [dropdownName]: false,
+        schoolLevelCommittee: false
+      }));
+    } else {
+      setDropdowns(prev => ({
+        ...prev,
+        schoolLevelCommittee: false
+      }));
+    }
+  };
+
   const toggleDropdown = (dropdownName, event) => {
     if (event) {
       event.stopPropagation();
@@ -123,10 +157,14 @@ const Navbar = () => {
             </Link>
             
             {/* About Dropdown */}
-            <div className="relative" ref={aboutRef}>
+            <div 
+              className="relative" 
+              ref={aboutRef}
+              onMouseEnter={() => handleMouseEnter('about')}
+              onMouseLeave={() => handleMouseLeave('about')}
+            >
               <button 
                 className={`flex items-center px-2 py-1 rounded ${isActive('/about') || isActive('/contact') ? 'text-yellow-300' : 'hover:text-yellow-300'} hover:underline transition-all duration-200`}
-                onClick={(e) => toggleDropdown('about', e)}
               >
                 About
                 <DropdownArrow isOpen={dropdowns.about} />
@@ -148,10 +186,14 @@ const Navbar = () => {
             </div>
 
             {/* Academics Dropdown */}
-            <div className="relative" ref={academicsRef}>
+            <div 
+              className="relative" 
+              ref={academicsRef}
+              onMouseEnter={() => handleMouseEnter('academics')}
+              onMouseLeave={() => handleMouseLeave('academics')}
+            >
               <button 
                 className={`flex items-center px-2 py-1 rounded ${isActive('/admission') || isActive('/fee-structure') || isActive('/sample-papers') || isActive('/facilities') ? 'text-yellow-300' : 'hover:text-yellow-300'} hover:underline transition-all duration-200`}
-                onClick={(e) => toggleDropdown('academics', e)}
               >
                 Academics
                 <DropdownArrow isOpen={dropdowns.academics} />
@@ -179,10 +221,14 @@ const Navbar = () => {
             </div>
 
             {/* Administration Dropdown */}
-            <div className="relative" ref={administrationRef}>
+            <div 
+              className="relative" 
+              ref={administrationRef}
+              onMouseEnter={() => handleMouseEnter('administration')}
+              onMouseLeave={() => handleMouseLeave('administration')}
+            >
               <button 
                 className={`flex items-center px-2 py-1 rounded ${isActive('/class-wise-student') ? 'text-yellow-300' : 'hover:text-yellow-300'} hover:underline transition-all duration-200`}
-                onClick={(e) => toggleDropdown('administration', e)}
               >
                 Administration
                 <DropdownArrow isOpen={dropdowns.administration} />
@@ -199,10 +245,14 @@ const Navbar = () => {
                 </Link>
                 
                 {/* Nested School Level Committee Dropdown */}
-                <div className="relative" ref={schoolLevelRef}>
+                <div 
+                  className="relative" 
+                  ref={schoolLevelRef}
+                  onMouseEnter={() => handleMouseEnter('schoolLevelCommittee')}
+                  onMouseLeave={() => handleMouseLeave('schoolLevelCommittee')}
+                >
                   <button
                     className="w-full flex items-center justify-between px-4 py-2 text-gray-700 hover:bg-gray-100 text-left"
-                    onClick={(e) => toggleDropdown('schoolLevelCommittee', e)}
                   >
                     School Level Committee
                     <DropdownArrow isOpen={dropdowns.schoolLevelCommittee} />
@@ -232,10 +282,14 @@ const Navbar = () => {
             </div>
 
             {/* Activities Dropdown */}
-            <div className="relative" ref={activitiesRef}>
+            <div 
+              className="relative" 
+              ref={activitiesRef}
+              onMouseEnter={() => handleMouseEnter('activities')}
+              onMouseLeave={() => handleMouseLeave('activities')}
+            >
               <button 
                 className={`flex items-center px-2 py-1 rounded ${isActive('/news-events') ? 'text-yellow-300' : 'hover:text-yellow-300'} hover:underline transition-all duration-200`}
-                onClick={(e) => toggleDropdown('activities', e)}
               >
                 Activities
                 <DropdownArrow isOpen={dropdowns.activities} />
@@ -254,10 +308,14 @@ const Navbar = () => {
             </div>
             
             {/* Gallery Dropdown */}
-            <div className="relative" ref={galleryRef}>
+            <div 
+              className="relative" 
+              ref={galleryRef}
+              onMouseEnter={() => handleMouseEnter('gallery')}
+              onMouseLeave={() => handleMouseLeave('gallery')}
+            >
               <button 
                 className={`flex items-center px-2 py-1 rounded ${isActive('/gallery') ? 'text-yellow-300' : 'hover:text-yellow-300'} hover:underline transition-all duration-200`}
-                onClick={(e) => toggleDropdown('gallery', e)}
               >
                 Gallery
                 <DropdownArrow isOpen={dropdowns.gallery} />
@@ -279,10 +337,14 @@ const Navbar = () => {
             </div>
 
             {/* Downloads Dropdown */}
-            <div className="relative" ref={downloadsRef}>
+            <div 
+              className="relative" 
+              ref={downloadsRef}
+              onMouseEnter={() => handleMouseEnter('downloads')}
+              onMouseLeave={() => handleMouseLeave('downloads')}
+            >
               <button 
                 className={`flex items-center px-2 py-1 rounded ${isActive('/downloads') ? 'text-yellow-300' : 'hover:text-yellow-300'} hover:underline transition-all duration-200`}
-                onClick={(e) => toggleDropdown('downloads', e)}
               >
                 Downloads
                 <DropdownArrow isOpen={dropdowns.downloads} />
@@ -316,7 +378,7 @@ const Navbar = () => {
       {isOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-black bg-opacity-50" onClick={toggleMenu}></div>
+          <div className="absolute inset-0 bg-black/50" onClick={toggleMenu}></div>
           
           {/* Sidebar Menu */}
           <div className="absolute top-0 left-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl overflow-y-auto">
