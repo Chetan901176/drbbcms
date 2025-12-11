@@ -16,9 +16,9 @@ const Marquee = () => {
   const handleMouseLeave = () => setIsPaused(false);
 
   return (
-    <div className="w-full bg-gray-100 text-gray-800 border-y border-gray-200">
+    <div className="w-full bg-gray-100 text-gray-800 border-y border-gray-200 overflow-hidden">
       <div
-        className="overflow-hidden whitespace-nowrap py-2"
+        className="overflow-hidden whitespace-nowrap py-2 relative"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
