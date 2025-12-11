@@ -27,44 +27,44 @@ const Header = () => {
           </Link>
 
           {/* Action Buttons - Column Layout */}
-          <div className="hidden md:flex flex-col gap-2">
+          <div className="hidden md:flex flex-col gap-3">
             <Link 
               href="/admission"
-              className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200 text-center whitespace-nowrap"
+              className="relative bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 text-center whitespace-nowrap shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             >
               ADMISSION REGISTRATION OPEN
             </Link>
             <Link 
               href="/sample-papers"
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200 text-center whitespace-nowrap"
+              className="relative bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 text-center whitespace-nowrap shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             >
               SAMPLE PAPERS
             </Link>
             <Link 
               href="/contact"
-              className="bg-primary hover:bg-lightGreen text-white px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200 text-center whitespace-nowrap"
+              className="relative bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 text-center whitespace-nowrap shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             >
               CONTACT US
             </Link>
           </div>
 
           {/* Mobile Action Buttons - Column Layout */}
-          <div className="flex md:hidden flex-col gap-1.5">
+          <div className="flex md:hidden flex-col gap-2">
             <Link 
               href="/admission"
-              className="bg-red-600 text-white px-3 py-1.5 rounded text-xs font-medium text-center whitespace-nowrap"
+              className="bg-gradient-to-r from-red-600 to-red-700 text-white px-4 py-2 rounded-lg text-xs font-semibold text-center whitespace-nowrap shadow-md"
             >
               ADMISSION
             </Link>
             <Link 
               href="/sample-papers"
-              className="bg-green-600 text-white px-3 py-1.5 rounded text-xs font-medium text-center"
+              className="bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-2 rounded-lg text-xs font-semibold text-center shadow-md"
             >
               PAPERS
             </Link>
             <Link 
               href="/contact"
-              className="bg-primary text-white px-3 py-1.5 rounded text-xs font-medium text-center"
+              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2 rounded-lg text-xs font-semibold text-center shadow-md"
             >
               CONTACT
             </Link>
