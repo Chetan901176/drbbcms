@@ -15,9 +15,7 @@ import React from 'react'
 const page = () => {
   return (
     <>
-    <Header/>
-    <Marquee/>
-    <Navbar/>
+    
     <HeroSection/>
     <PromoVideo/>
     <AboutSection/>
@@ -26,7 +24,7 @@ const page = () => {
     <DirectorsMessageSection/>
     <TestimonialsSlider/>
     <ContactSection/>
-    <Footer/>
+   
     </>
   )
 }
