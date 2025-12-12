@@ -24,10 +24,13 @@ export default function ContactPage() {
 
     try {
       // Replace with your Google Apps Script Web App URL (must end with /exec)
-      const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwUGauD1vYzzaARBtZr4o6YGMuFtYayVqGOxCWdiYMQKXCn9MRRfXQeNdlU2WNwubGXdw/exec';
       
       const formBody = new URLSearchParams({
-        ...formData,
+        Name: formData.name,
+        Phone: formData.phone,
+        Email: formData.email,
+        Message: formData.message,
         timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
       });
 
@@ -158,7 +161,7 @@ export default function ContactPage() {
               <button
                 onClick={handleSubmit}
                 disabled={submitting}
-                className="w-full bg-primary text-white px-4 sm:px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors font-medium text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                className="cursor-pointer w-full bg-primary text-white px-4 sm:px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors font-medium text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {submitting ? 'Sending...' : 'Send Message'}
               </button>

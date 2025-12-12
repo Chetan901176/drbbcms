@@ -18,19 +18,31 @@ const Contact = () => {
     setIsSubmitting(true);
     setResult("Sending...");
 
-    // TODO: Add your Google Sheets integration here
-    // You can use Google Apps Script Web App or a service like SheetDB
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwUGauD1vYzzaARBtZr4o6YGMuFtYayVqGOxCWdiYMQKXCn9MRRfXQeNdlU2WNwubGXdw/exec';
     
     try {
-      // Example placeholder - replace with your Google Sheets endpoint
-      // const response = await fetch('YOUR_GOOGLE_SHEETS_WEB_APP_URL', {
-      //   method: 'POST',
-      //   body: JSON.stringify(formData),
-      // });
+      const formBody = new URLSearchParams({
+        Name: formData.name,
+        Phone: formData.phone,
+        Email: formData.email,
+        Message: formData.message,
+        timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+      });
 
-      // Simulate success for now
-      setResult("Message sent successfully!");
-      setFormData({ name: "", phone: "", email: "", message: "" });
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        body: formBody,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+
+      if (response.ok) {
+        setResult("Message sent successfully!");
+        setFormData({ name: "", phone: "", email: "", message: "" });
+      } else {
+        throw new Error('Failed to send message');
+      }
     } catch (error) {
       console.error("Error submitting contact form:", error);
       setResult("Error sending message. Please try again.");
@@ -77,7 +89,7 @@ const Contact = () => {
           </ul>
         </div>
         <div className="w-full md:w-[48%] text-black">
-          <form onSubmit={handleSubmit}>
+          <div>
             <label className="block mb-1.5">Your name</label>
             <input
               type="text"
@@ -119,14 +131,14 @@ const Contact = () => {
               className="block w-full bg-[#EBECFE] p-4 border-0 outline-none mb-4 mt-1 resize-none rounded"
             ></textarea>
             <button 
-              type="submit" 
+              onClick={handleSubmit}
               disabled={isSubmitting}
               className="inline-flex items-center gap-2 bg-gray-800 text-white px-6 py-3 rounded-full hover:bg-gray-900 transition-colors duration-300 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? "Sending..." : "Submit Now"}
               <ArrowRight className="w-5 h-5" />
             </button>
-          </form>
+          </div>
           <span className="block my-5 text-sm">{result}</span>
         </div>
       </div>
