@@ -1,24 +1,30 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function AdmissionPage() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    state: '',
-    city: '',
-    grade: '',
-    gender: 'male'
+    name: "",
+    email: "",
+    phone: "",
+    state: "",
+    city: "",
+    grade: "",
+    gender: "male",
   });
 
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async () => {
-    if (!formData.name || !formData.phone || !formData.state || !formData.city || !formData.grade) {
-      alert('Please fill in all required fields');
+    if (
+      !formData.name ||
+      !formData.phone ||
+      !formData.state ||
+      !formData.city ||
+      !formData.grade
+    ) {
+      alert("Please fill in all required fields");
       return;
     }
 
@@ -26,44 +32,53 @@ export default function AdmissionPage() {
 
     try {
       // Replace with your Google Apps Script Web App URL (must end with /exec)
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUWvawY4mHr6iOGvBPf94X7JEQlmLuqXBmKC_aZCUZIHL209M7Kh0ybCosw-fcP3rknQ/exec';
-      
+      const GOOGLE_SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbxkCPZvziY-LjbvxPkbceRuFf-_7LoQGHsZFnB5eBb9PBI6t5JiJUPsYKZ4smrnWyWk/exec";
+
       const formBody = new URLSearchParams({
-        ...formData,
-        timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+        Student_Name: formData.name,
+        Phone: formData.phone,
+        Email: formData.email,
+        State: formData.state,
+        City: formData.city,
+        Applying_For_Class: formData.grade,
+        Gender: formData.gender,
+        timestamp: new Date().toLocaleString("en-IN", {
+          timeZone: "Asia/Kolkata",
+        }),
       });
 
       const response = await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
+        method: "POST",
         body: formBody,
-        redirect: 'follow'
+        redirect: "follow",
       });
 
-      console.log('Response received:', response);
-      
+      console.log("Response received:", response);
+
       // Assume success since Google Scripts return redirects
       setSubmitted(true);
       setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        state: '',
-        city: '',
-        grade: '',
-        gender: 'male'
+        name: "",
+        email: "",
+        phone: "",
+        state: "",
+        city: "",
+        grade: "",
+        gender: "male",
       });
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
       // Still show success since the data might have been saved
       setSubmitted(true);
       setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        state: '',
-        city: '',
-        grade: '',
-        gender: 'male'
+        name: "",
+        email: "",
+        phone: "",
+        state: "",
+        city: "",
+        grade: "",
+        gender: "male",
       });
     }
 
@@ -89,31 +104,41 @@ export default function AdmissionPage() {
           <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-md">
             <div className="space-y-3 sm:space-y-4">
               <div className="border-l-4 border-primary pl-3 sm:pl-4">
-                <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">Step 1: Online Inquiry</h3>
+                <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">
+                  Step 1: Online Inquiry
+                </h3>
                 <p className="text-gray-600 text-xs sm:text-sm lg:text-base">
                   Fill out the online application form below.
                 </p>
               </div>
               <div className="border-l-4 border-primary pl-3 sm:pl-4">
-                <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">Step 2: Team Review</h3>
+                <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">
+                  Step 2: Team Review
+                </h3>
                 <p className="text-gray-600 text-xs sm:text-sm lg:text-base">
                   Our admission team will review your application.
                 </p>
               </div>
               <div className="border-l-4 border-primary pl-3 sm:pl-4">
-                <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">Step 3: Contact</h3>
+                <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">
+                  Step 3: Contact
+                </h3>
                 <p className="text-gray-600 text-xs sm:text-sm lg:text-base">
                   We will contact you soon to discuss the next steps.
                 </p>
               </div>
               <div className="border-l-4 border-primary pl-3 sm:pl-4">
-                <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">Step 4: School Visit</h3>
+                <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">
+                  Step 4: School Visit
+                </h3>
                 <p className="text-gray-600 text-xs sm:text-sm lg:text-base">
                   Schedule a visit to explore our campus and facilities.
                 </p>
               </div>
               <div className="border-l-4 border-primary pl-3 sm:pl-4">
-                <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">Step 5: Admission Confirmation</h3>
+                <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">
+                  Step 5: Admission Confirmation
+                </h3>
                 <p className="text-gray-600 text-xs sm:text-sm lg:text-base">
                   Complete the admission process and secure your seat.
                 </p>
@@ -130,8 +155,18 @@ export default function AdmissionPage() {
           {submitted ? (
             <div className="text-center py-8 sm:py-12 px-4">
               <div className="mb-4">
-                <svg className="mx-auto h-12 w-12 sm:h-16 sm:w-16 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  className="mx-auto h-12 w-12 sm:h-16 sm:w-16 text-green-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </div>
               <div className="text-green-600 text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
@@ -151,7 +186,10 @@ export default function AdmissionPage() {
             <div className="space-y-4 sm:space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div className="md:col-span-2">
-                  <label className="block text-gray-700 mb-2 font-medium text-sm sm:text-base" htmlFor="name">
+                  <label
+                    className="block text-gray-700 mb-2 font-medium text-sm sm:text-base"
+                    htmlFor="name"
+                  >
                     Student's Full Name *
                   </label>
                   <input
@@ -166,7 +204,10 @@ export default function AdmissionPage() {
                 </div>
 
                 <div className="md:col-span-1">
-                  <label className="block text-gray-700 mb-2 font-medium text-sm sm:text-base" htmlFor="phone">
+                  <label
+                    className="block text-gray-700 mb-2 font-medium text-sm sm:text-base"
+                    htmlFor="phone"
+                  >
                     Phone Number *
                   </label>
                   <input
@@ -182,7 +223,10 @@ export default function AdmissionPage() {
                 </div>
 
                 <div className="md:col-span-1">
-                  <label className="block text-gray-700 mb-2 font-medium text-sm sm:text-base" htmlFor="email">
+                  <label
+                    className="block text-gray-700 mb-2 font-medium text-sm sm:text-base"
+                    htmlFor="email"
+                  >
                     Email Address (Optional)
                   </label>
                   <input
@@ -197,7 +241,10 @@ export default function AdmissionPage() {
                 </div>
 
                 <div className="md:col-span-1">
-                  <label className="block text-gray-700 mb-2 font-medium text-sm sm:text-base" htmlFor="state">
+                  <label
+                    className="block text-gray-700 mb-2 font-medium text-sm sm:text-base"
+                    htmlFor="state"
+                  >
                     State *
                   </label>
                   <input
@@ -212,7 +259,10 @@ export default function AdmissionPage() {
                 </div>
 
                 <div className="md:col-span-1">
-                  <label className="block text-gray-700 mb-2 font-medium text-sm sm:text-base" htmlFor="city">
+                  <label
+                    className="block text-gray-700 mb-2 font-medium text-sm sm:text-base"
+                    htmlFor="city"
+                  >
                     City *
                   </label>
                   <input
@@ -227,7 +277,10 @@ export default function AdmissionPage() {
                 </div>
 
                 <div className="md:col-span-1">
-                  <label className="block text-gray-700 mb-2 font-medium text-sm sm:text-base" htmlFor="grade">
+                  <label
+                    className="block text-gray-700 mb-2 font-medium text-sm sm:text-base"
+                    htmlFor="grade"
+                  >
                     Applying for Class *
                   </label>
                   <select
@@ -250,7 +303,10 @@ export default function AdmissionPage() {
                 </div>
 
                 <div className="md:col-span-1">
-                  <label className="block text-gray-700 mb-2 font-medium text-sm sm:text-base" htmlFor="gender">
+                  <label
+                    className="block text-gray-700 mb-2 font-medium text-sm sm:text-base"
+                    htmlFor="gender"
+                  >
                     Gender *
                   </label>
                   <select
@@ -263,7 +319,9 @@ export default function AdmissionPage() {
                   >
                     <option value="male">Male</option>
                   </select>
-                  <p className="text-xs sm:text-sm text-gray-500 mt-1">Currently accepting only male students</p>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                    Currently accepting only male students
+                  </p>
                 </div>
               </div>
 
@@ -271,9 +329,9 @@ export default function AdmissionPage() {
                 <button
                   onClick={handleSubmit}
                   disabled={submitting}
-                  className="w-full bg-primary text-white py-3 sm:py-4 px-4 sm:px-6 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold text-base sm:text-lg"
+                  className="cursor-pointer w-full bg-primary text-white py-3 sm:py-4 px-4 sm:px-6 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold text-base sm:text-lg"
                 >
-                  {submitting ? 'Submitting...' : 'Register Now'}
+                  {submitting ? "Submitting..." : "Register Now"}
                 </button>
               </div>
             </div>
@@ -287,9 +345,17 @@ export default function AdmissionPage() {
           </h2>
           <div className="space-y-2 text-gray-600 text-xs sm:text-sm lg:text-base">
             <p>For any queries regarding admission, please contact:</p>
-            <p><span className="font-semibold">Phone:</span> +91-8968212121, +91-7770004698</p>
-            <p><span className="font-semibold">Email:</span> drbbcms@gmail.com</p>
-            <p><span className="font-semibold">Timing:</span> Monday to Saturday (9:00 AM - 4:00 PM)</p>
+            <p>
+              <span className="font-semibold">Phone:</span> +91-8968212121,
+              +91-7770004698
+            </p>
+            <p>
+              <span className="font-semibold">Email:</span> drbbcms@gmail.com
+            </p>
+            <p>
+              <span className="font-semibold">Timing:</span> Monday to Saturday
+              (9:00 AM - 4:00 PM)
+            </p>
           </div>
         </div>
       </div>
