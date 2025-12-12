@@ -289,7 +289,7 @@ const Navbar = () => {
               onMouseLeave={() => handleMouseLeave('activities')}
             >
               <button 
-                className={`flex items-center px-2 py-1 rounded ${isActive('/news-events') ? 'text-yellow-300' : 'hover:text-yellow-300'} hover:underline transition-all duration-200`}
+                className={`flex items-center px-2 py-1 rounded ${isActive('/news&events') ? 'text-yellow-300' : 'hover:text-yellow-300'} hover:underline transition-all duration-200`}
               >
                 Activities
                 <DropdownArrow isOpen={dropdowns.activities} />
@@ -301,7 +301,7 @@ const Navbar = () => {
                     : 'opacity-0 scale-y-0 pointer-events-none'
                 }`}
               >
-                <Link href="/news-events" className="block px-4 py-2 text-gray-700 hover:bg-gray-100" onClick={handleLinkClick}>
+                <Link href="/news&events" className="block px-4 py-2 text-gray-700 hover:bg-gray-100" onClick={handleLinkClick}>
                   News & Events
                 </Link>
               </div>
@@ -498,7 +498,7 @@ const Navbar = () => {
               <div className="border-b border-gray-200">
                 <button
                   onClick={(e) => toggleDropdown('activities', e)}
-                  className={`w-full flex items-center justify-between px-6 py-3 text-left ${isActive('/news-events') ? 'text-primary bg-secondary font-semibold' : 'text-gray-700 hover:bg-gray-50'}`}
+                  className={`w-full flex items-center justify-between px-6 py-3 text-left ${isActive('/news&events') ? 'text-primary bg-secondary font-semibold' : 'text-gray-700 hover:bg-gray-50'}`}
                 >
                   <span>Activities</span>
                   <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 transition-transform duration-200 ${dropdowns.activities ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -506,7 +506,7 @@ const Navbar = () => {
                   </svg>
                 </button>
                 <div className={`overflow-hidden transition-all duration-300 ${dropdowns.activities ? 'max-h-96' : 'max-h-0'}`}>
-                  <Link href="/news-events" onClick={handleLinkClick} className={`block px-10 py-2.5 text-sm ${isActive('/news-events') ? 'text-primary font-medium' : 'text-gray-600 hover:bg-gray-50'}`}>
+                  <Link href="/news&events" onClick={handleLinkClick} className={`block px-10 py-2.5 text-sm ${isActive('/news&events') ? 'text-primary font-medium' : 'text-gray-600 hover:bg-gray-50'}`}>
                     News & Events
                   </Link>
                 </div>
