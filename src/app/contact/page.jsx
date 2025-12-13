@@ -206,8 +206,8 @@ export default function ContactPage() {
                       +91-8968212121
                     </a>
                     {' , '}
-                    <a href="tel:+917770004698" className="hover:text-primary transition-colors">
-                      +91-7770004698
+                    <a href="tel:+917770004697" className="hover:text-primary transition-colors">
+                      +91-7770004697
                     </a>
                   </p>
                 </div>

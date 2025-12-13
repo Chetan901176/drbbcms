@@ -346,8 +346,7 @@ export default function AdmissionPage() {
           <div className="space-y-2 text-gray-600 text-xs sm:text-sm lg:text-base">
             <p>For any queries regarding admission, please contact:</p>
             <p>
-              <span className="font-semibold">Phone:</span> +91-8968212121,
-              +91-7770004698
+              <span className="font-semibold">Phone:</span> +91-7770004697, +91-8968212121
             </p>
             <p>
               <span className="font-semibold">Email:</span> drbbcms@gmail.com

@@ -518,7 +518,7 @@ const Navbar = () => {
                   onClick={(e) => toggleDropdown('gallery', e)}
                   className={`w-full flex items-center justify-between px-6 py-3 text-left ${isActive('/gallery') ? 'text-primary bg-secondary font-semibold' : 'text-gray-700 hover:bg-gray-50'}`}
                 >
-                  <span>Gallery</span>
+                  <span>Photo / Video</span>
                   <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 transition-transform duration-200 ${dropdowns.gallery ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
