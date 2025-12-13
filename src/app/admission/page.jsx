@@ -33,7 +33,7 @@ export default function AdmissionPage() {
     try {
       // Replace with your Google Apps Script Web App URL (must end with /exec)
       const GOOGLE_SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbxkCPZvziY-LjbvxPkbceRuFf-_7LoQGHsZFnB5eBb9PBI6t5JiJUPsYKZ4smrnWyWk/exec";
+        "https://script.google.com/macros/s/AKfycbxUyEdr92K2mfF_TAsevhxhCMZPHFdw69BstIVdiqwpC6P70ivH8Z9Z66Zk1NG8UyX9/exec";
 
       const formBody = new URLSearchParams({
         Student_Name: formData.name,
