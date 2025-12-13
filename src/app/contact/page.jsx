@@ -24,7 +24,7 @@ export default function ContactPage() {
 
     try {
       // Replace with your Google Apps Script Web App URL (must end with /exec)
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwUGauD1vYzzaARBtZr4o6YGMuFtYayVqGOxCWdiYMQKXCn9MRRfXQeNdlU2WNwubGXdw/exec';
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymb6i1pTYLBD28V3d-qwVFPDLACrNBmeuF42nG83lQFNe2ggNvCSywhAlOjVj9Y_j6aw/exec';
       
       const formBody = new URLSearchParams({
         Name: formData.name,

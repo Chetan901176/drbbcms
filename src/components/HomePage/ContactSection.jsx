@@ -18,7 +18,7 @@ const Contact = () => {
     setIsSubmitting(true);
     setResult("Sending...");
 
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwUGauD1vYzzaARBtZr4o6YGMuFtYayVqGOxCWdiYMQKXCn9MRRfXQeNdlU2WNwubGXdw/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymb6i1pTYLBD28V3d-qwVFPDLACrNBmeuF42nG83lQFNe2ggNvCSywhAlOjVj9Y_j6aw/exec';
     
     try {
       const formBody = new URLSearchParams({
