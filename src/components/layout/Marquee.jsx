@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 const notices = [
   "Registration is available now",
   "Contact Us on mobile 777-000-4697 / 777-000-4698",
-  "Admissions for 2024-25 are now open",
+  "Admissions for 2026-27 are now open",
   "Visit our campus for a guided tour",
 ];
 

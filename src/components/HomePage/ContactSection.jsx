@@ -76,7 +76,7 @@ const Contact = () => {
             </li>
             <li className="flex items-center my-5">
               <Phone className="w-6 h-6 mr-2.5" />
-              +91-8968212121 , +91-7770004697
+              +91-7770004697 , +91-8968212121
             </li>
             <li className="flex items-start my-5">
               <MapPin className="w-6 h-6 mr-2.5 flex-shrink-0 mt-1" />
