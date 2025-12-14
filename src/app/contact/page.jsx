@@ -202,12 +202,13 @@ export default function ContactPage() {
                 <div>
                   <h3 className="font-semibold text-base sm:text-lg mb-2">Phone:</h3>
                   <p className="text-gray-600 text-sm sm:text-base">
-                    <a href="tel:+918968212121" className="hover:text-primary transition-colors">
-                      +91-8968212121
-                    </a>
-                    {' , '}
                     <a href="tel:+917770004697" className="hover:text-primary transition-colors">
                       +91-7770004697
+                    </a>
+                    {' , '}
+                    
+                    <a href="tel:+918968212121" className="hover:text-primary transition-colors">
+                      +91-8968212121
                     </a>
                   </p>
                 </div>
