@@ -150,7 +150,7 @@ export default function AdmissionPage() {
         {/* Admission Form */}
         <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-lg">
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-primary mb-4 sm:mb-6">
-            Admission Inquiry Form
+            Admission Registration Form
           </h2>
           {submitted ? (
             <div className="text-center py-8 sm:py-12 px-4">
