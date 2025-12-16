@@ -405,5 +405,6 @@ export default function AdmissionPage() {
         </div>
       </div>
     </div>
+    
   );
 }
