@@ -16,6 +16,46 @@ export default function AdmissionPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
+  // Indian states and union territories
+  const indianStates = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal",
+    "Andaman and Nicobar Islands",
+    "Chandigarh",
+    "Dadra and Nagar Haveli and Daman and Diu",
+    "Delhi",
+    "Jammu and Kashmir",
+    "Ladakh",
+    "Lakshadweep",
+    "Puducherry"
+  ];
+
   const handleSubmit = async () => {
     if (
       !formData.name ||
@@ -98,12 +138,12 @@ export default function AdmissionPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
         {/* Admission Process Flow */}
         <div className="mb-12 sm:mb-16">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 mb-6 sm:mb-8">
             Admission Process
           </h1>
           <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-md">
             <div className="space-y-3 sm:space-y-4">
-              <div className="border-l-4 border-primary pl-3 sm:pl-4">
+              <div className="border-l-4 border-blue-600 pl-3 sm:pl-4">
                 <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">
                   Step 1: Online Inquiry
                 </h3>
@@ -111,7 +151,7 @@ export default function AdmissionPage() {
                   Fill out the online application form below.
                 </p>
               </div>
-              <div className="border-l-4 border-primary pl-3 sm:pl-4">
+              <div className="border-l-4 border-blue-600 pl-3 sm:pl-4">
                 <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">
                   Step 2: Team Review
                 </h3>
@@ -119,7 +159,7 @@ export default function AdmissionPage() {
                   Our admission team will review your application.
                 </p>
               </div>
-              <div className="border-l-4 border-primary pl-3 sm:pl-4">
+              <div className="border-l-4 border-blue-600 pl-3 sm:pl-4">
                 <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">
                   Step 3: Contact
                 </h3>
@@ -127,7 +167,7 @@ export default function AdmissionPage() {
                   We will contact you soon to discuss the next steps.
                 </p>
               </div>
-              <div className="border-l-4 border-primary pl-3 sm:pl-4">
+              <div className="border-l-4 border-blue-600 pl-3 sm:pl-4">
                 <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">
                   Step 4: School Visit
                 </h3>
@@ -135,7 +175,7 @@ export default function AdmissionPage() {
                   Schedule a visit to explore our campus and facilities.
                 </p>
               </div>
-              <div className="border-l-4 border-primary pl-3 sm:pl-4">
+              <div className="border-l-4 border-blue-600 pl-3 sm:pl-4">
                 <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">
                   Step 5: Admission Confirmation
                 </h3>
@@ -149,7 +189,7 @@ export default function AdmissionPage() {
 
         {/* Admission Form */}
         <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-lg">
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-primary mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600 mb-4 sm:mb-6">
             Admission Registration Form
           </h2>
           {submitted ? (
@@ -177,7 +217,7 @@ export default function AdmissionPage() {
               </p>
               <button
                 onClick={() => setSubmitted(false)}
-                className="mt-4 sm:mt-6 text-primary hover:underline text-sm sm:text-base"
+                className="mt-4 sm:mt-6 text-blue-600 hover:underline text-sm sm:text-base"
               >
                 Submit Another Application
               </button>
@@ -198,7 +238,7 @@ export default function AdmissionPage() {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
                     placeholder="Enter student's full name"
                   />
                 </div>
@@ -217,7 +257,7 @@ export default function AdmissionPage() {
                     value={formData.phone}
                     onChange={handleChange}
                     pattern="[0-9]{10}"
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
                     placeholder="10-digit mobile number"
                   />
                 </div>
@@ -235,7 +275,7 @@ export default function AdmissionPage() {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
                     placeholder="email@example.com"
                   />
                 </div>
@@ -247,15 +287,20 @@ export default function AdmissionPage() {
                   >
                     State *
                   </label>
-                  <input
-                    type="text"
+                  <select
                     id="state"
                     name="state"
                     value={formData.state}
                     onChange={handleChange}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                    placeholder="Enter your state"
-                  />
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all bg-white"
+                  >
+                    <option value="">Select State</option>
+                    {indianStates.map((state) => (
+                      <option key={state} value={state}>
+                        {state}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="md:col-span-1">
@@ -271,7 +316,7 @@ export default function AdmissionPage() {
                     name="city"
                     value={formData.city}
                     onChange={handleChange}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
                     placeholder="Enter your city"
                   />
                 </div>
@@ -288,10 +333,10 @@ export default function AdmissionPage() {
                     name="grade"
                     value={formData.grade}
                     onChange={handleChange}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all bg-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all bg-white"
                   >
                     <option value="">Select Class</option>
-                     <option value="4">Class 4th</option>
+                    <option value="4">Class 4th</option>
                     <option value="5">Class 5th</option>
                     <option value="6">Class 6th</option>
                     <option value="7">Class 7th</option>
@@ -315,7 +360,7 @@ export default function AdmissionPage() {
                     name="gender"
                     value={formData.gender}
                     onChange={handleChange}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all bg-gray-50"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all bg-gray-50"
                     disabled
                   >
                     <option value="male">Male</option>
@@ -330,7 +375,7 @@ export default function AdmissionPage() {
                 <button
                   onClick={handleSubmit}
                   disabled={submitting}
-                  className="cursor-pointer w-full bg-primary text-white py-3 sm:py-4 px-4 sm:px-6 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold text-base sm:text-lg"
+                  className="cursor-pointer w-full bg-blue-600 text-white py-3 sm:py-4 px-4 sm:px-6 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold text-base sm:text-lg"
                 >
                   {submitting ? "Submitting..." : "Register Now"}
                 </button>
@@ -341,7 +386,7 @@ export default function AdmissionPage() {
 
         {/* Contact Information */}
         <div className="mt-8 sm:mt-12 bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-md">
-          <h2 className="text-xl sm:text-2xl font-bold text-primary mb-3 sm:mb-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-blue-600 mb-3 sm:mb-4">
             Contact for Admission
           </h2>
           <div className="space-y-2 text-gray-600 text-xs sm:text-sm lg:text-base">
