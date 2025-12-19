@@ -7,8 +7,9 @@ export default function AdmissionPage() {
     name: "",
     email: "",
     phone: "",
+    alternatePhone: "",
     state: "",
-    city: "",
+    district: "",
     grade: "",
     gender: "male",
   });
@@ -61,7 +62,7 @@ export default function AdmissionPage() {
       !formData.name ||
       !formData.phone ||
       !formData.state ||
-      !formData.city ||
+      !formData.district ||
       !formData.grade
     ) {
       alert("Please fill in all required fields");
@@ -73,14 +74,15 @@ export default function AdmissionPage() {
     try {
       // Replace with your Google Apps Script Web App URL (must end with /exec)
       const GOOGLE_SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbxUyEdr92K2mfF_TAsevhxhCMZPHFdw69BstIVdiqwpC6P70ivH8Z9Z66Zk1NG8UyX9/exec";
+        "https://script.google.com/macros/s/AKfycbxsuxuhe_HRxGHeu96VEmRq341wsQLwqXsXTSuQEkHbR0fhEIUH8fo-DRIlQ62WOnBR/exec";
 
       const formBody = new URLSearchParams({
         Student_Name: formData.name,
         Phone: formData.phone,
+        Alternate_Phone: formData.alternatePhone,
         Email: formData.email,
         State: formData.state,
-        City: formData.city,
+        District: formData.district,
         Applying_For_Class: formData.grade,
         Gender: formData.gender,
         timestamp: new Date().toLocaleString("en-IN", {
@@ -102,8 +104,9 @@ export default function AdmissionPage() {
         name: "",
         email: "",
         phone: "",
+        alternatePhone: "",
         state: "",
-        city: "",
+        district: "",
         grade: "",
         gender: "male",
       });
@@ -115,8 +118,9 @@ export default function AdmissionPage() {
         name: "",
         email: "",
         phone: "",
+        alternatePhone: "",
         state: "",
-        city: "",
+        district: "",
         grade: "",
         gender: "male",
       });
@@ -265,6 +269,25 @@ export default function AdmissionPage() {
                 <div className="md:col-span-1">
                   <label
                     className="block text-gray-700 mb-2 font-medium text-sm sm:text-base"
+                    htmlFor="alternatePhone"
+                  >
+                    Alternate Phone Number (Optional)
+                  </label>
+                  <input
+                    type="tel"
+                    id="alternatePhone"
+                    name="alternatePhone"
+                    value={formData.alternatePhone}
+                    onChange={handleChange}
+                    pattern="[0-9]{10}"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
+                    placeholder="10-digit mobile number"
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <label
+                    className="block text-gray-700 mb-2 font-medium text-sm sm:text-base"
                     htmlFor="email"
                   >
                     Email Address (Optional)
@@ -306,18 +329,18 @@ export default function AdmissionPage() {
                 <div className="md:col-span-1">
                   <label
                     className="block text-gray-700 mb-2 font-medium text-sm sm:text-base"
-                    htmlFor="city"
+                    htmlFor="district"
                   >
-                    City *
+                    District *
                   </label>
                   <input
                     type="text"
-                    id="city"
-                    name="city"
-                    value={formData.city}
+                    id="district"
+                    name="district"
+                    value={formData.district}
                     onChange={handleChange}
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
-                    placeholder="Enter your city"
+                    placeholder="Enter your district"
                   />
                 </div>
 
