@@ -7,7 +7,7 @@ export default function AdmissionPage() {
     name: "",
     email: "",
     phone: "",
-    alternatePhone: "",
+    whatsappPhone: "",
     state: "",
     district: "",
     grade: "",
@@ -74,12 +74,12 @@ export default function AdmissionPage() {
     try {
       // Replace with your Google Apps Script Web App URL (must end with /exec)
       const GOOGLE_SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbxsuxuhe_HRxGHeu96VEmRq341wsQLwqXsXTSuQEkHbR0fhEIUH8fo-DRIlQ62WOnBR/exec";
+        "https://script.google.com/macros/s/AKfycbwQNNeeG6eseMpdHmgDn4YJZ50SYmpj38yJpjVwXzmoKgL74CvSB8soTG2N9C6wuHiP/exec";
 
       const formBody = new URLSearchParams({
         Student_Name: formData.name,
         Phone: formData.phone,
-        Alternate_Phone: formData.alternatePhone,
+        WhatsApp_No: formData.whatsappPhone,
         Email: formData.email,
         State: formData.state,
         District: formData.district,
@@ -104,7 +104,7 @@ export default function AdmissionPage() {
         name: "",
         email: "",
         phone: "",
-        alternatePhone: "",
+        whatsappPhone: "",
         state: "",
         district: "",
         grade: "",
@@ -118,7 +118,7 @@ export default function AdmissionPage() {
         name: "",
         email: "",
         phone: "",
-        alternatePhone: "",
+        whatsappPhone: "",
         state: "",
         district: "",
         grade: "",
@@ -140,57 +140,6 @@ export default function AdmissionPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-        {/* Admission Process Flow */}
-        <div className="mb-12 sm:mb-16">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-600 mb-6 sm:mb-8">
-            Admission Process
-          </h1>
-          <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-md">
-            <div className="space-y-3 sm:space-y-4">
-              <div className="border-l-4 border-blue-600 pl-3 sm:pl-4">
-                <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">
-                  Step 1: Online Inquiry
-                </h3>
-                <p className="text-gray-600 text-xs sm:text-sm lg:text-base">
-                  Fill out the online application form below.
-                </p>
-              </div>
-              <div className="border-l-4 border-blue-600 pl-3 sm:pl-4">
-                <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">
-                  Step 2: Team Review
-                </h3>
-                <p className="text-gray-600 text-xs sm:text-sm lg:text-base">
-                  Our admission team will review your application.
-                </p>
-              </div>
-              <div className="border-l-4 border-blue-600 pl-3 sm:pl-4">
-                <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">
-                  Step 3: Contact
-                </h3>
-                <p className="text-gray-600 text-xs sm:text-sm lg:text-base">
-                  We will contact you soon to discuss the next steps.
-                </p>
-              </div>
-              <div className="border-l-4 border-blue-600 pl-3 sm:pl-4">
-                <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">
-                  Step 4: School Visit
-                </h3>
-                <p className="text-gray-600 text-xs sm:text-sm lg:text-base">
-                  Schedule a visit to explore our campus and facilities.
-                </p>
-              </div>
-              <div className="border-l-4 border-blue-600 pl-3 sm:pl-4">
-                <h3 className="font-semibold text-sm sm:text-base mb-1 sm:mb-2">
-                  Step 5: Admission Confirmation
-                </h3>
-                <p className="text-gray-600 text-xs sm:text-sm lg:text-base">
-                  Complete the admission process and secure your seat.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Admission Form */}
         <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-lg">
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600 mb-4 sm:mb-6">
@@ -269,19 +218,19 @@ export default function AdmissionPage() {
                 <div className="md:col-span-1">
                   <label
                     className="block text-gray-700 mb-2 font-medium text-sm sm:text-base"
-                    htmlFor="alternatePhone"
+                    htmlFor="whatsappPhone"
                   >
-                    Alternate Phone Number (Optional)
+                    WhatsApp No. (Optional)
                   </label>
                   <input
                     type="tel"
-                    id="alternatePhone"
-                    name="alternatePhone"
-                    value={formData.alternatePhone}
+                    id="whatsappPhone"
+                    name="whatsappPhone"
+                    value={formData.whatsappPhone}
                     onChange={handleChange}
                     pattern="[0-9]{10}"
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
-                    placeholder="10-digit mobile number"
+                    placeholder="10-digit WhatsApp number"
                   />
                 </div>
 
@@ -428,6 +377,5 @@ export default function AdmissionPage() {
         </div>
       </div>
     </div>
-    
   );
 }
