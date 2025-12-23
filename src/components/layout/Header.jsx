@@ -17,10 +17,10 @@ const Header = () => {
               className="w-20 h-20 sm:w-24 sm:h-24"
             />
             <div>
-              <h1 className="text-lg sm:text-2xl font-bold text-white">
+              <h1 className="text-lg sm:text-3xl font-bold text-white">
                 DR.B B CHAVAN MILITARY SCHOOL
               </h1>
-              <h2 className="text-sm sm:text-xl text-gray-200">
+              <h2 className="text-sm sm:text-2xl text-gray-200">
                 AND ACADEMY
               </h2>
             </div>
