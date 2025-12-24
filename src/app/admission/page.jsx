@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 export default function AdmissionPage() {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ export default function AdmissionPage() {
     district: "",
     grade: "",
     gender: "male",
+    utrNumber: "",
   });
 
   const [submitting, setSubmitting] = useState(false);
@@ -60,10 +62,13 @@ export default function AdmissionPage() {
   const handleSubmit = async () => {
     if (
       !formData.name ||
+      !formData.email ||
       !formData.phone ||
+      !formData.whatsappPhone ||
       !formData.state ||
       !formData.district ||
-      !formData.grade
+      !formData.grade ||
+      !formData.utrNumber
     ) {
       alert("Please fill in all required fields");
       return;
@@ -74,7 +79,7 @@ export default function AdmissionPage() {
     try {
       // Replace with your Google Apps Script Web App URL (must end with /exec)
       const GOOGLE_SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbwQNNeeG6eseMpdHmgDn4YJZ50SYmpj38yJpjVwXzmoKgL74CvSB8soTG2N9C6wuHiP/exec";
+        "https://script.google.com/macros/s/AKfycbz8oHwNypP6LddhWEvg5wiMDe5IcXTtIMG1jCfnDD7QS379nYXG7wtbxEWfCLs5twH9/exec";
 
       const formBody = new URLSearchParams({
         Student_Name: formData.name,
@@ -85,6 +90,7 @@ export default function AdmissionPage() {
         District: formData.district,
         Applying_For_Class: formData.grade,
         Gender: formData.gender,
+        UTR_Transaction_ID: formData.utrNumber,
         timestamp: new Date().toLocaleString("en-IN", {
           timeZone: "Asia/Kolkata",
         }),
@@ -109,6 +115,7 @@ export default function AdmissionPage() {
         district: "",
         grade: "",
         gender: "male",
+        utrNumber: "",
       });
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -123,6 +130,7 @@ export default function AdmissionPage() {
         district: "",
         grade: "",
         gender: "male",
+        utrNumber: "",
       });
     }
 
@@ -177,6 +185,31 @@ export default function AdmissionPage() {
             </div>
           ) : (
             <div className="space-y-4 sm:space-y-6">
+              {/* QR Code Section */}
+              <div className="bg-blue-50 p-4 sm:p-6 rounded-lg border-2 border-blue-200">
+                <h3 className="text-lg sm:text-xl font-bold text-blue-700 mb-3 sm:mb-4 text-center">
+                  Payment QR Code
+                </h3>
+                <div className="flex justify-center mb-3 sm:mb-4">
+                  <div className="bg-white p-3 sm:p-4 rounded-lg shadow-md">
+                    <Image
+                      src="/QR.jpeg"
+                      alt="Payment QR Code"
+                      width={200}
+                      height={200}
+                      className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 object-contain"
+                      priority
+                    />
+                  </div>
+                </div>
+                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 sm:p-4">
+                  <p className="text-xs sm:text-sm md:text-base text-yellow-800 font-medium text-center">
+                    <span className="block sm:inline">⚠️ Pay ₹250/- on the QR provided as the confirmation of</span>
+                    <span className="block sm:inline"> Registration/Entrance Exam</span>
+                  </p>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div className="md:col-span-2">
                   <label
@@ -191,6 +224,7 @@ export default function AdmissionPage() {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    required
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
                     placeholder="Enter student's full name"
                   />
@@ -210,6 +244,7 @@ export default function AdmissionPage() {
                     value={formData.phone}
                     onChange={handleChange}
                     pattern="[0-9]{10}"
+                    required
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
                     placeholder="10-digit mobile number"
                   />
@@ -220,7 +255,7 @@ export default function AdmissionPage() {
                     className="block text-gray-700 mb-2 font-medium text-sm sm:text-base"
                     htmlFor="whatsappPhone"
                   >
-                    WhatsApp No. (Optional)
+                    WhatsApp No. *
                   </label>
                   <input
                     type="tel"
@@ -229,6 +264,7 @@ export default function AdmissionPage() {
                     value={formData.whatsappPhone}
                     onChange={handleChange}
                     pattern="[0-9]{10}"
+                    required
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
                     placeholder="10-digit WhatsApp number"
                   />
@@ -239,7 +275,7 @@ export default function AdmissionPage() {
                     className="block text-gray-700 mb-2 font-medium text-sm sm:text-base"
                     htmlFor="email"
                   >
-                    Email Address (Optional)
+                    Email Address *
                   </label>
                   <input
                     type="email"
@@ -247,6 +283,7 @@ export default function AdmissionPage() {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    required
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
                     placeholder="email@example.com"
                   />
@@ -264,6 +301,7 @@ export default function AdmissionPage() {
                     name="state"
                     value={formData.state}
                     onChange={handleChange}
+                    required
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all bg-white"
                   >
                     <option value="">Select State</option>
@@ -288,6 +326,7 @@ export default function AdmissionPage() {
                     name="district"
                     value={formData.district}
                     onChange={handleChange}
+                    required
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
                     placeholder="Enter your district"
                   />
@@ -305,6 +344,7 @@ export default function AdmissionPage() {
                     name="grade"
                     value={formData.grade}
                     onChange={handleChange}
+                    required
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all bg-white"
                   >
                     <option value="">Select Class</option>
@@ -332,6 +372,7 @@ export default function AdmissionPage() {
                     name="gender"
                     value={formData.gender}
                     onChange={handleChange}
+                    required
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all bg-gray-50"
                     disabled
                   >
@@ -339,6 +380,28 @@ export default function AdmissionPage() {
                   </select>
                   <p className="text-xs sm:text-sm text-gray-500 mt-1">
                     Currently accepting only male students
+                  </p>
+                </div>
+
+                <div className="md:col-span-2">
+                  <label
+                    className="block text-gray-700 mb-2 font-medium text-sm sm:text-base"
+                    htmlFor="utrNumber"
+                  >
+                    UTR/Transaction ID *
+                  </label>
+                  <input
+                    type="text"
+                    id="utrNumber"
+                    name="utrNumber"
+                    value={formData.utrNumber}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
+                    placeholder="Enter your UTR/Transaction ID"
+                  />
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                    Enter the 12-digit UTR number or Transaction ID from your payment receipt
                   </p>
                 </div>
               </div>
