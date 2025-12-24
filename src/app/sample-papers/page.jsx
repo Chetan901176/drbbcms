@@ -47,8 +47,6 @@ const samplePapers = [
     previewImage: "/SamplePapers/10th STD/preview.png",
     fileLink: "/sample-papers/Dr.BBCMS-X-ENT-SQP.pdf",
   },
-  
-  
   {
     id: 7,
     title: "11th STANDARD ENTRANCE EXAMINATION",
