@@ -185,30 +185,7 @@ export default function AdmissionPage() {
             </div>
           ) : (
             <div className="space-y-4 sm:space-y-6">
-              {/* QR Code Section */}
-              <div className="bg-blue-50 p-4 sm:p-6 rounded-lg border-2 border-blue-200">
-                <h3 className="text-lg sm:text-xl font-bold text-blue-700 mb-3 sm:mb-4 text-center">
-                  Payment QR Code
-                </h3>
-                <div className="flex justify-center mb-3 sm:mb-4">
-                  <div className="bg-white p-3 sm:p-4 rounded-lg shadow-md">
-                    <Image
-                      src="/QR.jpeg"
-                      alt="Payment QR Code"
-                      width={200}
-                      height={200}
-                      className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 object-contain"
-                      priority
-                    />
-                  </div>
-                </div>
-                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 sm:p-4">
-                  <p className="text-xs sm:text-sm md:text-base text-yellow-800 font-medium text-center">
-                    <span className="block sm:inline">⚠️ Pay ₹250/- on the QR provided as the confirmation of</span>
-                    <span className="block sm:inline"> Registration/Entrance Exam</span>
-                  </p>
-                </div>
-              </div>
+              
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div className="md:col-span-2">
@@ -353,10 +330,10 @@ export default function AdmissionPage() {
                     <option value="6">Class 6th</option>
                     <option value="7">Class 7th</option>
                     <option value="8">Class 8th</option>
-                    <option value="9">Class 9th</option>
-                    <option value="10">Class 10th</option>
-                    <option value="11">Class 11th</option>
-                    <option value="12">Class 12th</option>
+                    <option value="9">Class 9th (State Board)</option>
+                    <option value="10">Class 10th (State Board)</option>
+                    <option value="11">Class 11th (State Board)</option>
+                    <option value="12">Class 12th (State Board)</option>
                   </select>
                 </div>
 
@@ -404,6 +381,30 @@ export default function AdmissionPage() {
                     Enter the 12-digit UTR number or Transaction ID from your payment receipt
                   </p>
                 </div>
+                {/* QR Code Section */}
+              <div className="bg-blue-50 p-4 sm:p-6 rounded-lg border-2 border-blue-200">
+                <h3 className="text-lg sm:text-xl font-bold text-blue-700 mb-3 sm:mb-4 text-center">
+                  Payment QR Code
+                </h3>
+                <div className="flex justify-center mb-3 sm:mb-4">
+                  <div className="bg-white p-3 sm:p-4 rounded-lg shadow-md">
+                    <Image
+                      src="/QR.jpeg"
+                      alt="Payment QR Code"
+                      width={200}
+                      height={200}
+                      className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 object-contain"
+                      priority
+                    />
+                  </div>
+                </div>
+                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 sm:p-4">
+                  <p className="text-xs sm:text-sm md:text-base text-yellow-800 font-medium text-center">
+                    <span className="block sm:inline">⚠️ Pay ₹250/- on the QR provided as the confirmation of</span>
+                    <span className="block sm:inline"> Registration/Entrance Exam</span>
+                  </p>
+                </div>
+              </div>
               </div>
 
               <div className="mt-6 sm:mt-8">
