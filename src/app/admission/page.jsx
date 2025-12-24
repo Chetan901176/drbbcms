@@ -325,11 +325,11 @@ export default function AdmissionPage() {
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all bg-white"
                   >
                     <option value="">Select Class</option>
-                    <option value="4">Class 4th</option>
-                    <option value="5">Class 5th</option>
-                    <option value="6">Class 6th</option>
-                    <option value="7">Class 7th</option>
-                    <option value="8">Class 8th</option>
+                    <option value="4">Class 4th (CBSE/State Board)</option>
+                    <option value="5">Class 5th (CBSE/State Board)</option>
+                    <option value="6">Class 6th (CBSE/State Board)</option>
+                    <option value="7">Class 7th (CBSE/State Board)</option>
+                    <option value="8">Class 8th (CBSE/State Board)</option>
                     <option value="9">Class 9th (State Board)</option>
                     <option value="10">Class 10th (State Board)</option>
                     <option value="11">Class 11th (State Board)</option>

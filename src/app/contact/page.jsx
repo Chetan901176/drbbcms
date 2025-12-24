@@ -89,9 +89,9 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Contact Form */}
           <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
-            <h2 className="text-xl sm:text-2xl font-bold text-primary mb-4 sm:mb-6">
+            {/* <h2 className="text-xl sm:text-2xl font-bold text-primary mb-4 sm:mb-6">
               Send us a Message
-            </h2>
+            </h2> */}
             <div className="space-y-4 sm:space-y-6">
               <div>
                 <label
@@ -147,7 +147,7 @@ export default function ContactPage() {
                   className="block text-gray-700 mb-2 font-medium text-sm sm:text-base"
                   htmlFor="message"
                 >
-                  Message *
+                  Query *
                 </label>
                 <textarea
                   id="message"
@@ -155,7 +155,7 @@ export default function ContactPage() {
                   onChange={handleChange}
                   rows="5"
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
-                  placeholder="Your Message"
+                  placeholder="Your Queries"
                 ></textarea>
               </div>
               <button
@@ -163,7 +163,7 @@ export default function ContactPage() {
                 disabled={submitting}
                 className="cursor-pointer w-full bg-primary text-white px-4 sm:px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors font-medium text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {submitting ? 'Sending...' : 'Send Message'}
+                {submitting ? 'Submitting...' : 'Submit Query'}
               </button>
               {status === 'success' && (
                 <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
