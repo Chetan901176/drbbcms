@@ -48,6 +48,7 @@ const samplePapers = [
     fileLink: "/sample-papers/Dr.BBCMS-X-ENT-SQP.pdf",
   },
   
+  
   {
     id: 7,
     title: "11th STANDARD ENTRANCE EXAMINATION",
