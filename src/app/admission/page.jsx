@@ -568,6 +568,7 @@ export default function AdmissionPage() {
             </p>
           </div>
         </div>
+        
       </div>
     </div>
   );
