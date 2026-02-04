@@ -24,7 +24,7 @@ function Gallery() {
     { src: "/PhotoGallery/16.jpg", caption: "Republic Day 2024" },
     { src: "/PhotoGallery/17.jpg", caption: "School Premises" },
     { src: "/PhotoGallery/18.jpg", caption: "School Assemby" },
-    { src: "/PhotoGallery/19.jpg", caption: "School Event" },
+    // { src: "/PhotoGallery/19.jpg", caption: "School Event" },
     { src: "/PhotoGallery/21.jpg", caption: "Campus View" },
     { src: "/PhotoGallery/22.jpg", caption: "Students Activity" },
   ];

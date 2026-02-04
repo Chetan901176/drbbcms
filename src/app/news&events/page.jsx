@@ -6,6 +6,7 @@ import { Home } from "lucide-react";
 import { motion } from "framer-motion";
 
 const newsEventsData = [
+
   {
     id: "ellora-trip-2024",
     title: "Trip to Ellora",
@@ -61,6 +62,15 @@ const newsEventsData = [
     image: "/ShivJayanti/5.jpeg",
     details:
       "Shiv Jayanti Celebrated in Dr. B. B. Chavan Military School on 19th Feb, 2025 .",
+  },
+
+  {
+    id: "republic-day-2026",
+    title: "Republic Day 2026",
+    date: "Jan 26, 2026",
+    image: "/Republic Day 2026/8.jpg",
+    details:
+      "Republic Day Celebrated in Dr. B. B. Chavan Military School on 26th Jan, 2026 .",
   },
 ];
 
