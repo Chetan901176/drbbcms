@@ -40,7 +40,6 @@ The celebration was honored by the gracious presence of our esteemed Chief Guest
     <div className="min-h-screen bg-gray-50 mt-0 sm:mt-0">
       {/* Breadcrumb */}
       <div className="bg-green-700 text-white py-4">
-      
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center space-x-2 text-sm md:text-base">
             <Home className="text-gray-300 w-4 h-4" />
