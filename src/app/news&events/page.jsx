@@ -68,7 +68,7 @@ const newsEventsData = [
     id: "republic-day-2026",
     title: "Republic Day 2026",
     date: "Jan 26, 2026",
-    image: "/Republic Day 2026/8.jpg",
+    image: "/Republic Day 2026/8.jpeg",
     details:
       "Republic Day Celebrated in Dr. B. B. Chavan Military School on 26th Jan, 2026 .",
   },

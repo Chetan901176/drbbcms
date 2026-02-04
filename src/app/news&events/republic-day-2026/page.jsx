@@ -14,26 +14,26 @@ The celebration was honored by the gracious presence of our esteemed Chief Guest
   `;
 
   const galleryImages = [
-    "/Republic Day 2026/1.jpg",
-    "/Republic Day 2026/2.jpg",
-    "/Republic Day 2026/3.jpg",
-    "/Republic Day 2026/4.jpg",
-    "/Republic Day 2026/5.jpg",
-    "/Republic Day 2026/6.jpg",
-    "/Republic Day 2026/7.jpg",
-    "/Republic Day 2026/8.jpg",
-    "/Republic Day 2026/9.jpg",
-    "/Republic Day 2026/10.jpg",
-    "/Republic Day 2026/11.jpg",
-    "/Republic Day 2026/12.jpg",
-    "/Republic Day 2026/13.jpg",
-    "/Republic Day 2026/14.jpg",
-    "/Republic Day 2026/15.jpg",
-    "/Republic Day 2026/16.jpg",
-    "/Republic Day 2026/17.jpg",
-    "/Republic Day 2026/18.jpg",
-    "/Republic Day 2026/19.jpg",
-    "/Republic Day 2026/20.jpg",
+    "/Republic Day 2026/1.jpeg",
+    "/Republic Day 2026/2.jpeg",
+    "/Republic Day 2026/3.jpeg",
+    "/Republic Day 2026/4.jpeg",
+    "/Republic Day 2026/5.jpeg",
+    "/Republic Day 2026/6.jpeg",
+    "/Republic Day 2026/7.jpeg",
+    "/Republic Day 2026/8.jpeg",
+    "/Republic Day 2026/9.jpeg",
+    "/Republic Day 2026/10.jpeg",
+    "/Republic Day 2026/11.jpeg",
+    "/Republic Day 2026/12.jpeg",
+    "/Republic Day 2026/13.jpeg",
+    "/Republic Day 2026/14.jpeg",
+    "/Republic Day 2026/15.jpeg",
+    "/Republic Day 2026/16.jpeg",
+    "/Republic Day 2026/17.jpeg",
+    "/Republic Day 2026/18.jpeg",
+    "/Republic Day 2026/19.jpeg",
+    "/Republic Day 2026/20.jpeg",
   ];
 
   return (
@@ -73,7 +73,7 @@ The celebration was honored by the gracious presence of our esteemed Chief Guest
         <div className="flex flex-col md:flex-row items-center md:space-x-8 mb-8">
           <div className="md:w-1/2">
             <img
-              src="/Republic Day 2026/8.jpg"
+              src="/Republic Day 2026/8.jpeg"
               alt="Featured Republic Day Celebration"
               className="w-full h-80 object-cover rounded-lg"
             />
