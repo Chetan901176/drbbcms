@@ -56,6 +56,7 @@ const newsEventsData = [
       "Republic Day Celebrated in Dr. B. B. Chavan Military School on 26th Jan, 2025 .",
   },
   {
+    
     id: "shiv-jayanti-2025",
     title: "Shiv Jayanti Celebration",
     date: "Feb 19, 2025",
