@@ -26,7 +26,16 @@ const navigationConfig = [
     key: 'academics',
     sublinks: [
       { label: 'Classwise Admission Details', route: '/admission' },
-      { label: 'Fees Structure', route: '/fee-structure' },
+      {
+        label: 'Fees Structure',
+        type: 'nested',
+        key: 'feesStructure',
+        sublinks: [
+          { label: 'Std 8th & 9th', route: '/fee-structure/std-8-9' },
+          { label: 'Std 10th', route: '/fee-structure/std-10' },
+          { label: 'Std 11th & 12th', route: '/fee-structure/std-11-12' }
+        ]
+      },
       { label: 'Sample Papers', route: '/sample-papers' },
       { label: 'Our Facilities', route: '/facilities' }
     ]
@@ -149,13 +158,15 @@ const Navbar = () => {
     setDropdowns(prev => {
       const newDropdowns = { ...prev };
       
-      if (dropdownName === 'schoolLevelCommittee') {
+      const nestedKeys = ['schoolLevelCommittee', 'feesStructure'];
+      
+      if (nestedKeys.includes(dropdownName)) {
         newDropdowns[dropdownName] = true;
         return newDropdowns;
       }
       
       Object.keys(newDropdowns).forEach(key => {
-        if (key !== dropdownName && key !== 'schoolLevelCommittee') {
+        if (key !== dropdownName && !nestedKeys.includes(key)) {
           newDropdowns[key] = false;
         }
       });
@@ -165,16 +176,20 @@ const Navbar = () => {
   };
 
   const handleMouseLeave = (dropdownName) => {
-    if (dropdownName !== 'schoolLevelCommittee') {
-      setDropdowns(prev => ({
-        ...prev,
-        [dropdownName]: false,
-        schoolLevelCommittee: false
-      }));
+    const nestedKeys = ['schoolLevelCommittee', 'feesStructure'];
+    
+    if (!nestedKeys.includes(dropdownName)) {
+      setDropdowns(prev => {
+        const next = { ...prev, [dropdownName]: false };
+        nestedKeys.forEach(key => {
+          next[key] = false;
+        });
+        return next;
+      });
     } else {
       setDropdowns(prev => ({
         ...prev,
-        schoolLevelCommittee: false
+        [dropdownName]: false
       }));
     }
   };
@@ -186,14 +201,15 @@ const Navbar = () => {
     
     setDropdowns(prev => {
       const newDropdowns = { ...prev };
+      const nestedKeys = ['schoolLevelCommittee', 'feesStructure'];
       
-      if (dropdownName === 'schoolLevelCommittee') {
+      if (nestedKeys.includes(dropdownName)) {
         newDropdowns[dropdownName] = !prev[dropdownName];
         return newDropdowns;
       }
       
       Object.keys(newDropdowns).forEach(key => {
-        if (key !== dropdownName) {
+        if (key !== dropdownName && !nestedKeys.includes(key)) {
           newDropdowns[key] = false;
         }
       });
@@ -346,7 +362,10 @@ const Navbar = () => {
           <div className="absolute inset-0 bg-black/50" onClick={toggleMenu}></div>
           
           {/* Sidebar Menu */}
-          <div className="absolute top-0 left-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl overflow-y-auto">
+          <div 
+            ref={el => dropdownRefs.current.mobileMenu = el}
+            className="absolute top-0 left-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl overflow-y-auto"
+          >
             {/* Header */}
             <div className="bg-primary text-white p-4 flex justify-between items-center">
               <h2 className="text-lg font-bold">Menu</h2>
