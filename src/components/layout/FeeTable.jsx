@@ -54,28 +54,6 @@ const FeeTable = ({ standard, feeData }) => {
                 </tfoot>
               </table>
             </div>
-
-            {/* Note Section */}
-            <div className="mt-10 bg-blue-50 border-l-4 border-blue-400 p-6 rounded-r-lg">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <svg className="h-6 w-6 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-blue-800 font-bold text-lg mb-1 italic">Important Note:</h3>
-                  <div className="text-blue-700 text-sm leading-relaxed">
-                    <ul className="list-disc list-inside space-y-1">
-                      <li>The above fee structure is subject to change as per the school management's decision.</li>
-                      <li>Admission fee is a one-time charge at the time of entry.</li>
-                      <li>Textbooks and notebooks are not included in the stationery charges.</li>
-                      <li>Fees once paid are non-refundable.</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         
