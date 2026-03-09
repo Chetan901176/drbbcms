@@ -31,6 +31,7 @@ const navigationConfig = [
         type: 'nested',
         key: 'feesStructure',
         sublinks: [
+          { label: 'Std 5th & 7th', route: '/fee-structure/std-5-7' },
           { label: 'Std 8th & 9th', route: '/fee-structure/std-8-9' },
           { label: 'Std 10th', route: '/fee-structure/std-10' },
           { label: 'Std 11th & 12th', route: '/fee-structure/std-11-12' }
