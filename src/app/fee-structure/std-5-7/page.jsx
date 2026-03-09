@@ -1,6 +1,7 @@
 import FeeTable from '@/components/layout/FeeTable';
 
 const Std57Fees = () => {
+  
   const feeData = [
     { label: 'Admission Fee', amount: 5000 },
     { label: 'Tuition Fee', amount: 45000 },
