@@ -32,7 +32,7 @@ const Header = () => {
               href="/admission"
               className="relative bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 text-center whitespace-nowrap shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             >
-              ADMISSION REGISTRATION OPEN
+              REGISTRATION
             </Link>
             <Link 
               href="/sample-papers"
@@ -54,7 +54,7 @@ const Header = () => {
               href="/admission"
               className="bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 rounded-lg text-xs font-semibold text-center whitespace-nowrap shadow-md"
             >
-              ADMISSION
+              REGISTRATION
             </Link>
             <Link 
               href="/sample-papers"
