@@ -161,7 +161,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  DRBBCMSA
+                  SMSA
                 </a>{" "}
                 <Link
                   href="/terms-and-conditions"

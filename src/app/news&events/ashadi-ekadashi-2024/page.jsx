@@ -39,8 +39,7 @@ Join us in reliving these moments through the captivating glimpses of our celebr
       {/* Blog Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <h1 className="text-3xl md:text-4xl font-bold text-[#294335] mb-4">
-          Ashadi Ekadashi Celebration at DR. B. B. Chavan Military School and
-          Academy
+          Ashadi Ekadashi Celebration at Swarajya Military School And Academy
         </h1>
         <p className="text-gray-600 text-sm md:text-base mb-6">July 17, 2024</p>
 

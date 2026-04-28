@@ -4,7 +4,7 @@ import { Home } from "lucide-react";
 
 const GaneshChaturthiBlog = () => {
   const introText = `
-    On September 7, 2024, DR. B. B. Chavan Military School and Academy celebrated Ganesh Chaturthi
+    On September 7, 2024, Swarajya Military School And Academy celebrated Ganesh Chaturthi
     with vibrant enthusiasm and heartfelt devotion. The event kicked off with traditional prayers
     and a beautifully decorated idol of Lord Ganesha, setting a festive tone for the day.
   `;
@@ -45,8 +45,7 @@ const GaneshChaturthiBlog = () => {
       {/* Blog Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <h1 className="text-3xl md:text-4xl font-bold text-[#294335] mb-4">
-          Ganesh Chaturthi Celebration at DR. B. B. Chavan Military School and
-          Academy
+          Ganesh Chaturthi Celebration at Swarajya Military School And Academy
         </h1>
         <p className="text-gray-600 text-sm md:text-base mb-6">
           September 7, 2024

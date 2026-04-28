@@ -4,7 +4,7 @@ import { Home } from "lucide-react";
 
 const DiwaliMela = () => {
   const introText = `
-    On October 29, 2024, DR. B. B. Chavan Military School and Academy hosted a vibrant Diwali Mela,
+    On October 29, 2024, Swarajya Military School And Academy hosted a vibrant Diwali Mela,
     celebrating the festival of lights with a burst of color, music, and cultural festivities.
     The event featured traditional performances, artisan stalls, and a spectacular display of lights,
     creating an atmosphere of joy and unity.
@@ -48,8 +48,7 @@ const DiwaliMela = () => {
       {/* Blog Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <h1 className="text-3xl md:text-4xl font-bold text-[#294335] mb-4">
-          Diwali Mela Celebration at DR. B. B. Chavan Military School and
-          Academy
+          Diwali Mela Celebration at Swarajya Military School And Academy
         </h1>
         <p className="text-gray-600 text-sm md:text-base mb-6">
           October 29, 2024

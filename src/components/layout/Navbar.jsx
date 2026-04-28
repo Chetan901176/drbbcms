@@ -16,7 +16,7 @@ const navigationConfig = [
     type: 'dropdown',
     key: 'about',
     sublinks: [
-      { label: 'About DRBBCMS', route: '/about' },
+      { label: 'About SMSA', route: '/about' },
       { label: 'Contact Us', route: '/contact' }
     ]
   },

@@ -5,7 +5,7 @@ import Link from "next/link";
 const VideoGallery = () => {
   const videos = [
     {
-      title: "Republic Day Celebration | DRBBCMSA | Patriotism in Action",
+      title: "Republic Day Celebration | SMSA | Patriotism in Action",
       url: "https://www.youtube.com/embed/J41HtMk_G0E?si=_kHciowS2F1V8e5X",
     },
     {

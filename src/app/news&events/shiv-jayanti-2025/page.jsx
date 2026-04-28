@@ -4,7 +4,7 @@ import { Home } from "lucide-react";
 
 const ShivJayantiBlog = () => {
   const introText = `
-    On February 19, 2025, DR. B. B. Chavan Military School and Academy celebrated Shiv Jayanti 
+    On February 19, 2025, Swarajya Military School And Academy celebrated Shiv Jayanti 
     with grandeur and devotion. The event began with a ceremonial tribute and a heartfelt address 
     by our esteemed principal.
   `;
@@ -50,8 +50,7 @@ const ShivJayantiBlog = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <h1 className="text-3xl md:text-4xl font-bold text-[#294335] mb-4">
-          Shiv Jayanti Celebration at DR. B. B. Chavan Military School and
-          Academy
+          Shiv Jayanti Celebration at Swarajya Military School And Academy
         </h1>
         <p className="text-gray-600 text-sm md:text-base mb-6">
           February 19, 2025

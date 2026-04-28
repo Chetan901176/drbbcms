@@ -69,7 +69,7 @@ const About = () => {
         >
           <h2 className="text-3xl font-bold text-green-700 mb-6">Our Legacy</h2>
           <p className="text-black text-lg mb-6">
-            DR.B.B.CHAVAN MILITARY SCHOOL AND ACADEMY, is a prestigious
+            SWARAJYA MILITARY SCHOOL AND ACADEMY, is a prestigious
             institution that provides comprehensive training and education to
             prepare individuals for a career in the military. Our dedicated
             faculty and state-of-the-art facilities ensure that students receive
@@ -107,7 +107,7 @@ const About = () => {
               Mission
             </h3>
             <p className="text-black text-lg">
-              At Dr.B B Chavan Military School And Academy, we are committed to
+              At Swarajya Military School And Academy, we are committed to
               molding the leaders of tomorrow through discipline, honor, and
               excellence. Our mission is to cultivate a culture of integrity,
               resilience, and service among our cadets, preparing them for the
@@ -170,7 +170,7 @@ const About = () => {
             <p className="text-gray-600 text-lg">
               Delivering a robust and comprehensive curriculum designed to
               promote critical thinking, creativity, and lifelong learning. At
-              Dr.B B Chavan Military School And Academy, we provide a
+              Swarajya Military School And Academy, we provide a
               challenging academic curriculum that prepares our cadets for
               success in higher education and beyond. Our dedicated faculty
               members are committed to academic excellence and provide

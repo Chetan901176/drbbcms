@@ -86,7 +86,7 @@ const Mission = () => {
             {/* Colored Banner with Text */}
             <div className="bg-yellow-200 p-6 hover:bg-yellow-300 transition-colors">
               <p className="text-black text-base md:text-lg leading-relaxed h-48">
-                At Dr.B B Chavan Military School And Academy, we are committed
+                At Swarajya Military School And Academy, we are committed
                 to molding the leaders of tomorrow through discipline, honor,
                 and excellence. Our mission is to cultivate a culture of
                 integrity, resilience, and service among our cadets, preparing

@@ -21,7 +21,7 @@ const newsEventsData = [
     date: "July 17, 2024",
     image: "/AshadiEkadashi/1.jpeg",
     details:
-      "Ashadi Ekadashi Celebrated in Dr. B. B. Chavan Military School on 19th Feb, 2025 .",
+      "Ashadi Ekadashi Celebrated in Swarajya Military School And Academy on 19th Feb, 2025 .",
   },
   {
     id: "ganesh-chaturthi-2024",
@@ -29,7 +29,7 @@ const newsEventsData = [
     date: "Sept 7, 2024",
     image: "/GaneshChaturthi/2.jpeg",
     details:
-      "Ganesh Chaturthi Celebrated in Dr. B. B. Chavan Military School on 19th Feb, 2025 .",
+      "Ganesh Chaturthi Celebrated in Swarajya Military School And Academy on 19th Feb, 2025 .",
   },
   {
     id: "marathwada-mukti-sangram-2024",
@@ -37,7 +37,7 @@ const newsEventsData = [
     date: "Sept 17, 2024",
     image: "/MarathwadaMuktiSangramDin/1.jpeg",
     details:
-      "Marathwada Mukti Sangram Din Celebrated in Dr. B. B. Chavan Military School on 19th Feb, 2025 .",
+      "Marathwada Mukti Sangram Din Celebrated in Swarajya Military School And Academy on 19th Feb, 2025 .",
   },
   {
     id: "diwali-mela-2024",
@@ -45,7 +45,7 @@ const newsEventsData = [
     date: "Oct 29, 2024",
     image: "/DiwaliMela/3.jpeg",
     details:
-      "Diwali Mela Celebrated in Dr. B. B. Chavan Military School on 19th Feb, 2025 .",
+      "Diwali Mela Celebrated in Swarajya Military School And Academy on 19th Feb, 2025 .",
   },
   {
     id: "republic-day-2025",
@@ -53,7 +53,7 @@ const newsEventsData = [
     date: "Jan 26, 2025",
     image: "/Republic Day/5.jpeg",
     details:
-      "Republic Day Celebrated in Dr. B. B. Chavan Military School on 26th Jan, 2025 .",
+      "Republic Day Celebrated in Swarajya Military School And Academy on 26th Jan, 2025 .",
   },
   {
     
@@ -62,7 +62,7 @@ const newsEventsData = [
     date: "Feb 19, 2025",
     image: "/ShivJayanti/5.jpeg",
     details:
-      "Shiv Jayanti Celebrated in Dr. B. B. Chavan Military School on 19th Feb, 2025 .",
+      "Shiv Jayanti Celebrated in Swarajya Military School And Academy on 19th Feb, 2025 .",
   },
 
   {
@@ -71,7 +71,7 @@ const newsEventsData = [
     date: "Jan 26, 2026",
     image: "/Republic Day 2026/8.jpeg",
     details:
-      "Republic Day Celebrated in Dr. B. B. Chavan Military School on 26th Jan, 2026 .",
+      "Republic Day Celebrated in Swarajya Military School And Academy on 26th Jan, 2026 .",
   },
 ];
 

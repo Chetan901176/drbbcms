@@ -4,7 +4,7 @@ import { Home } from "lucide-react";
 
 const MarathwadaMuktiSangramDin = () => {
   const introText = `
-    On September 17, 2024, DR. B. B. Chavan Military School and Academy commemorated the 
+    On September 17, 2024, Swarajya Military School And Academy commemorated the 
     Marathwada Mukti Sangram Din by honoring the historic struggle for freedom. The event featured 
     thought-provoking speeches, cultural programs, and a solemn tribute to the heroes who sacrificed 
     their lives for our independence.
@@ -47,8 +47,7 @@ const MarathwadaMuktiSangramDin = () => {
       {/* Blog Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <h1 className="text-3xl md:text-4xl font-bold text-[#294335] mb-4">
-          Marathwada Mukti Sangram Din at DR. B. B. Chavan Military School and
-          Academy
+          Marathwada Mukti Sangram Din at Swarajya Military School And Academy
         </h1>
         <p className="text-gray-600 text-sm md:text-base mb-6">
           September 17, 2024

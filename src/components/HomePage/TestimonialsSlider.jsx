@@ -12,7 +12,7 @@ const testimonials = [
   {
     name: "Krishna More",
     grade: "Grade 7",
-    text: "Dr. B.B. Chavan Military School offers exceptional education with modern facilities like horse riding, swimming, and paragliding. Nestled in the mountains, its inspiring motto motivates us to learn and serve."
+    text: "Swarajya Military School And Academy offers exceptional education with modern facilities like horse riding, swimming, and paragliding. Nestled in the mountains, its inspiring motto motivates us to learn and serve."
   },
   {
     name: "Khushi Sachin Pawar",
@@ -27,7 +27,7 @@ const testimonials = [
   {
     name: "Aarya Sonawane",
     grade: "Grade 9",
-    text: "I am proud to be a student at Dr. B.B. Chavan Military School. With talented teachers, excellent facilities like swimming, yoga, and a well-stocked library, my learning experience is enriching and inspiring."
+    text: "I am proud to be a student at Swarajya Military School And Academy. With talented teachers, excellent facilities like swimming, yoga, and a well-stocked library, my learning experience is enriching and inspiring."
   },
   {
     name: "Hasita Fullare",
@@ -37,7 +37,7 @@ const testimonials = [
   {
     name: "Pooja Tawade",
     grade: "Grade 7",
-    text: "Dr. B.B. Chavan Military School provides outstanding facilities—ranging from pottery and horse riding to innovative digital teaching. I am grateful for an environment that connects us with nature."
+    text: "Swarajya Military School And Academy provides outstanding facilities—ranging from pottery and horse riding to innovative digital teaching. I am grateful for an environment that connects us with nature."
   }
 ];
 

@@ -32,7 +32,7 @@ const AboutSection = () => {
         <h3 className='font-semibold text-base text-green-700 uppercase'>ABOUT OUR SCHOOL</h3>
         <h2 className='text-3xl md:text-4xl text-green-800 my-2.5 max-w-md font-bold'>Nurturing tomorrow's leaders today</h2>
         <p className='text-black mb-4'>
-          At Dr.B B Chavan Military School And Academy, we are committed to molding the leaders of tomorrow through discipline, honor, and excellence. Our mission is to cultivate a culture of integrity, resilience, and service among our cadets, preparing them for the challenges they will face in both military and civilian life.
+          At Swarajya Military School And Academy, we are committed to molding the leaders of tomorrow through discipline, honor, and excellence. Our mission is to cultivate a culture of integrity, resilience, and service among our cadets, preparing them for the challenges they will face in both military and civilian life.
         </p>
         <p className='text-black mb-4'>
           We provide a challenging academic curriculum that prepares our cadets for success in higher education and beyond. Our dedicated faculty members are committed to academic excellence and provide individualized support to ensure that each cadet reaches their academic potential.

@@ -4,7 +4,7 @@ import { Home } from "lucide-react";
 
 const RepublicDayBlog = () => {
   const introText = `
-    The Republic Day celebration at DRBB Chavan Military School and Academy was a grand affair,
+    The Republic Day celebration at Swarajya Military School And Academy was a grand affair,
     marked by a flag-hoisting ceremony and a disciplined parade that showcased the unity of our students.
   `;
 
@@ -50,7 +50,7 @@ const RepublicDayBlog = () => {
       {/* Blog Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <h1 className="text-3xl md:text-4xl font-bold text-[#294335] mb-4">
-          Republic Day Celebration at DRBB Chavan Military School and Academy
+          Republic Day Celebration at Swarajya Military School And Academy
         </h1>
         <p className="text-gray-600 text-sm md:text-base mb-6">
           January 26, 2024

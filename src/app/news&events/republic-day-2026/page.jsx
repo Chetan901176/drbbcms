@@ -4,7 +4,7 @@ import { Home } from "lucide-react";
 
 const RepublicDayBlog2026 = () => {
   const introText = `
-    Republic Day 2026 was celebrated with great pride and patriotic fervor at Dr. B. B. Chavan Military School and Academy. The occasion was marked by the ceremonial hoisting of the national flag, followed by an impeccably synchronized parade that reflected the discipline, unity, and dedication of our cadets.
+    Republic Day 2026 was celebrated with great pride and patriotic fervor at Swarajya Military School And Academy. The occasion was marked by the ceremonial hoisting of the national flag, followed by an impeccably synchronized parade that reflected the discipline, unity, and dedication of our cadets.
 
 The celebration was honored by the gracious presence of our esteemed Chief Guest, Brigadier A. G. Barbare, whose inspiring words motivated students to uphold the ideals of service, integrity, and leadership. Distinguished dignitaries, respected faculty members, parents, and alumni also graced the event.
   `;
@@ -63,7 +63,7 @@ The celebration was honored by the gracious presence of our esteemed Chief Guest
       {/* Blog Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <h1 className="text-3xl md:text-4xl font-bold text-[#294335] mb-4">
-          Republic Day Celebration at DRBB Chavan Military School and Academy
+          Republic Day Celebration at Swarajya Military School And Academy
         </h1>
         <p className="text-gray-600 text-sm md:text-base mb-6">
           January 26, 2026

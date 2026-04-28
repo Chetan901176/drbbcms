@@ -26,7 +26,7 @@ const DirectorsMessageSection = () => {
           <div className="lg:w-2/3 text-sm sm:text-lg sm:pt-4 text-gray-700 leading-relaxed">
             <p>Dear Parents and Students,</p>
             <p className="mt-2 sm:mt-3">
-              I extend a warm welcome to you all at Dr. B.B. Chavan Military School and Academy. Nestled amidst rolling hills and majestic mountains, our serene campus provides an ideal environment for learning and growth.
+              I extend a warm welcome to you all at Swarajya Military School And Academy. Nestled amidst rolling hills and majestic mountains, our serene campus provides an ideal environment for learning and growth.
             </p>
             <p className="mt-2 sm:mt-3">
               As a premier institution, we strive for excellence in education and character development. Our unique location inspires a sense of wonder, discipline, and national pride. We aim to shape leaders who embody principled leadership, excellence, and holistic health.
@@ -40,7 +40,7 @@ const DirectorsMessageSection = () => {
             Our mission is to foster a community of leaders, imbued with the values of discipline, integrity, and patriotism. We empower our cadets to lead with loyalty and national pride in the armed forces and paramilitary services.
           </p>
           <p className="mt-2 sm:mt-3">
-            At Dr. B.B. Chavan Military School, we provide a well-rounded education that combines academic excellence with character development and physical fitness. Our experienced faculty, state-of-the-art facilities, and rigorous training programs equip our cadets to face the challenges of an ever-evolving world.
+            At Swarajya Military School And Academy, we provide a well-rounded education that combines academic excellence with character development and physical fitness. Our experienced faculty, state-of-the-art facilities, and rigorous training programs equip our cadets to face the challenges of an ever-evolving world.
           </p>
           <p className="mt-2 sm:mt-3">
             We prepare our cadets for various competitive exams, including SPI, NDA, CDS, ACEE, JEE, and NEET. As we empower our cadets' potential, we remain committed to our mission and vision.
@@ -56,7 +56,7 @@ const DirectorsMessageSection = () => {
               Dr. Adinath Wakle
             </p>
             <p className="text-gray-600">
-              Director, Dr. B.B. Chavan Military School and Academy
+              Director, Swarajya Military School And Academy
             </p>
           </div>
         </div>
