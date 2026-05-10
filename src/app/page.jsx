@@ -19,7 +19,7 @@ const page = () => {
     <HeroSection/>
     <PromoVideo/>
     <AboutSection/>
-    <Carousel/>
+    {/* <Carousel/> */}
     <CampusSection/>
     <DirectorsMessageSection/>
     <TestimonialsSlider/>
