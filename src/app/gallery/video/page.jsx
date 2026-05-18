@@ -3,17 +3,7 @@ import { Home } from "lucide-react";
 import Link from "next/link";
 
 const VideoGallery = () => {
-  const videos = [
-    {
-      title: "Republic Day Celebration | SMSA | Patriotism in Action",
-      url: "https://www.youtube.com/embed/J41HtMk_G0E?si=_kHciowS2F1V8e5X",
-    },
-    {
-      title:
-        "Republic Day Special | Epic Talwarbaji & Lathi Kathi Performance | Indian Martial Arts Showcase",
-      url: "https://www.youtube.com/embed/BM9JD0a3vJI?si=DsDpDgI7jgIpZjzq",
-    },
-  ];
+  const videos = [];
 
   return (
     <div className="min-h-screen bg-gray-50 mt-0 sm:mt-0">

@@ -5,16 +5,16 @@ import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const slides = [
-    {
-      image: '/hero2.jpeg',
-      showContent: true
-    },
-    {
-      image: '/second_image.jpeg',
-      showContent: false
-    },
-  ];
+  // const slides = [
+  //   {
+  //     image: '/hero2.jpeg',
+  //     showContent: true
+  //   },
+  //   {
+  //     image: '/second_image.jpeg',
+  //     showContent: false
+  //   },
+  // ];
 
   useEffect(() => {
     const timer = setInterval(() => {
