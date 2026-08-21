@@ -54,7 +54,7 @@ const Footer = () => {
                   <Mail className="w-5 h-5" />
                 </a>
                 <a
-                  href="https://youtube.com/@drbbcmsa?si=4c2LLNJ4XZAdu03q"
+                  href="https://www.youtube.com/@SwarajyaMilitarySchool"
                   className="bg-white text-red-500 shadow-lg font-normal h-10 w-10 flex items-center justify-center rounded-full outline-none focus:outline-none hover:shadow-xl transition-shadow"
                   target="_blank"
                   rel="noopener noreferrer"
