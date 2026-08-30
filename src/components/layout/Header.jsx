@@ -29,7 +29,7 @@ const Header = () => {
           {/* Action Buttons - Desktop Layout with YouTube Button Shifted Left */}
           <div className="hidden md:flex items-center gap-3">
             <a 
-              href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID&autoplay=1&fs=1" 
+              href="https://www.youtube.com/watch?v=w5gsxUhQa-c&autoplay=1&fs=1" 
               target="_blank" 
               rel="noopener noreferrer"
               className="relative bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 text-center whitespace-nowrap shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center gap-2"
@@ -65,7 +65,7 @@ const Header = () => {
           {/* Mobile Action Buttons - Column Layout */}
           <div className="flex md:hidden flex-col gap-2">
             <a 
-              href="https://www.youtube.com/watch?v=w5gsxUhQa-c" 
+              href="https://www.youtube.com/watch?v=w5gsxUhQa-c&autoplay=1&fs=1" 
               target="_blank" 
               rel="noopener noreferrer"
               className="bg-gradient-to-r from-red-600 to-red-700 text-white px-3 py-2 rounded-lg text-xs font-semibold text-center whitespace-nowrap shadow-md flex items-center justify-center gap-1.5"
