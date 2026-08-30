@@ -65,7 +65,7 @@ const Header = () => {
           {/* Mobile Action Buttons - Column Layout */}
           <div className="flex md:hidden flex-col gap-2">
             <a 
-              href="https://www.youtube.com/watch?v=w5gsxUhQa-c&autoplay=1&fs=1" 
+              href="https://www.youtube.com/watch?v=w5gsxUhQa-c" 
               target="_blank" 
               rel="noopener noreferrer"
               className="bg-gradient-to-r from-red-600 to-red-700 text-white px-3 py-2 rounded-lg text-xs font-semibold text-center whitespace-nowrap shadow-md flex items-center justify-center gap-1.5"
