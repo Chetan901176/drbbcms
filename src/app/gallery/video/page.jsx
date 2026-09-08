@@ -21,7 +21,7 @@ const VideoGallery = () => {
             Video Gallery
           </h1>
           {/* Breadcrumb */}
-          <div className="flex justify-center items-center space-x-2 text-sm md:text-base">
+          {/* <div className="flex justify-center items-center space-x-2 text-sm md:text-base">
             <Home className="text-gray-300 w-4 h-4" />
             <span className="text-gray-300">/</span>
             <Link href="/" className="text-gray-300 hover:text-white">
@@ -29,7 +29,7 @@ const VideoGallery = () => {
             </Link>
             <span className="text-gray-300">/</span>
             <span className="text-white">Video Gallery</span>
-          </div>
+          </div> */}
           <p className="text-xl text-center max-w-3xl mx-auto mt-4">
             Explore our military school campus through this gallery. From
             state-of-the-art facilities to sprawling green grounds, our
