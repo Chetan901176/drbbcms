@@ -59,7 +59,7 @@ const PromoVideo = () => {
               controls
               poster="/campus.jpeg"
             >
-              <source src="/PromoVideo.mp4" type="video/mp4" />
+              <source src="/School_Promo_Updated_Name_To_Swarajya_compressed.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
