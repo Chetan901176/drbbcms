@@ -15,7 +15,7 @@ const DirectorsMessageSection = () => {
           <div className="w-full lg:w-1/3 flex-shrink-0">
             <Image
               className="w-full h-auto rounded-xl shadow-md"
-              src="/director.jpeg"
+              src="/Wakle_Sir_Picture_On_School_Web.jpeg"
               alt="Dr. Adinath Wakle, Director"
               width={400}
               height={500}
