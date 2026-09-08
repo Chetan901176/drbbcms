@@ -85,7 +85,7 @@ function Gallery() {
       >
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Photo Gallery</h1>
-          <div className="flex justify-center items-center space-x-2 text-sm md:text-base">
+          {/* <div className="flex justify-center items-center space-x-2 text-sm md:text-base">
             <Home className="text-gray-300 w-4 h-4" />
             <span className="text-gray-300">/</span>
             <Link href="/" className="text-gray-300 hover:text-white">
@@ -93,9 +93,9 @@ function Gallery() {
             </Link>
             <span className="text-gray-300">/</span>
             <span className="text-white">Photo Gallery</span>
-          </div>
+          </div> */}
           <p className="text-xl max-w-3xl mx-auto mt-4">
-            Explore our military school campus through this gallery.
+            Explore our military school campus through this gallery
           </p>
         </div>
       </div>
