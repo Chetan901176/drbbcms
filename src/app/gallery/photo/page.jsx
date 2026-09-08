@@ -83,7 +83,7 @@ function Gallery() {
           backgroundPosition: 'center'
         }}
       >
-        {/* <div className="max-w-7xl mx-auto px-4 text-center">
+        <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Photo Gallery</h1>
           <div className="flex justify-center items-center space-x-2 text-sm md:text-base">
             <Home className="text-gray-300 w-4 h-4" />
@@ -98,7 +98,7 @@ function Gallery() {
             Explore our military school campus through this gallery.
           </p>
         </div>
-      </div> */}
+      </div>
 
       {/* Masonry-style Grid */}
       <div className="my-12 mx-5">
