@@ -3,7 +3,14 @@ import { Home } from "lucide-react";
 import Link from "next/link";
 
 const VideoGallery = () => {
-  const videos = [];
+  const videos = [
+    { src: "/Vedio/1.mp4", caption: "Kargil Vijay Divas" },
+    { src: "/Vedio/2.mp4", caption: "Kargil Vijay Divas" },
+    { src: "/Vedio/3.mp4", caption: "Kargil Vijay Divas" },
+    { src: "/Vedio/4.mp4", caption: "Kargil Vijay Divas" },
+    { src: "/Vedio/5.mp4", caption: "Kargil Vijay Divas" },
+    { src: "/Vedio/6.mp4", caption: "Kargil Vijay Divas" }
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50 mt-0 sm:mt-0">
