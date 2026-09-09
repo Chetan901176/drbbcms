@@ -4,12 +4,13 @@ import Link from "next/link";
 
 const VideoGallery = () => {
   const videos = [
-    { src: "/Vedio/1.mp4", caption: "Kargil Vijay Divas" },
-    { src: "/Vedio/2.mp4", caption: "Kargil Vijay Divas" },
-    { src: "/Vedio/3.mp4", caption: "Kargil Vijay Divas" },
-    { src: "/Vedio/4.mp4", caption: "Kargil Vijay Divas" },
-    { src: "/Vedio/5.mp4", caption: "Kargil Vijay Divas" },
-    { src: "/Vedio/6.mp4", caption: "Kargil Vijay Divas" }
+    // { src: "/Vedio/1.mp4", caption: "Kargil Vijay Divas" },
+    // { src: "/Vedio/2.mp4", caption: "Kargil Vijay Divas" },
+    // { src: "/Vedio/3.mp4", caption: "Kargil Vijay Divas" },
+    // { src: "/Vedio/4.mp4", caption: "Kargil Vijay Divas" },
+    // { src: "/Vedio/5.mp4", caption: "Kargil Vijay Divas" },
+    // { src: "/Vedio/6.mp4", caption: "Kargil Vijay Divas" },
+    { src: "/Vedio/PromoVideo.mp4", caption: "Kargil Vijay Divas" }
   ];
 
   return (
