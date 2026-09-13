@@ -98,7 +98,7 @@
 // export default VideoGallery;
 
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Play, Eye, Clock } from "lucide-react";
 
 const VideoGallery = () => {
@@ -112,10 +112,27 @@ const VideoGallery = () => {
     { src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", caption: "Our School & Who we are", views: "8.2K", date: "2 months ago" }
   ];
 
-  // Set first video as featured by default
-  const [featuredIndex, setFeaturedIndex] = useState(0);
-  const featuredVideo = videos[featuredIndex];
-  const otherVideos = videos.filter((_, index) => index !== featuredIndex);
+  const [playingIndex, setPlayingIndex] = useState(null);
+  const videoRefs = useRef({});
+
+  // Stop all videos except the one being played
+  const handlePlayVideo = (index) => {
+    // Pause all other videos
+    Object.keys(videoRefs.current).forEach((key) => {
+      const ref = videoRefs.current[key];
+      if (ref && parseInt(key) !== index) {
+        ref.pause();
+      }
+    });
+    setPlayingIndex(index);
+  };
+
+  // Handle video pause to clear playing state
+  const handlePauseVideo = (index) => {
+    if (playingIndex === index) {
+      setPlayingIndex(null);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -136,99 +153,82 @@ const VideoGallery = () => {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Featured Video Section */}
-        <div className="mb-10">
-          <div className="bg-black rounded-xl overflow-hidden mb-4 shadow-lg hover:shadow-2xl transition-shadow">
-            <div className="relative w-full pt-[56.25%] bg-black">
-              <video
-                className="absolute top-0 left-0 w-full h-full"
-                controls
-                controlsList="nodownload"
-                autoPlay
-              >
-                <source src={featuredVideo.src} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
-
-          {/* Featured Video Info */}
-          <div className="bg-white rounded-lg p-6 shadow-md">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-              {featuredVideo.caption}
-            </h2>
-            <div className="flex items-center gap-4 text-gray-600 text-sm mb-4 pb-4 border-b">
-              <div className="flex items-center gap-1">
-                <Eye className="w-4 h-4" />
-                <span>{featuredVideo.views} views</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Clock className="w-4 h-4" />
-                <span>{featuredVideo.date}</span>
-              </div>
-            </div>
-            <p className="text-gray-700 leading-relaxed">
-              Explore our military school campus through this gallery. From state-of-the-art facilities 
-              to sprawling green grounds, our infrastructure is designed to provide a perfect balance of 
-              education and extracurricular activities.
-            </p>
-          </div>
-        </div>
-
-        {/* Divider */}
-        <div className="my-12 border-t border-gray-200"></div>
-
-        {/* Related Videos Section */}
+        {/* Videos Grid - YouTube Style */}
         <div>
-          <h3 className="text-xl font-bold text-gray-900 mb-6">More Videos</h3>
+          <h3 className="text-2xl font-bold text-gray-900 mb-8">All Videos</h3>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {otherVideos.map((video, index) => {
-              const originalIndex = videos.indexOf(video);
-              return (
-                <div 
-                  key={originalIndex}
-                  onClick={() => setFeaturedIndex(originalIndex)}
-                  className="group cursor-pointer bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 hover:scale-[1.02] transform"
-                >
-                  {/* Video Thumbnail Container */}
-                  <div className="relative w-full pt-[56.25%] bg-black overflow-hidden">
-                    <video
-                      className="absolute top-0 left-0 w-full h-full object-cover group-hover:brightness-75 transition-all duration-300"
-                      muted
-                      preload="metadata"
-                    >
-                      <source src={video.src} type="video/mp4" />
-                    </video>
-                    
-                    {/* Play Button Overlay */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {videos.map((video, index) => (
+              <div 
+                key={index}
+                className="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-[1.02] transform cursor-pointer"
+              >
+                {/* Video Container with 16:9 Aspect Ratio */}
+                <div className="relative w-full pt-[56.25%] bg-black overflow-hidden">
+                  <video
+                    ref={(el) => {
+                      if (el) videoRefs.current[index] = el;
+                    }}
+                    className="absolute top-0 left-0 w-full h-full object-cover group-hover:brightness-75 transition-all duration-300"
+                    muted={playingIndex !== index}
+                    onPlay={() => handlePlayVideo(index)}
+                    onPause={() => handlePauseVideo(index)}
+                    preload="metadata"
+                  >
+                    <source src={video.src} type="video/mp4" />
+                  </video>
+                  
+                  {/* Play Button Overlay - Shows when not playing */}
+                  {playingIndex !== index && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300">
-                      <Play className="w-16 h-16 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 fill-white" />
+                      <Play className="w-14 h-14 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 fill-white" />
                     </div>
+                  )}
 
-                    {/* Duration Badge */}
-                    <div className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-xs font-semibold px-2 py-1 rounded">
-                      Video
+                  {/* Controls Button - Shows when playing */}
+                  {playingIndex === index && (
+                    <div className="absolute inset-0">
+                      <video
+                        className="w-full h-full"
+                        controls
+                        controlsList="nodownload"
+                        autoPlay
+                        onPlay={() => handlePlayVideo(index)}
+                        onPause={() => handlePauseVideo(index)}
+                        ref={(el) => {
+                          if (el) videoRefs.current[index] = el;
+                        }}
+                      >
+                        <source src={video.src} type="video/mp4" />
+                      </video>
                     </div>
+                  )}
+
+                  {/* Video Badge */}
+                  <div className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-xs font-semibold px-2 py-1 rounded">
+                    Video
                   </div>
+                </div>
 
-                  {/* Video Info */}
-                  <div className="p-4">
-                    <h4 className="font-semibold text-gray-900 line-clamp-2 group-hover:text-gray-700 text-base mb-2">
-                      {video.caption}
-                    </h4>
-                    
-                    <div className="flex items-center justify-between text-xs text-gray-500">
-                      <div className="flex items-center gap-1">
-                        <Eye className="w-3 h-3" />
-                        <span>{video.views}</span>
-                      </div>
-                      <span>{video.date}</span>
+                {/* Video Info */}
+                <div className="p-3">
+                  <h4 className="font-semibold text-gray-900 line-clamp-2 group-hover:text-gray-700 text-sm mb-2">
+                    {video.caption}
+                  </h4>
+                  
+                  <div className="flex items-center justify-between text-xs text-gray-500 gap-2">
+                    <div className="flex items-center gap-1 min-w-0">
+                      <Eye className="w-3 h-3 flex-shrink-0" />
+                      <span className="truncate">{video.views}</span>
+                    </div>
+                    <div className="flex items-center gap-1 min-w-0">
+                      <Clock className="w-3 h-3 flex-shrink-0" />
+                      <span className="truncate">{video.date}</span>
                     </div>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       </div>
