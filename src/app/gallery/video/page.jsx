@@ -48,7 +48,7 @@ const VideoGallery = () => {
       </div>
       <div className="bg-gray-100 py-8">
         <div className="space-y-11 max-w-5xl mx-auto px-4">
-          /* {videos.map((video, index) => (
+          {/* /* {videos.map((video, index) => (
             <div
               key={index}
               className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
@@ -67,7 +67,7 @@ const VideoGallery = () => {
                 </h3>
               </div>
             </div>
-          ))} */
+          ))} */ */}
 
           {videos.map((video, index) => (
   <div
