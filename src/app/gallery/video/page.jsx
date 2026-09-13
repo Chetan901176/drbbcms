@@ -251,7 +251,3 @@ const VideoGallery = () => {
 };
 
 export default VideoGallery;
-};
-
-export default VideoGallery;
-
