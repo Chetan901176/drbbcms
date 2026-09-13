@@ -97,6 +97,7 @@
 
 // export default VideoGallery;
 
+"use client";
 import React, { useState, useRef, useEffect } from "react";
 import { Home } from "lucide-react";
 import Link from "next/link";
