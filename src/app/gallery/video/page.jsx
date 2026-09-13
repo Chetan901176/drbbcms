@@ -4,13 +4,13 @@ import Link from "next/link";
 
 const VideoGallery = () => {
   const videos = [
-    { src: "/Video/1.mp4", caption: "Kargil Vijay Divas" },
-    { src: "/Video/2.mp4", caption: "Kargil Vijay Divas" },
-    { src: "/Video/3.mp4", caption: "Kargil Vijay Divas" },
-    { src: "/Video/4.mp4", caption: "Kargil Vijay Divas" },
-    { src: "/Video/5.mp4", caption: "Kargil Vijay Divas" },
-    { src: "/Video/6.mp4", caption: "Kargil Vijay Divas" },
-    { src: "/Video/PromoVideo.mp4", caption: "Kargil Vijay Divas" }
+    { src: "/Video/1.mp4", caption: "Republic Day" },
+    { src: "/Video/2.mp4", caption: "Independence Day" },
+    { src: "/Video/3.mp4", caption: "Independence Day" },
+    { src: "/Video/4.mp4", caption: "Independence Day" },
+    { src: "/Video/5.mp4", caption: "Student Participation" },
+    { src: "/Video/6.mp4", caption: "Drone view of Campus" },
+    { src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", caption: "Our School & Who we are" }
   ];
 
   return (
