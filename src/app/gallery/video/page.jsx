@@ -4,12 +4,12 @@ import Link from "next/link";
 
 const VideoGallery = () => {
   const videos = [
-    // { src: "/Vedio/1.mp4", caption: "Kargil Vijay Divas" },
-    // { src: "/Vedio/2.mp4", caption: "Kargil Vijay Divas" },
-    // { src: "/Vedio/3.mp4", caption: "Kargil Vijay Divas" },
-    // { src: "/Vedio/4.mp4", caption: "Kargil Vijay Divas" },
-    // { src: "/Vedio/5.mp4", caption: "Kargil Vijay Divas" },
-    // { src: "/Vedio/6.mp4", caption: "Kargil Vijay Divas" },
+    { src: "/Vedio/1.mp4", caption: "Kargil Vijay Divas" },
+    { src: "/Vedio/2.mp4", caption: "Kargil Vijay Divas" },
+    { src: "/Vedio/3.mp4", caption: "Kargil Vijay Divas" },
+    { src: "/Vedio/4.mp4", caption: "Kargil Vijay Divas" },
+    { src: "/Vedio/5.mp4", caption: "Kargil Vijay Divas" },
+    { src: "/Vedio/6.mp4", caption: "Kargil Vijay Divas" },
     { src: "/Vedio/PromoVideo.mp4", caption: "Kargil Vijay Divas" }
   ];
 
@@ -48,7 +48,7 @@ const VideoGallery = () => {
       </div>
       <div className="bg-gray-100 py-8">
         <div className="space-y-11 max-w-5xl mx-auto px-4">
-          {videos.map((video, index) => (
+          /* {videos.map((video, index) => (
             <div
               key={index}
               className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
@@ -67,7 +67,28 @@ const VideoGallery = () => {
                 </h3>
               </div>
             </div>
-          ))}
+          ))} */
+
+          {videos.map((video, index) => (
+  <div
+    key={index}
+    className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+  >
+    <video
+      className="w-full h-64 md:h-80 lg:h-96"
+      controls
+      controlsList="nodownload"
+    >
+      <source src={video.src} type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div className="p-4 bg-white">
+      <h3 className="text-lg font-semibold text-gray-700">
+        {video.caption}
+      </h3>
+    </div>
+  </div>
+))}
         </div>
       </div>
     </div>
