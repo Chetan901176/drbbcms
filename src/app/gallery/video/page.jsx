@@ -107,13 +107,13 @@ const VideoGallery = () => {
   const [errorStates, setErrorStates] = useState({});
 
   const videos = [
-    { src: "/Video/1.mp4", caption: "Republic Day", poster: "/Video/1-poster.jpg" },
-    { src: "/Video/2.mp4", caption: "Independence Day", poster: "/Video/2-poster.jpg" },
-    { src: "/Video/3.mp4", caption: "Independence Day", poster: "/Video/3-poster.jpg" },
-    { src: "/Video/4.mp4", caption: "Independence Day", poster: "/Video/4-poster.jpg" },
-    { src: "/Video/5.mp4", caption: "Student Participation", poster: "/Video/5-poster.jpg" },
-    { src: "/Video/6.mp4", caption: "Drone view of Campus", poster: "/Video/6-poster.jpg" },
-    { src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", caption: "Our School & Who we are", poster: "/hero2.jpeg" }
+    { src: "/Video/1.mp4", caption: "Republic Day", poster: "/Video/Thumbnail.jpg" },
+    { src: "/Video/2.mp4", caption: "Independence Day", poster: "/Video/Thumbnail.jpg" },
+    { src: "/Video/3.mp4", caption: "Independence Day", poster: "/Video/Thumbnail.jpg" },
+    { src: "/Video/4.mp4", caption: "Independence Day", poster: "/Video/Thumbnail.jpg" },
+    { src: "/Video/5.mp4", caption: "Student Participation", poster: "/Video/Thumbnail.jpg" },
+    { src: "/Video/6.mp4", caption: "Drone view of Campus", poster: "/Video/Thumbnail.jpg" },
+    { src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", caption: "Our School & Who we are", poster: "/Thumbnail.jpg" }
   ];
 
   const handleVideoLoad = (index) => {
