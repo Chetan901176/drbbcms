@@ -113,7 +113,7 @@ const VideoGallery = () => {
     { src: "/Video/4.mp4", caption: "Independence Day", poster: "/Video/Thumbnail.jpg" },
     { src: "/Video/5.mp4", caption: "Student Participation", poster: "/Video/Thumbnail.jpg" },
     { src: "/Video/6.mp4", caption: "Drone view of Campus", poster: "/Video/Thumbnail.jpg" },
-    { src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", caption: "Our School & Who we are", poster: "/Thumbnail.jpg" }
+    { src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", caption: "Our School & Who we are", poster: "/Video/Thumbnail.jpg" }
   ];
 
   const handleVideoLoad = (index) => {
