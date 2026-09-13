@@ -173,7 +173,7 @@ const VideoGallery = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {videos.map((video, index) => {
               const isPortrait = isPortraitForIndex(index);
-              const boxClass = isPortrait ? "video-box portrait" : "video-box landscape";
+              const boxClass = isPortrait ? "video-box landscape" : "video-box portrait";
 
               return (
                 <div key={index} className="card-hover rounded-xl overflow-hidden bg-white shadow-sm">
@@ -205,7 +205,7 @@ const VideoGallery = () => {
                       <h3 className="text-md sm:text-lg font-semibold text-gray-800">
                         {video.caption}
                       </h3>
-                      <span className="text-xs text-gray-500">{isPortrait ? "Portrait" : "Landscape"}</span>
+                      {/* <span className="text-xs text-gray-500">{isPortrait ? "Portrait" : "Landscape"}</span> */}
                     </div>
                     <p className="mt-2 text-sm text-gray-500">High-quality video — click to expand and play.</p>
                   </div>
