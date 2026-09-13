@@ -98,12 +98,11 @@
 // export default VideoGallery;
 
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { Home } from "lucide-react";
 import Link from "next/link";
 
 const VideoGallery = () => {
-  const [videoAspectRatios, setVideoAspectRatios] = useState({});
   const videoRefs = useRef({});
 
   const videos = [
@@ -116,166 +115,109 @@ const VideoGallery = () => {
     { src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", caption: "Our School & Who we are" }
   ];
 
-  // Detect video aspect ratio on load
-  const handleVideoMetadata = (index) => (e) => {
-    const video = e.target;
-    const aspectRatio = video.videoWidth / video.videoHeight;
-    setVideoAspectRatios(prev => ({
-      ...prev,
-      [index]: aspectRatio
-    }));
-  };
-
-  // Determine if video is vertical (portrait)
-  const isVerticalVideo = (index) => {
-    const ratio = videoAspectRatios[index];
-    return ratio ? ratio < 1 : false;
-  };
+  // Treat all videos except the last 2 as portrait
+  const isPortraitForIndex = (index) => index < videos.length - 2;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-      {/* Add CSS animations */}
+      {/* Inline page animations + utility styles for aspect-ratio handling */}
       <style>{`
-        @keyframes fadeInDown {
-          from {
-            opacity: 0;
-            transform: translateY(-30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0);} }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0);} }
+        .animate-fade-in-down { animation: fadeInDown 0.55s ease-out; }
+        .animate-fade-in-up { animation: fadeInUp 0.6s ease-out; }
 
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
+        /* Aspect-ratio boxes:
+           - landscape (16:9) => padding-top: 56.25%
+           - portrait (9:16)  => padding-top: 177.78% (keeps tall box)
+        */
+        .video-box { position: relative; width: 100%; overflow: hidden; background: #000; }
+        .video-box.landscape { padding-top: 56.25%; }
+        .video-box.portrait { padding-top: 177.78%; max-height: 680px; }
+        .video-box video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
 
-        @keyframes scaleInGently {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
+        /* Card hover effect */
+        .card-hover { transition: transform 0.35s ease, box-shadow 0.35s ease; }
+        .card-hover:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12); }
 
-        .animate-fade-in-down {
-          animation: fadeInDown 0.6s ease-out;
-        }
-
-        .animate-fade-in-up {
-          animation: fadeInUp 0.8s ease-out;
-        }
-
-        .animate-scale-in {
-          animation: scaleInGently 0.6s ease-out;
-        }
-
-        .video-container {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .vertical-video {
-          max-width: 100%;
-          max-height: 600px;
-        }
-
-        .horizontal-video {
-          width: 100%;
-          height: auto;
-        }
+        /* Caption overlay */
+        .caption-overlay { position: absolute; left: 12px; bottom: 12px; right: 12px; display:flex; justify-content:space-between; align-items:center; gap:8px; pointer-events:none; }
+        .caption-bg { background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.45)); padding: 10px 14px; border-radius: 8px; color: #fff; }
       `}</style>
 
       {/* Hero Section */}
-      <div 
-        className="text-white py-16 sm:py-20 md:py-24 animate-fade-in-down"
+      <div
+        className="text-white py-14 sm:py-18 md:py-22 animate-fade-in-down"
         style={{
-          backgroundImage: 'linear-gradient(rgba(92,108,63,0.35), rgba(92,108,63,0.55)), url(/hero2.jpeg)',
+          backgroundImage:
+            'linear-gradient(rgba(92,108,63,0.35), rgba(92,108,63,0.55)), url(/hero2.jpeg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-3">
             Video Gallery
           </h1>
-          {/* Breadcrumb */}
-          {/* <div className="flex justify-center items-center space-x-2 text-sm md:text-base">
-            <Home className="text-gray-300 w-4 h-4" />
-            <span className="text-gray-300">/</span>
-            <Link href="/" className="text-gray-300 hover:text-white">
-              Home
-            </Link>
-            <span className="text-gray-300">/</span>
-            <span className="text-white">Video Gallery</span>
-          </div> */}
-          <p className="text-lg sm:text-xl text-center max-w-3xl mx-auto mt-4 leading-relaxed opacity-95">
-            Explore our military school campus through this gallery. From
-            state-of-the-art facilities to sprawling green grounds, our
-            infrastructure is designed to provide a perfect balance of education
-            and extracurricular activities.
+          <p className="text-lg sm:text-xl max-w-3xl mx-auto mt-3 leading-relaxed opacity-95">
+            Explore our campus through curated videos — ceremonies, events, drone
+            footage and our school story. Click any video to play.
           </p>
         </div>
       </div>
 
       {/* Videos Grid Section */}
       <div className="py-12 sm:py-16 md:py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-8 sm:space-y-10 md:space-y-12">
-            {videos.map((video, index) => (
-              <div
-                key={index}
-                className="animate-fade-in-up"
-                style={{
-                  animationDelay: `${index * 0.1}s`
-                }}
-              >
-                <div className="overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 bg-white">
-                  {/* Video Container with Responsive Aspect Ratio */}
-                  <div className="video-container bg-black relative w-full">
-                    <video
-                      ref={(el) => videoRefs.current[index] = el}
-                      className={`${
-                        isVerticalVideo(index)
-                          ? "vertical-video"
-                          : "horizontal-video"
-                      } object-contain`}
-                      controls
-                      controlsList="nodownload"
-                      onLoadedMetadata={handleVideoMetadata(index)}
-                    >
-                      <source src={video.src} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Responsive grid: 1-col on mobile, 2 on tablet, 3 on desktop */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {videos.map((video, index) => {
+              const isPortrait = isPortraitForIndex(index);
+              const boxClass = isPortrait ? "video-box portrait" : "video-box landscape";
+
+              return (
+                <div key={index} className="card-hover rounded-xl overflow-hidden bg-white shadow-sm">
+                  <div className="relative">
+                    {/* Aspect-ratio box that holds the video absolutely */}
+                    <div className={boxClass}>
+                      <video
+                        ref={(el) => (videoRefs.current[index] = el)}
+                        controls
+                        controlsList="nodownload"
+                        preload="metadata"
+                      >
+                        <source src={video.src} type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+
+                      {/* Caption overlay shown on the video bottom-left */}
+                      <div className="caption-overlay">
+                        <div className="caption-bg">
+                          <div className="text-sm sm:text-base font-medium">{video.caption}</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Caption Section */}
-                  <div className="p-4 sm:p-6 bg-white">
-                    <h3 className="text-lg sm:text-xl font-semibold text-gray-800 hover:text-green-700 transition-colors duration-200">
-                      {video.caption}
-                    </h3>
+                  {/* Card body with caption + meta */}
+                  <div className="p-4 sm:p-5">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-md sm:text-lg font-semibold text-gray-800">
+                        {video.caption}
+                      </h3>
+                      <span className="text-xs text-gray-500">{isPortrait ? "Portrait" : "Landscape"}</span>
+                    </div>
+                    <p className="mt-2 text-sm text-gray-500">High-quality video — click to expand and play.</p>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
 
-      {/* Footer Spacing */}
-      <div className="h-8 sm:h-12"></div>
+      {/* Footer spacing */}
+      <div className="h-12"></div>
     </div>
   );
 };
