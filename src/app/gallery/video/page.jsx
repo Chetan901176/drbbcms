@@ -98,116 +98,133 @@
 // export default VideoGallery;
 
 "use client";
-import React, { useRef } from "react";
-import { Home } from "lucide-react";
-import Link from "next/link";
+import React, { useState } from "react";
+import { Play, Eye, Clock } from "lucide-react";
 
 const VideoGallery = () => {
-  const videoRefs = useRef({});
-
   const videos = [
-    { src: "/Video/1.mp4", caption: "Republic Day" },
-    { src: "/Video/2.mp4", caption: "Independence Day" },
-    { src: "/Video/3.mp4", caption: "Independence Day" },
-    { src: "/Video/4.mp4", caption: "Independence Day" },
-    { src: "/Video/5.mp4", caption: "Student Participation" },
-    { src: "/Video/6.mp4", caption: "Drone view of Campus" },
-    { src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", caption: "Our School & Who we are" }
+    { src: "/Video/1.mp4", caption: "Republic Day", views: "2.3K", date: "2 weeks ago" },
+    { src: "/Video/2.mp4", caption: "Independence Day", views: "1.8K", date: "3 weeks ago" },
+    { src: "/Video/3.mp4", caption: "Independence Day", views: "1.5K", date: "3 weeks ago" },
+    { src: "/Video/4.mp4", caption: "Independence Day", views: "1.2K", date: "1 month ago" },
+    { src: "/Video/5.mp4", caption: "Student Participation", views: "3.1K", date: "2 weeks ago" },
+    { src: "/Video/6.mp4", caption: "Drone view of Campus", views: "4.7K", date: "1 month ago" },
+    { src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", caption: "Our School & Who we are", views: "8.2K", date: "2 months ago" }
   ];
 
-  // Treat all videos except the last 2 as portrait
-  const isPortraitForIndex = (index) => index < videos.length - 2;
+  // Set first video as featured by default
+  const [featuredIndex, setFeaturedIndex] = useState(0);
+  const featuredVideo = videos[featuredIndex];
+  const otherVideos = videos.filter((_, index) => index !== featuredIndex);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-      {/* Inline page animations + utility styles for aspect-ratio handling */}
-      <style>{`
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0);} }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0);} }
-        .animate-fade-in-down { animation: fadeInDown 0.55s ease-out; }
-        .animate-fade-in-up { animation: fadeInUp 0.6s ease-out; }
-
-        /* Aspect-ratio boxes:
-           - landscape (16:9) => padding-top: 56.25%
-           - portrait (9:16)  => padding-top: 177.78% (keeps tall box)
-        */
-        .video-box { position: relative; width: 100%; overflow: hidden; background: #000; }
-        .video-box.landscape { padding-top: 56.25%; }
-        .video-box.portrait { padding-top: 177.78%; max-height: 680px; }
-        .video-box video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-
-        /* Card hover effect */
-        .card-hover { transition: transform 0.35s ease, box-shadow 0.35s ease; }
-        .card-hover:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12); }
-
-        /* Caption overlay */
-        .caption-overlay { position: absolute; left: 12px; bottom: 12px; right: 12px; display:flex; justify-content:space-between; align-items:center; gap:8px; pointer-events:none; }
-        .caption-bg { background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.45)); padding: 10px 14px; border-radius: 8px; color: #fff; }
-      `}</style>
-
-      {/* Hero Section */}
-      <div
-        className="text-white py-14 sm:py-18 md:py-22 animate-fade-in-down"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(92,108,63,0.35), rgba(92,108,63,0.55)), url(/hero2.jpeg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-3">
-            Video Gallery
-          </h1>
-          <p className="text-lg sm:text-xl max-w-3xl mx-auto mt-3 leading-relaxed opacity-95">
-            Explore our campus through curated videos — ceremonies, events, drone
-            footage and our school story. Click any video to play.
-          </p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center">
+              <Play className="w-6 h-6 text-white" fill="white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">School Videos</h1>
+              <p className="text-sm text-gray-500">Explore our campus & events</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Videos Grid Section */}
-      <div className="py-12 sm:py-16 md:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Responsive grid: 1-col on mobile, 2 on tablet, 3 on desktop */}
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Featured Video Section */}
+        <div className="mb-10">
+          <div className="bg-black rounded-xl overflow-hidden mb-4 shadow-lg hover:shadow-2xl transition-shadow">
+            <div className="relative w-full pt-[56.25%] bg-black">
+              <video
+                className="absolute top-0 left-0 w-full h-full"
+                controls
+                controlsList="nodownload"
+                autoPlay
+              >
+                <source src={featuredVideo.src} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+
+          {/* Featured Video Info */}
+          <div className="bg-white rounded-lg p-6 shadow-md">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+              {featuredVideo.caption}
+            </h2>
+            <div className="flex items-center gap-4 text-gray-600 text-sm mb-4 pb-4 border-b">
+              <div className="flex items-center gap-1">
+                <Eye className="w-4 h-4" />
+                <span>{featuredVideo.views} views</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Clock className="w-4 h-4" />
+                <span>{featuredVideo.date}</span>
+              </div>
+            </div>
+            <p className="text-gray-700 leading-relaxed">
+              Explore our military school campus through this gallery. From state-of-the-art facilities 
+              to sprawling green grounds, our infrastructure is designed to provide a perfect balance of 
+              education and extracurricular activities.
+            </p>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="my-12 border-t border-gray-200"></div>
+
+        {/* Related Videos Section */}
+        <div>
+          <h3 className="text-xl font-bold text-gray-900 mb-6">More Videos</h3>
+          
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {videos.map((video, index) => {
-              const isPortrait = isPortraitForIndex(index);
-              const boxClass = isPortrait ? "video-box landscape" : "video-box portrait";
-
+            {otherVideos.map((video, index) => {
+              const originalIndex = videos.indexOf(video);
               return (
-                <div key={index} className="card-hover rounded-xl overflow-hidden bg-white shadow-sm">
-                  <div className="relative">
-                    {/* Aspect-ratio box that holds the video absolutely */}
-                    <div className={boxClass}>
-                      <video
-                        ref={(el) => (videoRefs.current[index] = el)}
-                        controls
-                        controlsList="nodownload"
-                        preload="metadata"
-                      >
-                        <source src={video.src} type="video/mp4" />
-                        Your browser does not support the video tag.
-                      </video>
+                <div 
+                  key={originalIndex}
+                  onClick={() => setFeaturedIndex(originalIndex)}
+                  className="group cursor-pointer bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 hover:scale-[1.02] transform"
+                >
+                  {/* Video Thumbnail Container */}
+                  <div className="relative w-full pt-[56.25%] bg-black overflow-hidden">
+                    <video
+                      className="absolute top-0 left-0 w-full h-full object-cover group-hover:brightness-75 transition-all duration-300"
+                      muted
+                      preload="metadata"
+                    >
+                      <source src={video.src} type="video/mp4" />
+                    </video>
+                    
+                    {/* Play Button Overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300">
+                      <Play className="w-16 h-16 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 fill-white" />
+                    </div>
 
-                      {/* Caption overlay shown on the video bottom-left */}
-                      <div className="caption-overlay">
-                        <div className="caption-bg">
-                          <div className="text-sm sm:text-base font-medium">{video.caption}</div>
-                        </div>
-                      </div>
+                    {/* Duration Badge */}
+                    <div className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-xs font-semibold px-2 py-1 rounded">
+                      Video
                     </div>
                   </div>
 
-                  {/* Card body with caption + meta */}
-                  <div className="p-4 sm:p-5">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-md sm:text-lg font-semibold text-gray-800">
-                        {video.caption}
-                      </h3>
-                      {/* <span className="text-xs text-gray-500">{isPortrait ? "Portrait" : "Landscape"}</span> */}
+                  {/* Video Info */}
+                  <div className="p-4">
+                    <h4 className="font-semibold text-gray-900 line-clamp-2 group-hover:text-gray-700 text-base mb-2">
+                      {video.caption}
+                    </h4>
+                    
+                    <div className="flex items-center justify-between text-xs text-gray-500">
+                      <div className="flex items-center gap-1">
+                        <Eye className="w-3 h-3" />
+                        <span>{video.views}</span>
+                      </div>
+                      <span>{video.date}</span>
                     </div>
-                    <p className="mt-2 text-sm text-gray-500">High-quality video — click to expand and play.</p>
                   </div>
                 </div>
               );
@@ -215,9 +232,6 @@ const VideoGallery = () => {
           </div>
         </div>
       </div>
-
-      {/* Footer spacing */}
-      <div className="h-12"></div>
     </div>
   );
 };
