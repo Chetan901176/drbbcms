@@ -99,20 +99,21 @@
 
 "use client";
 import React, { useState } from "react";
-import { Home, Play, Loader } from "lucide-react";
+import { Home, Play, Loader, AlertCircle } from "lucide-react";
 import Link from "next/link";
 
 const VideoGallery = () => {
   const [loadingStates, setLoadingStates] = useState({});
+  const [errorStates, setErrorStates] = useState({});
 
   const videos = [
-    { src: "/Video/1.mp4", caption: "Republic Day" },
-    { src: "/Video/2.mp4", caption: "Independence Day" },
-    { src: "/Video/3.mp4", caption: "Independence Day" },
-    { src: "/Video/4.mp4", caption: "Independence Day" },
-    { src: "/Video/5.mp4", caption: "Student Participation" },
-    { src: "/Video/6.mp4", caption: "Drone view of Campus" },
-    { src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", caption: "Our School & Who we are" }
+    { src: "/Video/1.mp4", caption: "Republic Day", poster: "/Video/1-poster.jpg" },
+    { src: "/Video/2.mp4", caption: "Independence Day", poster: "/Video/2-poster.jpg" },
+    { src: "/Video/3.mp4", caption: "Independence Day", poster: "/Video/3-poster.jpg" },
+    { src: "/Video/4.mp4", caption: "Independence Day", poster: "/Video/4-poster.jpg" },
+    { src: "/Video/5.mp4", caption: "Student Participation", poster: "/Video/5-poster.jpg" },
+    { src: "/Video/6.mp4", caption: "Drone view of Campus", poster: "/Video/6-poster.jpg" },
+    { src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", caption: "Our School & Who we are", poster: "/hero2.jpeg" }
   ];
 
   const handleVideoLoad = (index) => {
@@ -121,6 +122,12 @@ const VideoGallery = () => {
 
   const handleVideoLoadStart = (index) => {
     setLoadingStates(prev => ({ ...prev, [index]: true }));
+  };
+
+  const handleVideoError = (index, error) => {
+    console.error(`Video ${index} failed to load:`, error);
+    setErrorStates(prev => ({ ...prev, [index]: true }));
+    setLoadingStates(prev => ({ ...prev, [index]: false }));
   };
 
   return (
@@ -167,8 +174,23 @@ const VideoGallery = () => {
                 key={index}
                 className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 bg-white"
               >
+                {/* Error State */}
+                {errorStates[index] && (
+                  <div className="absolute inset-0 bg-red-50 flex items-center justify-center z-20 rounded-xl">
+                    <div className="flex flex-col items-center gap-3 text-center p-4">
+                      <AlertCircle className="w-8 h-8 text-red-500" />
+                      <span className="text-red-700 text-sm font-semibold">
+                        Failed to load video
+                      </span>
+                      <span className="text-red-600 text-xs">
+                        {video.src}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
                 {/* Loading Indicator */}
-                {loadingStates[index] && (
+                {loadingStates[index] && !errorStates[index] && (
                   <div className="absolute inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-20 rounded-xl">
                     <div className="flex flex-col items-center gap-3">
                       <Loader className="w-8 h-8 text-green-400 animate-spin" />
@@ -185,17 +207,21 @@ const VideoGallery = () => {
                     controlsList="nodownload"
                     onLoadStart={() => handleVideoLoadStart(index)}
                     onCanPlay={() => handleVideoLoad(index)}
-                    preload="metadata"
+                    onError={(e) => handleVideoError(index, e)}
+                    preload="auto"
                     poster={video.poster}
+                    crossOrigin="anonymous"
                   >
                     <source src={video.src} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
 
                   {/* Overlay on hover */}
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
-                    <Play className="w-16 h-16 text-white opacity-0 group-hover:opacity-70 transition-opacity duration-300" />
-                  </div>
+                  {!errorStates[index] && (
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                      <Play className="w-16 h-16 text-white opacity-0 group-hover:opacity-70 transition-opacity duration-300" />
+                    </div>
+                  )}
                 </div>
 
                 {/* Caption Section */}
@@ -222,6 +248,9 @@ const VideoGallery = () => {
       </div>
     </div>
   );
+};
+
+export default VideoGallery;
 };
 
 export default VideoGallery;
