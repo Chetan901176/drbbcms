@@ -108,9 +108,9 @@ const VideoGallery = () => {
 
   const videos = [
     { src: "/Video/1.mp4", caption: "Republic Day", poster: "/Video/Thumbnail.jpg" },
-    { src: "/Video/2.mp4", caption: "Independence Day", poster: "/Video/Thumbnail.jpg" },
-    { src: "/Video/3.mp4", caption: "Independence Day", poster: "/Video/Thumbnail.jpg" },
-    { src: "/Video/4.mp4", caption: "Independence Day", poster: "/Video/Thumbnail.jpg" },
+    { src: "/Video/2.mp4", caption: "Independence Day-I", poster: "/Video/Thumbnail.jpg" },
+    { src: "/Video/3.mp4", caption: "Independence Day-II", poster: "/Video/Thumbnail.jpg" },
+    { src: "/Video/4.mp4", caption: "Independence Day-III", poster: "/Video/Thumbnail.jpg" },
     { src: "/Video/5.mp4", caption: "Student Participation", poster: "/Video/Thumbnail.jpg" },
     { src: "/Video/6.mp4", caption: "Drone view of Campus", poster: "/Video/Thumbnail.jpg" },
     { src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", caption: "Our School & Who we are", poster: "/Video/Thumbnail.jpg" }
@@ -208,9 +208,8 @@ const VideoGallery = () => {
                     onLoadStart={() => handleVideoLoadStart(index)}
                     onCanPlay={() => handleVideoLoad(index)}
                     onError={(e) => handleVideoError(index, e)}
-                    preload="auto"
+                    preload="metadata"
                     poster={video.poster}
-                    crossOrigin="anonymous"
                   >
                     <source src={video.src} type="video/mp4" />
                     Your browser does not support the video tag.
