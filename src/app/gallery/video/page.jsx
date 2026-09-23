@@ -462,7 +462,7 @@
 // export default VideoGallery;
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { 
   Play, 
   Eye, 
@@ -567,15 +567,37 @@ export default function VideoGallery() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeVideoModal, setActiveVideoModal] = useState(null);
 
+  const featuredVideoRef = useRef(null);
   const featuredVideo = VIDEOS[0];
 
   const filteredVideos = activeCategory === "All" 
     ? VIDEOS 
     : VIDEOS.filter((v) => v.category === activeCategory);
 
-  // Close modal on Escape press & freeze body scroll
-  const closeModal = useCallback(() => setActiveVideoModal(null), []);
+  // Global Video Stopper: pauses any other HTML5 video playing on the page
+  const pauseAllOtherVideos = (currentElement = null) => {
+    const allVideos = document.querySelectorAll("video");
+    allVideos.forEach((video) => {
+      if (video !== currentElement && !video.paused) {
+        video.pause();
+      }
+    });
+  };
 
+  // Open modal & pause any currently playing video (e.g., hero spotlight)
+  const openModal = (video) => {
+    pauseAllOtherVideos();
+    if (featuredVideoRef.current && !featuredVideoRef.current.paused) {
+      featuredVideoRef.current.pause();
+    }
+    setActiveVideoModal(video);
+  };
+
+  const closeModal = () => {
+    setActiveVideoModal(null);
+  };
+
+  // Lock background scroll & listen for Escape
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") closeModal();
@@ -592,12 +614,12 @@ export default function VideoGallery() {
       document.body.style.overflow = "unset";
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [activeVideoModal, closeModal]);
+  }, [activeVideoModal]);
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 selection:bg-emerald-500 selection:text-white">
-      {/* Top Banner / Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950/40 via-slate-900 to-slate-900 pt-8 pb-12 sm:pt-14 sm:pb-16 border-b border-slate-800">
+      {/* Top Banner */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950/40 via-slate-900 to-slate-900 pt-8 pb-10 sm:pt-14 sm:pb-16 border-b border-slate-800">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(16,185,129,0.12),transparent_40%)] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -632,32 +654,24 @@ export default function VideoGallery() {
             </div>
           </div>
 
-          {/* Featured Spotlight Card */}
+          {/* Featured Spotlight */}
           <div className="relative rounded-2xl overflow-hidden bg-slate-800/50 border border-slate-700/80 shadow-2xl p-4 sm:p-6 lg:p-8 backdrop-blur-sm">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
               
-              <div className="lg:col-span-7 relative group rounded-xl overflow-hidden shadow-2xl aspect-video bg-black">
-                {featuredVideo.type === "drive" ? (
-                  <iframe
-                    src={featuredVideo.src}
-                    className="w-full h-full border-0"
-                    allow="autoplay; encrypted-media; picture-in-picture"
-                    allowFullScreen
-                    title={featuredVideo.caption}
-                  />
-                ) : (
-                  <video
-                    className="w-full h-full object-cover"
-                    poster={featuredVideo.poster}
-                    controls
-                    playsInline
-                    controlsList="nodownload"
-                    preload="metadata"
-                  >
-                    <source src={featuredVideo.src} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                )}
+              <div className="lg:col-span-7 relative rounded-xl overflow-hidden shadow-2xl aspect-video bg-black">
+                <video
+                  ref={featuredVideoRef}
+                  className="w-full h-full object-cover"
+                  poster={featuredVideo.poster}
+                  controls
+                  playsInline
+                  controlsList="nodownload"
+                  preload="metadata"
+                  onPlay={(e) => pauseAllOtherVideos(e.currentTarget)}
+                >
+                  <source src={featuredVideo.src} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
               </div>
 
               <div className="lg:col-span-5 flex flex-col justify-center space-y-3 sm:space-y-4">
@@ -686,9 +700,9 @@ export default function VideoGallery() {
         </div>
       </section>
 
-      {/* Main Video Directory */}
+      {/* Video Gallery Listing */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        {/* Navigation & Filter Tabs */}
+        {/* Filter Categories */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-6 border-b border-slate-800">
           <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
             {CATEGORIES.map((category) => (
@@ -710,15 +724,15 @@ export default function VideoGallery() {
           </span>
         </div>
 
-        {/* Video Card Grid */}
+        {/* Video Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {filteredVideos.map((video) => (
             <article
               key={video.id}
-              onClick={() => setActiveVideoModal(video)}
+              onClick={() => openModal(video)}
               className="group relative bg-slate-800/60 border border-slate-700/60 hover:border-emerald-500/50 rounded-2xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer flex flex-col hover:-translate-y-1 active:scale-[0.99]"
             >
-              {/* Thumbnail */}
+              {/* Thumbnail Container */}
               <div className="relative w-full aspect-video bg-slate-950 overflow-hidden">
                 <img
                   src={video.poster}
@@ -726,7 +740,6 @@ export default function VideoGallery() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85 group-hover:opacity-95"
                   loading="lazy"
                   onError={(e) => {
-                    // Fallback to a styled SVG background if drive thumbnail is blocked
                     e.currentTarget.style.display = 'none';
                     e.currentTarget.parentElement.classList.add('bg-gradient-to-br', 'from-slate-800', 'to-slate-950');
                   }}
@@ -734,7 +747,7 @@ export default function VideoGallery() {
 
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
 
-                {/* Play Badge */}
+                {/* Center Play Button */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-emerald-500/90 text-slate-950 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                     <Play className="w-6 h-6 fill-slate-950 ml-0.5" />
@@ -774,20 +787,20 @@ export default function VideoGallery() {
         </div>
       </main>
 
-      {/* Full-Screen Theater Modal */}
+      {/* Modal - Fully Mobile Optimized */}
       {activeVideoModal && (
         <div 
-          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-in fade-in duration-200"
           onClick={closeModal}
           role="dialog"
           aria-modal="true"
         >
           <div 
-            className="relative w-full max-w-4xl max-h-[92vh] flex flex-col bg-slate-900 border border-slate-700/80 rounded-2xl overflow-hidden shadow-2xl"
+            className="relative w-full max-w-4xl max-h-[96vh] flex flex-col bg-slate-900 border border-slate-700/80 rounded-2xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="p-3.5 sm:p-4 flex items-center justify-between border-b border-slate-800 bg-slate-900/90 backdrop-blur shrink-0">
+            <div className="p-3 sm:p-4 flex items-center justify-between border-b border-slate-800 bg-slate-900 shrink-0">
               <div className="pr-3">
                 <span className="text-emerald-400 text-[10px] sm:text-xs uppercase tracking-widest font-bold">
                   {activeVideoModal.category}
@@ -799,31 +812,32 @@ export default function VideoGallery() {
               <button 
                 onClick={closeModal}
                 aria-label="Close video player"
-                className="p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors shrink-0"
+                className="p-2 sm:p-2.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors shrink-0"
               >
                 <X className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
             </div>
 
-            {/* Video Player Box */}
-            <div className="relative aspect-video w-full bg-black shrink-0">
+            {/* Modal Media Box: Strict 16:9 container */}
+            <div className="relative w-full aspect-video bg-black shrink-0 overflow-hidden">
               {activeVideoModal.type === "drive" ? (
                 <iframe
                   key={activeVideoModal.src}
                   src={activeVideoModal.src}
-                  className="w-full h-full border-0"
-                  allow="autoplay; encrypted-media; picture-in-picture"
+                  className="w-full h-full border-0 absolute inset-0"
+                  allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
                   allowFullScreen
                   title={activeVideoModal.caption}
                 />
               ) : (
                 <video
                   key={activeVideoModal.src}
-                  className="w-full h-full"
+                  className="w-full h-full object-contain"
                   controls
                   autoPlay
                   playsInline
                   controlsList="nodownload"
+                  onPlay={(e) => pauseAllOtherVideos(e.currentTarget)}
                 >
                   <source src={activeVideoModal.src} type="video/mp4" />
                   Your browser does not support the video tag.
@@ -831,8 +845,8 @@ export default function VideoGallery() {
               )}
             </div>
 
-            {/* Modal Description */}
-            <div className="p-4 sm:p-5 bg-slate-950 overflow-y-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            {/* Modal Details */}
+            <div className="p-3.5 sm:p-5 bg-slate-950 overflow-y-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
                 {activeVideoModal.description}
               </p>
@@ -846,7 +860,7 @@ export default function VideoGallery() {
         </div>
       )}
 
-      {/* Ethos Footer Section */}
+      {/* Ethos Footer */}
       <section className="border-t border-slate-800 bg-slate-950 py-8 sm:py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="flex items-start gap-3 sm:gap-4">
