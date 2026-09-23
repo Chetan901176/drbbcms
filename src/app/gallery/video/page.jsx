@@ -568,7 +568,7 @@ export default function VideoGallery() {
     ? VIDEOS 
     : VIDEOS.filter((v) => v.category === activeCategory);
 
-  // Turn off all other videos on the page when one is played
+  // Pause all playing videos on the page
   const pauseAllVideos = () => {
     const allVideos = document.querySelectorAll("video");
     allVideos.forEach((v) => {
@@ -589,6 +589,7 @@ export default function VideoGallery() {
     pauseAllVideos();
   };
 
+  // Keyboard navigation & body scroll lock
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") closeModal();
@@ -772,7 +773,7 @@ export default function VideoGallery() {
         </div>
       </main>
 
-      {/* Video Modal Player without black dimming shade */}
+      {/* Video Modal Player */}
       {activeVideoModal && (
         <div 
           className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-in fade-in duration-200"
@@ -784,7 +785,7 @@ export default function VideoGallery() {
             className="relative w-full max-w-4xl flex flex-col bg-slate-900 border border-slate-700/80 rounded-2xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Top Bar */}
+            {/* Modal Header */}
             <div className="p-3.5 sm:p-4 flex items-center justify-between border-b border-slate-800 bg-slate-900 shrink-0">
               <div className="pr-3">
                 <span className="text-emerald-400 text-[10px] sm:text-xs uppercase tracking-widest font-bold">
@@ -803,14 +804,14 @@ export default function VideoGallery() {
               </button>
             </div>
 
-            {/* Video Frame - No Dark Filters, Fully Clear Aspect */}
-            <div className="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden">
+            {/* Video Player: Natural viewport with full visual clarity without dark control curtains */}
+            <div className="relative w-full aspect-video bg-black overflow-hidden flex items-center justify-center">
               {activeVideoModal.type === "drive" ? (
                 <iframe
                   key={activeVideoModal.id}
                   src={`https://drive.google.com/file/d/${activeVideoModal.driveId}/preview`}
                   className="w-full h-full border-0 absolute inset-0"
-                  allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                  allow="autoplay; encrypted-media; fullscreen"
                   allowFullScreen
                   title={activeVideoModal.caption}
                 />
