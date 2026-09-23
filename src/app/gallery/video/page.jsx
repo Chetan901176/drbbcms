@@ -568,7 +568,7 @@ export default function VideoGallery() {
     ? VIDEOS 
     : VIDEOS.filter((v) => v.category === activeCategory);
 
-  // Pause all HTML5 videos on the page
+  // Turn off all other videos on the page when one is played
   const pauseAllVideos = () => {
     const allVideos = document.querySelectorAll("video");
     allVideos.forEach((v) => {
@@ -772,7 +772,7 @@ export default function VideoGallery() {
         </div>
       </main>
 
-      {/* Video Modal Player with Header-Crop to eliminate Google's top bar & shade */}
+      {/* Video Modal Player without black dimming shade */}
       {activeVideoModal && (
         <div 
           className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-in fade-in duration-200"
@@ -803,23 +803,17 @@ export default function VideoGallery() {
               </button>
             </div>
 
-            {/* Video Frame */}
-            <div className="relative w-full aspect-video bg-black overflow-hidden flex items-center justify-center">
+            {/* Video Frame - No Dark Filters, Fully Clear Aspect */}
+            <div className="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden">
               {activeVideoModal.type === "drive" ? (
-                /* 
-                  Wrapping the Google Drive iframe with negative top positioning 
-                  crops out Google Drive's dark header and progress bar overlay completely.
-                */
-                <div className="relative w-full h-full overflow-hidden bg-black">
-                  <iframe
-                    key={activeVideoModal.id}
-                    src={`https://drive.google.com/file/d/${activeVideoModal.driveId}/preview`}
-                    className="w-full h-[calc(100%+60px)] -mt-[58px] border-0"
-                    allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-                    allowFullScreen
-                    title={activeVideoModal.caption}
-                  />
-                </div>
+                <iframe
+                  key={activeVideoModal.id}
+                  src={`https://drive.google.com/file/d/${activeVideoModal.driveId}/preview`}
+                  className="w-full h-full border-0 absolute inset-0"
+                  allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                  allowFullScreen
+                  title={activeVideoModal.caption}
+                />
               ) : (
                 <video
                   key={activeVideoModal.id}
