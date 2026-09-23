@@ -465,6 +465,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { 
   Play, 
+  Pause, 
+  Volume2, 
+  VolumeX, 
+  Maximize, 
+  Minimize, 
   Eye, 
   Clock, 
   X, 
@@ -476,6 +481,14 @@ import {
 } from "lucide-react";
 
 const CATEGORIES = ["All", "Campus & Drone", "National Festivals", "Student Life"];
+
+// Direct streaming URL helper that bypasses Google Drive's broken overlay
+const getVideoSrc = (video) => {
+  if (video.type === "drive") {
+    return `https://drive.google.com/uc?export=download&id=${video.driveId}`;
+  }
+  return video.src;
+};
 
 const VIDEOS = [
   { 
@@ -493,7 +506,6 @@ const VIDEOS = [
     id: 2,
     type: "drive",
     driveId: "12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K",
-    src: "https://drive.google.com/file/d/12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K/preview", 
     poster: "https://drive.google.com/thumbnail?id=12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K&sz=w800",
     caption: "Drone View of Campus & Grounds", 
     category: "Campus & Drone",
@@ -505,7 +517,6 @@ const VIDEOS = [
     id: 3,
     type: "drive",
     driveId: "1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB",
-    src: "https://drive.google.com/file/d/1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB/preview", 
     poster: "https://drive.google.com/thumbnail?id=1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB&sz=w800",
     caption: "75th Republic Day Grand Parade", 
     category: "National Festivals",
@@ -517,7 +528,6 @@ const VIDEOS = [
     id: 4,
     type: "drive",
     driveId: "1a9_M975c70qkoj64CdB8s12FVGpICdKi",
-    src: "https://drive.google.com/file/d/1a9_M975c70qkoj64CdB8s12FVGpICdKi/preview", 
     poster: "https://drive.google.com/thumbnail?id=1a9_M975c70qkoj64CdB8s12FVGpICdKi&sz=w800",
     caption: "Independence Day Celebrations - March Past", 
     category: "National Festivals",
@@ -529,7 +539,6 @@ const VIDEOS = [
     id: 5,
     type: "drive",
     driveId: "1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8",
-    src: "https://drive.google.com/file/d/1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8/preview", 
     poster: "https://drive.google.com/thumbnail?id=1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8&sz=w800",
     caption: "Independence Day Cultural Performance", 
     category: "National Festivals",
@@ -541,7 +550,6 @@ const VIDEOS = [
     id: 6,
     type: "drive",
     driveId: "1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3",
-    src: "https://drive.google.com/file/d/1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3/preview", 
     poster: "https://drive.google.com/thumbnail?id=1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3&sz=w800",
     caption: "Independence Day Guard of Honour", 
     category: "National Festivals",
@@ -553,7 +561,6 @@ const VIDEOS = [
     id: 7,
     type: "drive",
     driveId: "1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve",
-    src: "https://drive.google.com/file/d/1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve/preview", 
     poster: "https://drive.google.com/thumbnail?id=1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve&sz=w800",
     caption: "Cadet Drills & Physical Training", 
     category: "Student Life",
@@ -562,6 +569,183 @@ const VIDEOS = [
     description: "Morning stamina building, endurance hurdles, teamwork, and daily discipline routine."
   }
 ];
+
+// Helper to format MM:SS
+const formatTime = (timeInSec) => {
+  if (isNaN(timeInSec)) return "00:00";
+  const minutes = Math.floor(timeInSec / 60);
+  const seconds = Math.floor(timeInSec % 60);
+  return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+};
+
+// YouTube-Style Custom Player Component
+const YouTubeStylePlayer = ({ video, onPlayExclusive }) => {
+  const videoRef = useRef(null);
+  const containerRef = useRef(null);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showControls, setShowControls] = useState(true);
+  const hideControlsTimeout = useRef(null);
+
+  // Play / Pause Toggle
+  const togglePlay = () => {
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) {
+      videoRef.current.play();
+    } else {
+      videoRef.current.pause();
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (!videoRef.current) return;
+    const curr = videoRef.current.currentTime;
+    const dur = videoRef.current.duration || 0;
+    setCurrentTime(curr);
+    setProgress(dur > 0 ? (curr / dur) * 100 : 0);
+  };
+
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setDuration(videoRef.current.duration);
+    }
+  };
+
+  const handleSeek = (e) => {
+    if (!videoRef.current || !duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pos = (e.clientX - rect.left) / rect.width;
+    const clampedPos = Math.max(0, Math.min(1, pos));
+    videoRef.current.currentTime = clampedPos * duration;
+    setProgress(clampedPos * 100);
+  };
+
+  const toggleMute = () => {
+    if (!videoRef.current) return;
+    videoRef.current.muted = !videoRef.current.muted;
+    setIsMuted(videoRef.current.muted);
+  };
+
+  const toggleFullscreen = () => {
+    if (!containerRef.current) return;
+    if (!document.fullscreenElement) {
+      containerRef.current.requestFullscreen().catch(() => {});
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen().catch(() => {});
+      setIsFullscreen(false);
+    }
+  };
+
+  // Auto-hide controls when playing
+  const handleUserActivity = () => {
+    setShowControls(true);
+    if (hideControlsTimeout.current) clearTimeout(hideControlsTimeout.current);
+    if (isPlaying) {
+      hideControlsTimeout.current = setTimeout(() => {
+        setShowControls(false);
+      }, 2500);
+    }
+  };
+
+  return (
+    <div 
+      ref={containerRef}
+      className="relative w-full aspect-video bg-black select-none overflow-hidden group"
+      onMouseMove={handleUserActivity}
+      onClick={handleUserActivity}
+    >
+      <video
+        ref={videoRef}
+        src={getVideoSrc(video)}
+        poster={video.poster}
+        playsInline
+        className="w-full h-full object-contain cursor-pointer"
+        onClick={togglePlay}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onPlay={() => {
+          setIsPlaying(true);
+          onPlayExclusive(videoRef.current);
+        }}
+        onPause={() => setIsPlaying(false)}
+      />
+
+      {/* Center Big Play Button (when paused) */}
+      {!isPlaying && (
+        <button
+          onClick={togglePlay}
+          aria-label="Play video"
+          className="absolute inset-0 m-auto w-16 h-16 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all z-20"
+        >
+          <Play className="w-8 h-8 fill-white ml-1" />
+        </button>
+      )}
+
+      {/* YouTube Bottom Bar Controls (Transparent background, no dark shade over video) */}
+      <div 
+        className={`absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pt-6 pb-2 transition-opacity duration-300 z-30 ${
+          showControls || !isPlaying ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        {/* Scrubbable Timeline at Bottom */}
+        <div 
+          className="relative w-full h-1.5 hover:h-2.5 bg-white/30 rounded-full cursor-pointer transition-all group/scrub mb-2.5"
+          onClick={handleSeek}
+        >
+          {/* Played progress fill (YouTube Red) */}
+          <div 
+            className="absolute left-0 top-0 bottom-0 bg-red-600 rounded-full flex items-center justify-end"
+            style={{ width: `${progress}%` }}
+          >
+            {/* Scrubber Knob */}
+            <div className="w-3 h-3 bg-red-600 rounded-full scale-0 group-hover/scrub:scale-100 transition-transform -mr-1 shadow-md" />
+          </div>
+        </div>
+
+        {/* Controls Row */}
+        <div className="flex items-center justify-between text-white text-xs sm:text-sm">
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={togglePlay} 
+              aria-label={isPlaying ? "Pause" : "Play"}
+              className="hover:text-red-500 transition-colors p-1"
+            >
+              {isPlaying ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current" />}
+            </button>
+
+            <button 
+              onClick={toggleMute} 
+              aria-label={isMuted ? "Unmute" : "Mute"}
+              className="hover:text-red-500 transition-colors p-1"
+            >
+              {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+            </button>
+
+            <span className="text-[11px] sm:text-xs text-slate-300 font-mono">
+              {formatTime(currentTime)} / {formatTime(duration)}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={toggleFullscreen} 
+              aria-label="Fullscreen"
+              className="hover:text-red-500 transition-colors p-1"
+            >
+              {isFullscreen ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default function VideoGallery() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -574,19 +758,18 @@ export default function VideoGallery() {
     ? VIDEOS 
     : VIDEOS.filter((v) => v.category === activeCategory);
 
-  // Global Video Stopper: pauses any other HTML5 video playing on the page
-  const pauseAllOtherVideos = (currentElement = null) => {
+  // Stop every other video currently playing on page
+  const pauseAllOtherVideos = (currentEl) => {
     const allVideos = document.querySelectorAll("video");
-    allVideos.forEach((video) => {
-      if (video !== currentElement && !video.paused) {
-        video.pause();
+    allVideos.forEach((v) => {
+      if (v !== currentEl && !v.paused) {
+        v.pause();
       }
     });
   };
 
-  // Open modal & pause any currently playing video (e.g., hero spotlight)
   const openModal = (video) => {
-    pauseAllOtherVideos();
+    pauseAllOtherVideos(null);
     if (featuredVideoRef.current && !featuredVideoRef.current.paused) {
       featuredVideoRef.current.pause();
     }
@@ -594,10 +777,10 @@ export default function VideoGallery() {
   };
 
   const closeModal = () => {
+    pauseAllOtherVideos(null);
     setActiveVideoModal(null);
   };
 
-  // Lock background scroll & listen for Escape
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") closeModal();
@@ -617,15 +800,13 @@ export default function VideoGallery() {
   }, [activeVideoModal]);
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 selection:bg-emerald-500 selection:text-white">
-      {/* Top Banner */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950/40 via-slate-900 to-slate-900 pt-8 pb-10 sm:pt-14 sm:pb-16 border-b border-slate-800">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(16,185,129,0.12),transparent_40%)] pointer-events-none" />
-        
+    <div className="min-h-screen bg-slate-900 text-slate-100 selection:bg-red-500 selection:text-white">
+      {/* Top Banner Header */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-900 pt-8 pb-10 sm:pt-14 sm:pb-16 border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8 sm:mb-12">
             <div className="text-center md:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold tracking-wide uppercase mb-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-semibold tracking-wide uppercase mb-3">
                 <Sparkles className="w-3.5 h-3.5" />
                 Campus Media & Archives
               </div>
@@ -640,24 +821,23 @@ export default function VideoGallery() {
             {/* Metrics */}
             <div className="grid grid-cols-3 w-full md:w-auto items-center gap-2 sm:gap-6 bg-slate-800/70 backdrop-blur-md px-4 py-3 sm:px-6 sm:py-4 rounded-2xl border border-slate-700/60 shadow-xl">
               <div className="text-center">
-                <p className="text-xl sm:text-2xl font-black text-emerald-400">100%</p>
+                <p className="text-xl sm:text-2xl font-black text-red-400">100%</p>
                 <p className="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider mt-0.5">Discipline</p>
               </div>
               <div className="text-center border-x border-slate-700/80 px-2">
-                <p className="text-xl sm:text-2xl font-black text-emerald-400">Green</p>
+                <p className="text-xl sm:text-2xl font-black text-red-400">Green</p>
                 <p className="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider mt-0.5">Campus</p>
               </div>
               <div className="text-center">
-                <p className="text-xl sm:text-2xl font-black text-emerald-400">Holistic</p>
+                <p className="text-xl sm:text-2xl font-black text-red-400">Holistic</p>
                 <p className="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider mt-0.5">Growth</p>
               </div>
             </div>
           </div>
 
-          {/* Featured Spotlight */}
-          <div className="relative rounded-2xl overflow-hidden bg-slate-800/50 border border-slate-700/80 shadow-2xl p-4 sm:p-6 lg:p-8 backdrop-blur-sm">
+          {/* Featured Spotlight Card */}
+          <div className="relative rounded-2xl overflow-hidden bg-slate-800/40 border border-slate-700/70 shadow-2xl p-4 sm:p-6 lg:p-8 backdrop-blur-sm">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
-              
               <div className="lg:col-span-7 relative rounded-xl overflow-hidden shadow-2xl aspect-video bg-black">
                 <video
                   ref={featuredVideoRef}
@@ -669,13 +849,13 @@ export default function VideoGallery() {
                   preload="metadata"
                   onPlay={(e) => pauseAllOtherVideos(e.currentTarget)}
                 >
-                  <source src={featuredVideo.src} type="video/mp4" />
+                  <source src={getVideoSrc(featuredVideo)} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               </div>
 
               <div className="lg:col-span-5 flex flex-col justify-center space-y-3 sm:space-y-4">
-                <div className="inline-flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+                <div className="inline-flex items-center gap-2 text-red-400 text-xs font-bold uppercase tracking-wider">
                   <Award className="w-4 h-4" /> Official Spotlight
                 </div>
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white leading-tight">
@@ -687,22 +867,20 @@ export default function VideoGallery() {
                 
                 <div className="pt-3 border-t border-slate-700/70 flex items-center justify-between text-xs text-slate-400">
                   <span className="flex items-center gap-1.5">
-                    <Eye className="w-4 h-4 text-emerald-400" /> {featuredVideo.views} Views
+                    <Eye className="w-4 h-4 text-red-400" /> {featuredVideo.views} Views
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Verified Tour
+                    <CheckCircle2 className="w-4 h-4 text-red-400" /> Verified Tour
                   </span>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
       </section>
 
-      {/* Video Gallery Listing */}
+      {/* Main Video Directory */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        {/* Filter Categories */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-6 border-b border-slate-800">
           <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
             {CATEGORIES.map((category) => (
@@ -711,7 +889,7 @@ export default function VideoGallery() {
                 onClick={() => setActiveCategory(category)}
                 className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 whitespace-nowrap shrink-0 ${
                   activeCategory === category
-                    ? "bg-emerald-500 text-slate-950 font-bold shadow-md shadow-emerald-500/20"
+                    ? "bg-red-600 text-white font-bold shadow-md shadow-red-600/20"
                     : "bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700/50"
                 }`}
               >
@@ -730,9 +908,8 @@ export default function VideoGallery() {
             <article
               key={video.id}
               onClick={() => openModal(video)}
-              className="group relative bg-slate-800/60 border border-slate-700/60 hover:border-emerald-500/50 rounded-2xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer flex flex-col hover:-translate-y-1 active:scale-[0.99]"
+              className="group relative bg-slate-800/50 border border-slate-700/60 hover:border-red-500/50 rounded-2xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer flex flex-col hover:-translate-y-1 active:scale-[0.99]"
             >
-              {/* Thumbnail Container */}
               <div className="relative w-full aspect-video bg-slate-950 overflow-hidden">
                 <img
                   src={video.poster}
@@ -740,30 +917,28 @@ export default function VideoGallery() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85 group-hover:opacity-95"
                   loading="lazy"
                   onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    e.currentTarget.parentElement.classList.add('bg-gradient-to-br', 'from-slate-800', 'to-slate-950');
+                    e.currentTarget.style.display = "none";
+                    e.currentTarget.parentElement.classList.add("bg-gradient-to-br", "from-slate-800", "to-slate-950");
                   }}
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
 
-                {/* Center Play Button */}
+                {/* YouTube Red Style Play Badge */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-emerald-500/90 text-slate-950 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                    <Play className="w-6 h-6 fill-slate-950 ml-0.5" />
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <Play className="w-6 h-6 fill-white ml-0.5" />
                   </div>
                 </div>
 
-                {/* Category Pill */}
-                <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-emerald-400 text-[10px] sm:text-[11px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded border border-emerald-500/20 pointer-events-none">
+                <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-red-400 text-[10px] sm:text-[11px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded border border-red-500/20 pointer-events-none">
                   {video.category}
                 </div>
               </div>
 
-              {/* Card Meta */}
               <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="font-bold text-sm sm:text-base text-white group-hover:text-emerald-300 transition-colors line-clamp-1 mb-1.5">
+                  <h3 className="font-bold text-sm sm:text-base text-white group-hover:text-red-400 transition-colors line-clamp-1 mb-1.5">
                     {video.caption}
                   </h3>
                   <p className="text-slate-400 text-xs sm:text-sm line-clamp-2 leading-relaxed">
@@ -787,66 +962,48 @@ export default function VideoGallery() {
         </div>
       </main>
 
-      {/* Modal - Fully Mobile Optimized */}
+      {/* YouTube Modal Player */}
       {activeVideoModal && (
         <div 
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6"
           onClick={closeModal}
           role="dialog"
           aria-modal="true"
         >
           <div 
-            className="relative w-full max-w-4xl max-h-[96vh] flex flex-col bg-slate-900 border border-slate-700/80 rounded-2xl overflow-hidden shadow-2xl"
+            className="relative w-full max-w-4xl flex flex-col bg-slate-900 border border-slate-700/80 rounded-2xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header */}
-            <div className="p-3 sm:p-4 flex items-center justify-between border-b border-slate-800 bg-slate-900 shrink-0">
+            {/* Header */}
+            <div className="p-3.5 sm:p-4 flex items-center justify-between border-b border-slate-800 bg-slate-900 shrink-0">
               <div className="pr-3">
-                <span className="text-emerald-400 text-[10px] sm:text-xs uppercase tracking-widest font-bold">
+                <span className="text-red-400 text-[10px] sm:text-xs uppercase tracking-widest font-bold">
                   {activeVideoModal.category}
                 </span>
-                <h3 className="text-sm sm:text-lg font-bold text-white line-clamp-1 mt-0.5">
+                <h3 className="text-sm sm:text-base font-bold text-white line-clamp-1 mt-0.5">
                   {activeVideoModal.caption}
                 </h3>
               </div>
               <button 
                 onClick={closeModal}
-                aria-label="Close video player"
-                className="p-2 sm:p-2.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors shrink-0"
+                aria-label="Close"
+                className="p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors shrink-0"
               >
-                <X className="w-5 h-5 sm:w-6 sm:h-6" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Modal Media Box: Strict 16:9 container */}
-            <div className="relative w-full aspect-video bg-black shrink-0 overflow-hidden">
-              {activeVideoModal.type === "drive" ? (
-                <iframe
-                  key={activeVideoModal.src}
-                  src={activeVideoModal.src}
-                  className="w-full h-full border-0 absolute inset-0"
-                  allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-                  allowFullScreen
-                  title={activeVideoModal.caption}
-                />
-              ) : (
-                <video
-                  key={activeVideoModal.src}
-                  className="w-full h-full object-contain"
-                  controls
-                  autoPlay
-                  playsInline
-                  controlsList="nodownload"
-                  onPlay={(e) => pauseAllOtherVideos(e.currentTarget)}
-                >
-                  <source src={activeVideoModal.src} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              )}
+            {/* Custom YouTube Player without Google Drive overlays */}
+            <div className="w-full bg-black shrink-0">
+              <YouTubeStylePlayer 
+                key={activeVideoModal.id}
+                video={activeVideoModal}
+                onPlayExclusive={pauseAllOtherVideos}
+              />
             </div>
 
-            {/* Modal Details */}
-            <div className="p-3.5 sm:p-5 bg-slate-950 overflow-y-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            {/* Description Details */}
+            <div className="p-4 sm:p-5 bg-slate-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
                 {activeVideoModal.description}
               </p>
@@ -864,7 +1021,7 @@ export default function VideoGallery() {
       <section className="border-t border-slate-800 bg-slate-950 py-8 sm:py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="flex items-start gap-3 sm:gap-4">
-            <div className="p-2.5 sm:p-3 bg-slate-800 rounded-xl text-emerald-400 shrink-0">
+            <div className="p-2.5 sm:p-3 bg-slate-800 rounded-xl text-red-400 shrink-0">
               <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
@@ -873,7 +1030,7 @@ export default function VideoGallery() {
             </div>
           </div>
           <div className="flex items-start gap-3 sm:gap-4">
-            <div className="p-2.5 sm:p-3 bg-slate-800 rounded-xl text-emerald-400 shrink-0">
+            <div className="p-2.5 sm:p-3 bg-slate-800 rounded-xl text-red-400 shrink-0">
               <Compass className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
@@ -882,7 +1039,7 @@ export default function VideoGallery() {
             </div>
           </div>
           <div className="flex items-start gap-3 sm:gap-4">
-            <div className="p-2.5 sm:p-3 bg-slate-800 rounded-xl text-emerald-400 shrink-0">
+            <div className="p-2.5 sm:p-3 bg-slate-800 rounded-xl text-red-400 shrink-0">
               <Award className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
