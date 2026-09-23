@@ -461,7 +461,8 @@
 
 // export default VideoGallery;
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useEffect, useCallback } from "react";
 import { 
   Play, 
   Eye, 
@@ -474,109 +475,130 @@ import {
   CheckCircle2 
 } from "lucide-react";
 
-const VideoGallery = () => {
-  const categories = ["All", "Campus & Drone", "National Festivals", "Student Life"];
+const CATEGORIES = ["All", "Campus & Drone", "National Festivals", "Student Life"];
 
-  const videos = [
-    { 
-      id: 1,
-      type: "local",
-      src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", 
-      poster: "/hero2.jpeg",
-      caption: "Our School & Who We Are", 
-      category: "Campus & Drone",
-      views: "8.2K", 
-      date: "Featured",
-      description: "Take a comprehensive virtual tour through our grounds, discipline, training infrastructure, and academic wings."
-    },
-    { 
-      id: 2,
-      type: "drive",
-      driveId: "12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K",
-      src: "https://drive.google.com/file/d/12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K/preview", 
-      poster: "https://drive.google.com/thumbnail?id=12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K&sz=w800",
-      caption: "Drone View of Campus & Grounds", 
-      category: "Campus & Drone",
-      views: "4.7K", 
-      date: "1 month ago",
-      description: "Aerial footage capturing the expansive sports fields, obstacle courses, and parade grounds."
-    },
-    { 
-      id: 3,
-      type: "drive",
-      driveId: "1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB",
-      src: "https://drive.google.com/file/d/1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB/preview", 
-      poster: "https://drive.google.com/thumbnail?id=1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB&sz=w800",
-      caption: "75th Republic Day Grand Parade", 
-      category: "National Festivals",
-      views: "2.3K", 
-      date: "2 weeks ago",
-      description: "Cadet parade drill, national anthem honor guard, and ceremonial flag hoisting."
-    },
-    { 
-      id: 4,
-      type: "drive",
-      driveId: "1a9_M975c70qkoj64CdB8s12FVGpICdKi",
-      src: "https://drive.google.com/file/d/1a9_M975c70qkoj64CdB8s12FVGpICdKi/preview", 
-      poster: "https://drive.google.com/thumbnail?id=1a9_M975c70qkoj64CdB8s12FVGpICdKi&sz=w800",
-      caption: "Independence Day Celebrations - March Past", 
-      category: "National Festivals",
-      views: "1.8K", 
-      date: "3 weeks ago",
-      description: "Precision marching squad showing synchronization, valor, and patriotic spirit."
-    },
-    { 
-      id: 5,
-      type: "drive",
-      driveId: "1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8",
-      src: "https://drive.google.com/file/d/1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8/preview", 
-      poster: "https://drive.google.com/thumbnail?id=1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8&sz=w800",
-      caption: "Independence Day Cultural Performance", 
-      category: "National Festivals",
-      views: "1.5K", 
-      date: "3 weeks ago",
-      description: "Music and drama presentations commemorating India's freedom fighters."
-    },
-    { 
-      id: 6,
-      type: "drive",
-      driveId: "1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3",
-      src: "https://drive.google.com/file/d/1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3/preview", 
-      poster: "https://drive.google.com/thumbnail?id=1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3&sz=w800",
-      caption: "Independence Day Guard of Honour", 
-      category: "National Festivals",
-      views: "1.2K", 
-      date: "1 month ago",
-      description: "Salute drill presentation by our senior student division."
-    },
-    { 
-      id: 7,
-      type: "drive",
-      driveId: "1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve",
-      src: "https://drive.google.com/file/d/1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve/preview", 
-      poster: "https://drive.google.com/thumbnail?id=1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve&sz=w800",
-      caption: "Cadet Drills & Physical Training", 
-      category: "Student Life",
-      views: "3.1K", 
-      date: "2 weeks ago",
-      description: "Morning stamina building, endurance hurdles, teamwork, and daily discipline routine."
-    }
-  ];
+const VIDEOS = [
+  { 
+    id: 1,
+    type: "local",
+    src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", 
+    poster: "/hero2.jpeg",
+    caption: "Our School & Who We Are", 
+    category: "Campus & Drone",
+    views: "8.2K", 
+    date: "Featured",
+    description: "Take a comprehensive virtual tour through our grounds, discipline, training infrastructure, and academic wings."
+  },
+  { 
+    id: 2,
+    type: "drive",
+    driveId: "12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K",
+    src: "https://drive.google.com/file/d/12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K/preview", 
+    poster: "https://drive.google.com/thumbnail?id=12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K&sz=w800",
+    caption: "Drone View of Campus & Grounds", 
+    category: "Campus & Drone",
+    views: "4.7K", 
+    date: "1 month ago",
+    description: "Aerial footage capturing the expansive sports fields, obstacle courses, and parade grounds."
+  },
+  { 
+    id: 3,
+    type: "drive",
+    driveId: "1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB",
+    src: "https://drive.google.com/file/d/1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB/preview", 
+    poster: "https://drive.google.com/thumbnail?id=1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB&sz=w800",
+    caption: "75th Republic Day Grand Parade", 
+    category: "National Festivals",
+    views: "2.3K", 
+    date: "2 weeks ago",
+    description: "Cadet parade drill, national anthem honor guard, and ceremonial flag hoisting."
+  },
+  { 
+    id: 4,
+    type: "drive",
+    driveId: "1a9_M975c70qkoj64CdB8s12FVGpICdKi",
+    src: "https://drive.google.com/file/d/1a9_M975c70qkoj64CdB8s12FVGpICdKi/preview", 
+    poster: "https://drive.google.com/thumbnail?id=1a9_M975c70qkoj64CdB8s12FVGpICdKi&sz=w800",
+    caption: "Independence Day Celebrations - March Past", 
+    category: "National Festivals",
+    views: "1.8K", 
+    date: "3 weeks ago",
+    description: "Precision marching squad showing synchronization, valor, and patriotic spirit."
+  },
+  { 
+    id: 5,
+    type: "drive",
+    driveId: "1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8",
+    src: "https://drive.google.com/file/d/1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8/preview", 
+    poster: "https://drive.google.com/thumbnail?id=1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8&sz=w800",
+    caption: "Independence Day Cultural Performance", 
+    category: "National Festivals",
+    views: "1.5K", 
+    date: "3 weeks ago",
+    description: "Music and drama presentations commemorating India's freedom fighters."
+  },
+  { 
+    id: 6,
+    type: "drive",
+    driveId: "1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3",
+    src: "https://drive.google.com/file/d/1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3/preview", 
+    poster: "https://drive.google.com/thumbnail?id=1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3&sz=w800",
+    caption: "Independence Day Guard of Honour", 
+    category: "National Festivals",
+    views: "1.2K", 
+    date: "1 month ago",
+    description: "Salute drill presentation by our senior student division."
+  },
+  { 
+    id: 7,
+    type: "drive",
+    driveId: "1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve",
+    src: "https://drive.google.com/file/d/1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve/preview", 
+    poster: "https://drive.google.com/thumbnail?id=1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve&sz=w800",
+    caption: "Cadet Drills & Physical Training", 
+    category: "Student Life",
+    views: "3.1K", 
+    date: "2 weeks ago",
+    description: "Morning stamina building, endurance hurdles, teamwork, and daily discipline routine."
+  }
+];
 
+export default function VideoGallery() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeVideoModal, setActiveVideoModal] = useState(null);
-  const featuredVideo = videos[0];
+
+  const featuredVideo = VIDEOS[0];
 
   const filteredVideos = activeCategory === "All" 
-    ? videos 
-    : videos.filter((v) => v.category === activeCategory);
+    ? VIDEOS 
+    : VIDEOS.filter((v) => v.category === activeCategory);
+
+  // Close modal on Escape press & freeze body scroll
+  const closeModal = useCallback(() => setActiveVideoModal(null), []);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") closeModal();
+    };
+
+    if (activeVideoModal) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeVideoModal, closeModal]);
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 selection:bg-emerald-500 selection:text-white">
-      
-      {/* Top Banner */}
-      <div className="relative overflow-hidden bg-gradient-to-b from-emerald-950/40 via-slate-900 to-slate-900 pt-8 pb-12 sm:pt-12 sm:pb-16 border-b border-slate-800">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(16,185,129,0.12),transparent_40%)]" />
+      {/* Top Banner / Hero */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950/40 via-slate-900 to-slate-900 pt-8 pb-12 sm:pt-14 sm:pb-16 border-b border-slate-800">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(16,185,129,0.12),transparent_40%)] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8 sm:mb-12">
@@ -585,21 +607,21 @@ const VideoGallery = () => {
                 <Sparkles className="w-3.5 h-3.5" />
                 Campus Media & Archives
               </div>
-              <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white">
                 Life at Swarajya Campus
               </h1>
-              <p className="mt-2 sm:mt-3 text-sm sm:text-base md:text-lg text-slate-400 max-w-2xl">
+              <p className="mt-2.5 sm:mt-3 text-sm sm:text-base md:text-lg text-slate-400 max-w-2xl leading-relaxed">
                 Experience the discipline, leadership training, academic excellence, and physical rigor that shapes future defenders and leaders.
               </p>
             </div>
 
-            {/* Mobile-Friendly Metrics */}
-            <div className="grid grid-cols-3 w-full md:w-auto items-center gap-2 sm:gap-6 bg-slate-800/60 backdrop-blur-md px-4 py-3 sm:px-6 sm:py-4 rounded-2xl border border-slate-700/60 shadow-xl">
+            {/* Metrics */}
+            <div className="grid grid-cols-3 w-full md:w-auto items-center gap-2 sm:gap-6 bg-slate-800/70 backdrop-blur-md px-4 py-3 sm:px-6 sm:py-4 rounded-2xl border border-slate-700/60 shadow-xl">
               <div className="text-center">
                 <p className="text-xl sm:text-2xl font-black text-emerald-400">100%</p>
                 <p className="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider mt-0.5">Discipline</p>
               </div>
-              <div className="text-center border-x border-slate-700 px-2">
+              <div className="text-center border-x border-slate-700/80 px-2">
                 <p className="text-xl sm:text-2xl font-black text-emerald-400">Green</p>
                 <p className="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider mt-0.5">Campus</p>
               </div>
@@ -611,7 +633,7 @@ const VideoGallery = () => {
           </div>
 
           {/* Featured Spotlight Card */}
-          <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-slate-800 to-slate-800/80 border border-slate-700/80 shadow-2xl p-4 sm:p-6 lg:p-8">
+          <div className="relative rounded-2xl overflow-hidden bg-slate-800/50 border border-slate-700/80 shadow-2xl p-4 sm:p-6 lg:p-8 backdrop-blur-sm">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
               
               <div className="lg:col-span-7 relative group rounded-xl overflow-hidden shadow-2xl aspect-video bg-black">
@@ -640,7 +662,7 @@ const VideoGallery = () => {
 
               <div className="lg:col-span-5 flex flex-col justify-center space-y-3 sm:space-y-4">
                 <div className="inline-flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
-                  <Award className="w-4 h-4" /> Official Promo Video
+                  <Award className="w-4 h-4" /> Official Spotlight
                 </div>
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white leading-tight">
                   {featuredVideo.caption}
@@ -649,36 +671,34 @@ const VideoGallery = () => {
                   {featuredVideo.description}
                 </p>
                 
-                <div className="pt-2 border-t border-slate-700/60 flex items-center justify-between text-xs text-slate-400">
-                  <span className="flex items-center gap-1">
+                <div className="pt-3 border-t border-slate-700/70 flex items-center justify-between text-xs text-slate-400">
+                  <span className="flex items-center gap-1.5">
                     <Eye className="w-4 h-4 text-emerald-400" /> {featuredVideo.views} Views
                   </span>
-                  <span className="flex items-center gap-1">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Verified Campus Tour
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Verified Tour
                   </span>
                 </div>
               </div>
 
             </div>
           </div>
-
         </div>
-      </div>
+      </section>
 
-      {/* Main Video Directory Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        
+      {/* Main Video Directory */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Navigation & Filter Tabs */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 mb-6 border-b border-slate-800">
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
-            {categories.map((category) => (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-6 border-b border-slate-800">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
+            {CATEGORIES.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 whitespace-nowrap shrink-0 ${
+                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 whitespace-nowrap shrink-0 ${
                   activeCategory === category
                     ? "bg-emerald-500 text-slate-950 font-bold shadow-md shadow-emerald-500/20"
-                    : "bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700/40"
+                    : "bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700/50"
                 }`}
               >
                 {category}
@@ -693,36 +713,41 @@ const VideoGallery = () => {
         {/* Video Card Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {filteredVideos.map((video) => (
-            <div
+            <article
               key={video.id}
               onClick={() => setActiveVideoModal(video)}
-              className="group relative bg-slate-800/70 border border-slate-700/50 hover:border-emerald-500/50 rounded-2xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer flex flex-col active:scale-[0.99]"
+              className="group relative bg-slate-800/60 border border-slate-700/60 hover:border-emerald-500/50 rounded-2xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer flex flex-col hover:-translate-y-1 active:scale-[0.99]"
             >
-              {/* Clean Image Thumbnail Container */}
-              <div className="relative w-full aspect-video bg-black overflow-hidden">
+              {/* Thumbnail */}
+              <div className="relative w-full aspect-video bg-slate-950 overflow-hidden">
                 <img
                   src={video.poster}
                   alt={video.caption}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-90"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85 group-hover:opacity-95"
                   loading="lazy"
+                  onError={(e) => {
+                    // Fallback to a styled SVG background if drive thumbnail is blocked
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement.classList.add('bg-gradient-to-br', 'from-slate-800', 'to-slate-950');
+                  }}
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
 
-                {/* Play Button */}
+                {/* Play Badge */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-emerald-500/90 text-slate-950 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                    <Play className="w-6 h-6 sm:w-7 sm:h-7 fill-slate-950 ml-0.5" />
+                    <Play className="w-6 h-6 fill-slate-950 ml-0.5" />
                   </div>
                 </div>
 
-                {/* Category Badge */}
-                <div className="absolute top-2.5 left-2.5 bg-slate-900/80 backdrop-blur-md text-emerald-400 text-[10px] sm:text-[11px] font-semibold tracking-wide uppercase px-2 py-0.5 rounded border border-emerald-500/20 pointer-events-none">
+                {/* Category Pill */}
+                <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-emerald-400 text-[10px] sm:text-[11px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded border border-emerald-500/20 pointer-events-none">
                   {video.category}
                 </div>
               </div>
 
-              {/* Metadata */}
+              {/* Card Meta */}
               <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
                 <div>
                   <h3 className="font-bold text-sm sm:text-base text-white group-hover:text-emerald-300 transition-colors line-clamp-1 mb-1.5">
@@ -733,7 +758,7 @@ const VideoGallery = () => {
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs text-slate-400 font-medium">
+                <div className="mt-4 pt-3 border-t border-slate-700/50 flex items-center justify-between text-xs text-slate-400 font-medium">
                   <div className="flex items-center gap-1.5">
                     <Eye className="w-3.5 h-3.5 text-slate-500" />
                     <span>{video.views}</span>
@@ -744,34 +769,35 @@ const VideoGallery = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
+      </main>
 
-      </div>
-
-      {/* Full-Screen Modal Theater View */}
+      {/* Full-Screen Theater Modal */}
       {activeVideoModal && (
         <div 
-          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6"
-          onClick={() => setActiveVideoModal(null)}
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200"
+          onClick={closeModal}
+          role="dialog"
+          aria-modal="true"
         >
           <div 
-            className="relative w-full max-w-4xl max-h-[92vh] flex flex-col bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden shadow-2xl"
+            className="relative w-full max-w-4xl max-h-[92vh] flex flex-col bg-slate-900 border border-slate-700/80 rounded-2xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="p-3 sm:p-4 flex items-center justify-between border-b border-slate-800 bg-slate-900 shrink-0">
+            <div className="p-3.5 sm:p-4 flex items-center justify-between border-b border-slate-800 bg-slate-900/90 backdrop-blur shrink-0">
               <div className="pr-3">
                 <span className="text-emerald-400 text-[10px] sm:text-xs uppercase tracking-widest font-bold">
                   {activeVideoModal.category}
                 </span>
-                <h3 className="text-sm sm:text-lg font-bold text-white line-clamp-1">
+                <h3 className="text-sm sm:text-lg font-bold text-white line-clamp-1 mt-0.5">
                   {activeVideoModal.caption}
                 </h3>
               </div>
               <button 
-                onClick={() => setActiveVideoModal(null)}
+                onClick={closeModal}
                 aria-label="Close video player"
                 className="p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors shrink-0"
               >
@@ -779,7 +805,7 @@ const VideoGallery = () => {
               </button>
             </div>
 
-            {/* Video Frame */}
+            {/* Video Player Box */}
             <div className="relative aspect-video w-full bg-black shrink-0">
               {activeVideoModal.type === "drive" ? (
                 <iframe
@@ -806,7 +832,7 @@ const VideoGallery = () => {
             </div>
 
             {/* Modal Description */}
-            <div className="p-3 sm:p-5 bg-slate-950 overflow-y-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="p-4 sm:p-5 bg-slate-950 overflow-y-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
                 {activeVideoModal.description}
               </p>
@@ -816,13 +842,12 @@ const VideoGallery = () => {
                 <span>{activeVideoModal.date}</span>
               </div>
             </div>
-
           </div>
         </div>
       )}
 
-      {/* Ethos Banner */}
-      <div className="border-t border-slate-800 bg-slate-950 py-8 sm:py-10">
+      {/* Ethos Footer Section */}
+      <section className="border-t border-slate-800 bg-slate-950 py-8 sm:py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="flex items-start gap-3 sm:gap-4">
             <div className="p-2.5 sm:p-3 bg-slate-800 rounded-xl text-emerald-400 shrink-0">
@@ -852,10 +877,7 @@ const VideoGallery = () => {
             </div>
           </div>
         </div>
-      </div>
-
+      </section>
     </div>
   );
-};
-
-export default VideoGallery;
+}
