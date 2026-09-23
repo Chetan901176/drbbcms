@@ -126,7 +126,8 @@ const VideoGallery = () => {
     },
     { 
       id: 2,
-      src: "/Video/6.mp4", 
+      // src: "/Video/6.mp4", 
+      src: "https://drive.google.com/file/d/12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K/view?usp=sharing", 
       caption: "Drone View of Campus & Grounds", 
       category: "Campus & Drone",
       views: "4.7K", 
@@ -135,7 +136,8 @@ const VideoGallery = () => {
     },
     { 
       id: 3,
-      src: "/Video/1.mp4", 
+      // src: "/Video/1.mp4", 
+      src: "https://drive.google.com/file/d/1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB/view?usp=sharing", 
       caption: "75th Republic Day Grand Parade", 
       category: "National Festivals",
       views: "2.3K", 
@@ -144,7 +146,8 @@ const VideoGallery = () => {
     },
     { 
       id: 4,
-      src: "/Video/2.mp4", 
+      // src: "/Video/2.mp4", 
+      src: "https://drive.google.com/file/d/1a9_M975c70qkoj64CdB8s12FVGpICdKi/view?usp=sharing", 
       caption: "Independence Day Celebrations - March Past", 
       category: "National Festivals",
       views: "1.8K", 
@@ -153,7 +156,8 @@ const VideoGallery = () => {
     },
     { 
       id: 5,
-      src: "/Video/3.mp4", 
+      // src: "/Video/3.mp4", 
+      src: "https://drive.google.com/file/d/1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8/view?usp=sharing", 
       caption: "Independence Day Cultural Performance", 
       category: "National Festivals",
       views: "1.5K", 
@@ -162,7 +166,8 @@ const VideoGallery = () => {
     },
     { 
       id: 6,
-      src: "/Video/4.mp4", 
+      // src: "/Video/4.mp4", 
+      src: "https://drive.google.com/file/d/1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3/view?usp=sharing", 
       caption: "Independence Day Guard of Honour", 
       category: "National Festivals",
       views: "1.2K", 
@@ -171,7 +176,8 @@ const VideoGallery = () => {
     },
     { 
       id: 7,
-      src: "/Video/5.mp4", 
+      // src: "/Video/5.mp4", 
+      src: "https://drive.google.com/file/d/1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve/view?usp=sharing", 
       caption: "Cadet Drills & Physical Training", 
       category: "Student Life",
       views: "3.1K", 
