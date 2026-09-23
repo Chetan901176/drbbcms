@@ -568,7 +568,7 @@ export default function VideoGallery() {
     ? VIDEOS 
     : VIDEOS.filter((v) => v.category === activeCategory);
 
-  // Pause all playing videos on the page
+  // Pause all playing videos
   const pauseAllVideos = () => {
     const allVideos = document.querySelectorAll("video");
     allVideos.forEach((v) => {
@@ -589,7 +589,6 @@ export default function VideoGallery() {
     pauseAllVideos();
   };
 
-  // Keyboard navigation & body scroll lock
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") closeModal();
@@ -773,7 +772,7 @@ export default function VideoGallery() {
         </div>
       </main>
 
-      {/* Video Modal Player */}
+      {/* Video Modal Player (Clean view: No top progress bar, no black shade overlay) */}
       {activeVideoModal && (
         <div 
           className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-in fade-in duration-200"
@@ -785,7 +784,7 @@ export default function VideoGallery() {
             className="relative w-full max-w-4xl flex flex-col bg-slate-900 border border-slate-700/80 rounded-2xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header */}
+            {/* Modal Top Header */}
             <div className="p-3.5 sm:p-4 flex items-center justify-between border-b border-slate-800 bg-slate-900 shrink-0">
               <div className="pr-3">
                 <span className="text-emerald-400 text-[10px] sm:text-xs uppercase tracking-widest font-bold">
@@ -804,17 +803,29 @@ export default function VideoGallery() {
               </button>
             </div>
 
-            {/* Video Player: Natural viewport with full visual clarity without dark control curtains */}
-            <div className="relative w-full aspect-video bg-black overflow-hidden flex items-center justify-center">
+            {/* Video Player Container */}
+            <div className="relative w-full aspect-video bg-black overflow-hidden">
               {activeVideoModal.type === "drive" ? (
-                <iframe
-                  key={activeVideoModal.id}
-                  src={`https://drive.google.com/file/d/${activeVideoModal.driveId}/preview`}
-                  className="w-full h-full border-0 absolute inset-0"
-                  allow="autoplay; encrypted-media; fullscreen"
-                  allowFullScreen
-                  title={activeVideoModal.caption}
-                />
+                /* 
+                   Negative top offset + calculated height pushes Google Drive's
+                   native header, top timeline, and overlay out of the visible screen.
+                */
+                <div className="relative w-full h-full overflow-hidden bg-black">
+                  <iframe
+                    key={activeVideoModal.id}
+                    src={`https://drive.google.com/file/d/${activeVideoModal.driveId}/preview`}
+                    className="w-full border-0 absolute"
+                    style={{
+                      top: "-68px",
+                      left: "0",
+                      width: "100%",
+                      height: "calc(100% + 72px)"
+                    }}
+                    allow="autoplay; encrypted-media; fullscreen"
+                    allowFullScreen
+                    title={activeVideoModal.caption}
+                  />
+                </div>
               ) : (
                 <video
                   key={activeVideoModal.id}
