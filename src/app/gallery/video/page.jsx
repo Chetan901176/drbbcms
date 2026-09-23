@@ -97,6 +97,369 @@
 
 // export default VideoGallery;
 
+// "use client";
+// import React, { useState } from "react";
+// import { 
+//   Play, 
+//   Eye, 
+//   Clock, 
+//   X, 
+//   Sparkles, 
+//   ShieldCheck, 
+//   Award, 
+//   Compass, 
+//   CheckCircle2 
+// } from "lucide-react";
+
+// const VideoGallery = () => {
+//   const categories = ["All", "Campus & Drone", "National Festivals", "Student Life"];
+
+//   const videos = [
+//     { 
+//       id: 1,
+//       src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", 
+//       caption: "Our School & Who We Are", 
+//       category: "Campus & Drone",
+//       views: "8.2K", 
+//       date: "Featured",
+//       description: "Take a comprehensive virtual tour through our grounds, discipline, training infrastructure, and academic wings."
+//     },
+//     { 
+//       id: 2,
+//       // src: "/Video/6.mp4", 
+//       src: "https://drive.google.com/file/d/12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K/view?usp=sharing", 
+//       caption: "Drone View of Campus & Grounds", 
+//       category: "Campus & Drone",
+//       views: "4.7K", 
+//       date: "1 month ago",
+//       description: "Aerial footage capturing the expansive sports fields, obstacle courses, and parade grounds."
+//     },
+//     { 
+//       id: 3,
+//       // src: "/Video/1.mp4", 
+//       src: "https://drive.google.com/file/d/1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB/view?usp=sharing", 
+//       caption: "75th Republic Day Grand Parade", 
+//       category: "National Festivals",
+//       views: "2.3K", 
+//       date: "2 weeks ago",
+//       description: "Cadet parade drill, national anthem honor guard, and ceremonial flag hoisting."
+//     },
+//     { 
+//       id: 4,
+//       // src: "/Video/2.mp4", 
+//       src: "https://drive.google.com/file/d/1a9_M975c70qkoj64CdB8s12FVGpICdKi/view?usp=sharing", 
+//       caption: "Independence Day Celebrations - March Past", 
+//       category: "National Festivals",
+//       views: "1.8K", 
+//       date: "3 weeks ago",
+//       description: "Precision marching squad showing synchronization, valor, and patriotic spirit."
+//     },
+//     { 
+//       id: 5,
+//       // src: "/Video/3.mp4", 
+//       src: "https://drive.google.com/file/d/1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8/view?usp=sharing", 
+//       caption: "Independence Day Cultural Performance", 
+//       category: "National Festivals",
+//       views: "1.5K", 
+//       date: "3 weeks ago",
+//       description: "Music and drama presentations commemorating India's freedom fighters."
+//     },
+//     { 
+//       id: 6,
+//       // src: "/Video/4.mp4", 
+//       src: "https://drive.google.com/file/d/1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3/view?usp=sharing", 
+//       caption: "Independence Day Guard of Honour", 
+//       category: "National Festivals",
+//       views: "1.2K", 
+//       date: "1 month ago",
+//       description: "Salute drill presentation by our senior student division."
+//     },
+//     { 
+//       id: 7,
+//       // src: "/Video/5.mp4", 
+//       src: "https://drive.google.com/file/d/1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve/view?usp=sharing", 
+//       caption: "Cadet Drills & Physical Training", 
+//       category: "Student Life",
+//       views: "3.1K", 
+//       date: "2 weeks ago",
+//       description: "Morning stamina building, endurance hurdles, teamwork, and daily discipline routine."
+//     }
+//   ];
+
+//   const [activeCategory, setActiveCategory] = useState("All");
+//   const [activeVideoModal, setActiveVideoModal] = useState(null);
+//   const featuredVideo = videos[0];
+
+//   const filteredVideos = activeCategory === "All" 
+//     ? videos 
+//     : videos.filter((v) => v.category === activeCategory);
+
+//   return (
+//     <div className="min-h-screen bg-slate-900 text-slate-100 selection:bg-emerald-500 selection:text-white">
+      
+//       {/* Dynamic Top Banner */}
+//       <div className="relative overflow-hidden bg-gradient-to-b from-emerald-950/40 via-slate-900 to-slate-900 pt-12 pb-16 border-b border-slate-800">
+//         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(16,185,129,0.12),transparent_40%)]" />
+        
+//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+//           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12">
+//             <div>
+//               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold tracking-wide uppercase mb-3">
+//                 <Sparkles className="w-3.5 h-3.5" />
+//                 Campus Media & Archives
+//               </div>
+//               <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+//                 Life at Swarajya Campus
+//               </h1>
+//               <p className="mt-3 text-base sm:text-lg text-slate-400 max-w-2xl">
+//                 Experience the discipline, leadership training, academic excellence, and physical rigor that shapes future defenders and leaders.
+//               </p>
+//             </div>
+
+//             {/* Trust Metrics */}
+//             <div className="flex items-center gap-6 bg-slate-800/60 backdrop-blur-md px-6 py-4 rounded-2xl border border-slate-700/60 shadow-xl">
+//               <div className="text-center">
+//                 <p className="text-2xl font-black text-emerald-400">100%</p>
+//                 <p className="text-xs text-slate-400 uppercase tracking-wider mt-0.5">Discipline</p>
+//               </div>
+//               <div className="h-8 w-px bg-slate-700" />
+//               <div className="text-center">
+//                 <p className="text-2xl font-black text-emerald-400">Green</p>
+//                 <p className="text-xs text-slate-400 uppercase tracking-wider mt-0.5">Sprawling Campus</p>
+//               </div>
+//               <div className="h-8 w-px bg-slate-700" />
+//               <div className="text-center">
+//                 <p className="text-2xl font-black text-emerald-400">Holistic</p>
+//                 <p className="text-xs text-slate-400 uppercase tracking-wider mt-0.5">Development</p>
+//               </div>
+//             </div>
+//           </div>
+
+//           {/* Featured Spotlight Card */}
+//           <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-slate-800 to-slate-800/80 border border-slate-700/80 shadow-2xl p-4 sm:p-6 lg:p-8">
+//             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              
+//               <div className="lg:col-span-7 relative group rounded-xl overflow-hidden shadow-2xl aspect-video bg-black">
+//                 <video
+//                   className="w-full h-full object-cover"
+//                   poster="/hero2.jpeg"
+//                   controls
+//                   controlsList="nodownload"
+//                   preload="metadata"
+//                 >
+//                   <source src={featuredVideo.src} type="video/mp4" />
+//                   Your browser does not support the video tag.
+//                 </video>
+//               </div>
+
+//               <div className="lg:col-span-5 flex flex-col justify-center space-y-4">
+//                 <div className="inline-flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+//                   <Award className="w-4 h-4" /> Official Promo Video
+//                 </div>
+//                 <h2 className="text-2xl sm:text-3xl font-bold text-white leading-tight">
+//                   {featuredVideo.caption}
+//                 </h2>
+//                 <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+//                   {featuredVideo.description}
+//                 </p>
+                
+//                 <div className="pt-2 border-t border-slate-700/60 flex items-center justify-between text-xs text-slate-400">
+//                   <span className="flex items-center gap-1">
+//                     <Eye className="w-4 h-4 text-emerald-400" /> {featuredVideo.views} Views
+//                   </span>
+//                   <span className="flex items-center gap-1">
+//                     <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Verified Campus Tour
+//                   </span>
+//                 </div>
+//               </div>
+
+//             </div>
+//           </div>
+
+//         </div>
+//       </div>
+
+//       {/* Main Video Directory Section */}
+//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+//         {/* Navigation & Filter Tabs */}
+//         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-slate-800">
+//           <div className="flex items-center gap-2 overflow-x-auto py-1">
+//             {categories.map((category) => (
+//               <button
+//                 key={category}
+//                 onClick={() => setActiveCategory(category)}
+//                 className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 whitespace-nowrap ${
+//                   activeCategory === category
+//                     ? "bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/25 font-bold"
+//                     : "bg-slate-800 text-slate-300 hover:bg-slate-700/70 hover:text-white border border-slate-700/40"
+//                 }`}
+//               >
+//                 {category}
+//               </button>
+//             ))}
+//           </div>
+//           <span className="text-xs sm:text-sm text-slate-400">
+//             Showing <strong className="text-white">{filteredVideos.length}</strong> highlights
+//           </span>
+//         </div>
+
+//         {/* Video Card Grid */}
+//         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+//           {filteredVideos.map((video) => (
+//             <div
+//               key={video.id}
+//               onClick={() => setActiveVideoModal(video)}
+//               className="group relative bg-slate-800/70 border border-slate-700/50 hover:border-emerald-500/50 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 cursor-pointer flex flex-col"
+//             >
+//               {/* Thumbnail Container */}
+//               <div className="relative w-full pt-[56.25%] bg-black overflow-hidden">
+//                 <video
+//                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-90"
+//                   preload="metadata"
+//                 >
+//                   <source src={video.src} type="video/mp4" />
+//                 </video>
+
+//                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+
+//                 {/* Play Badge */}
+//                 <div className="absolute inset-0 flex items-center justify-center">
+//                   <div className="w-14 h-14 rounded-full bg-emerald-500/90 group-hover:bg-emerald-400 text-slate-950 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+//                     <Play className="w-7 h-7 fill-slate-950 ml-1" />
+//                   </div>
+//                 </div>
+
+//                 {/* Category Badge */}
+//                 <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-emerald-400 text-[11px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded-md border border-emerald-500/20">
+//                   {video.category}
+//                 </div>
+//               </div>
+
+//               {/* Metadata Details */}
+//               <div className="p-5 flex-1 flex flex-col justify-between">
+//                 <div>
+//                   <h3 className="font-bold text-base sm:text-lg text-white group-hover:text-emerald-300 transition-colors line-clamp-1 mb-2">
+//                     {video.caption}
+//                   </h3>
+//                   <p className="text-slate-400 text-xs sm:text-sm line-clamp-2 leading-relaxed">
+//                     {video.description}
+//                   </p>
+//                 </div>
+
+//                 <div className="mt-4 pt-4 border-t border-slate-700/60 flex items-center justify-between text-xs text-slate-400 font-medium">
+//                   <div className="flex items-center gap-1.5">
+//                     <Eye className="w-3.5 h-3.5 text-slate-500" />
+//                     <span>{video.views}</span>
+//                   </div>
+//                   <div className="flex items-center gap-1.5">
+//                     <Clock className="w-3.5 h-3.5 text-slate-500" />
+//                     <span>{video.date}</span>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+
+//       </div>
+
+//       {/* Full-Screen Modal Theater View */}
+//       {activeVideoModal && (
+//         <div 
+//           className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
+//           onClick={() => setActiveVideoModal(null)}
+//         >
+//           <div 
+//             className="relative w-full max-w-5xl bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden shadow-2xl"
+//             onClick={(e) => e.stopPropagation()}
+//           >
+//             {/* Modal Header */}
+//             <div className="p-4 sm:p-5 flex items-center justify-between border-b border-slate-800 bg-slate-900">
+//               <div className="pr-4">
+//                 <span className="text-emerald-400 text-xs uppercase tracking-widest font-bold">
+//                   {activeVideoModal.category}
+//                 </span>
+//                 <h3 className="text-lg sm:text-xl font-bold text-white line-clamp-1">
+//                   {activeVideoModal.caption}
+//                 </h3>
+//               </div>
+//               <button 
+//                 onClick={() => setActiveVideoModal(null)}
+//                 className="p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
+//               >
+//                 <X className="w-6 h-6" />
+//               </button>
+//             </div>
+
+//             {/* Video Frame */}
+//             <div className="relative aspect-video bg-black">
+//               <video
+//                 key={activeVideoModal.src}
+//                 className="w-full h-full"
+//                 controls
+//                 autoPlay
+//                 controlsList="nodownload"
+//               >
+//                 <source src={activeVideoModal.src} type="video/mp4" />
+//                 Your browser does not support the video tag.
+//               </video>
+//             </div>
+
+//             {/* Modal Description */}
+//             <div className="p-4 sm:p-6 bg-slate-950 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+//               <p className="text-slate-300 text-sm max-w-2xl leading-relaxed">
+//                 {activeVideoModal.description}
+//               </p>
+//               <div className="flex items-center gap-4 text-xs text-slate-400 shrink-0">
+//                 <span>{activeVideoModal.views} Views</span>
+//                 <span>•</span>
+//                 <span>{activeVideoModal.date}</span>
+//               </div>
+//             </div>
+
+//           </div>
+//         </div>
+//       )}
+
+//       {/* Ethos Banner */}
+//       <div className="border-t border-slate-800 bg-slate-950 py-10">
+//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
+//           <div className="flex items-start gap-4">
+//             <div className="p-3 bg-slate-800 rounded-xl text-emerald-400 shrink-0 mx-auto md:mx-0">
+//               <ShieldCheck className="w-6 h-6" />
+//             </div>
+//             <div>
+//               <h4 className="font-bold text-white text-base">Character & Valor</h4>
+//               <p className="text-slate-400 text-xs mt-1">Imparting core leadership ethics, personal integrity, and national values.</p>
+//             </div>
+//           </div>
+//           <div className="flex items-start gap-4">
+//             <div className="p-3 bg-slate-800 rounded-xl text-emerald-400 shrink-0 mx-auto md:mx-0">
+//               <Compass className="w-6 h-6" />
+//             </div>
+//             <div>
+//               <h4 className="font-bold text-white text-base">Modern Military Cadence</h4>
+//               <p className="text-slate-400 text-xs mt-1">Balanced drill schedules, physical obstacle circuits, and parade training.</p>
+//             </div>
+//           </div>
+//           <div className="flex items-start gap-4">
+//             <div className="p-3 bg-slate-800 rounded-xl text-emerald-400 shrink-0 mx-auto md:mx-0">
+//               <Award className="w-6 h-6" />
+//             </div>
+//             <div>
+//               <h4 className="font-bold text-white text-base">Academic Excellence</h4>
+//               <p className="text-slate-400 text-xs mt-1">Structured study halls, focused mentorship, and competitive exam preparation.</p>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//     </div>
+//   );
+// };
+
+// export default VideoGallery;
 "use client";
 import React, { useState } from "react";
 import { 
@@ -114,9 +477,12 @@ import {
 const VideoGallery = () => {
   const categories = ["All", "Campus & Drone", "National Festivals", "Student Life"];
 
+  // Google Drive links converted to /preview format for seamless iframe embedding
   const videos = [
     { 
       id: 1,
+      // Local promotional video
+      type: "local",
       src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", 
       caption: "Our School & Who We Are", 
       category: "Campus & Drone",
@@ -126,8 +492,9 @@ const VideoGallery = () => {
     },
     { 
       id: 2,
-      // src: "/Video/6.mp4", 
-      src: "https://drive.google.com/file/d/12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K/view?usp=sharing", 
+      type: "drive",
+      driveId: "12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K",
+      src: "https://drive.google.com/file/d/12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K/preview", 
       caption: "Drone View of Campus & Grounds", 
       category: "Campus & Drone",
       views: "4.7K", 
@@ -136,8 +503,9 @@ const VideoGallery = () => {
     },
     { 
       id: 3,
-      // src: "/Video/1.mp4", 
-      src: "https://drive.google.com/file/d/1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB/view?usp=sharing", 
+      type: "drive",
+      driveId: "1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB",
+      src: "https://drive.google.com/file/d/1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB/preview", 
       caption: "75th Republic Day Grand Parade", 
       category: "National Festivals",
       views: "2.3K", 
@@ -146,8 +514,9 @@ const VideoGallery = () => {
     },
     { 
       id: 4,
-      // src: "/Video/2.mp4", 
-      src: "https://drive.google.com/file/d/1a9_M975c70qkoj64CdB8s12FVGpICdKi/view?usp=sharing", 
+      type: "drive",
+      driveId: "1a9_M975c70qkoj64CdB8s12FVGpICdKi",
+      src: "https://drive.google.com/file/d/1a9_M975c70qkoj64CdB8s12FVGpICdKi/preview", 
       caption: "Independence Day Celebrations - March Past", 
       category: "National Festivals",
       views: "1.8K", 
@@ -156,8 +525,9 @@ const VideoGallery = () => {
     },
     { 
       id: 5,
-      // src: "/Video/3.mp4", 
-      src: "https://drive.google.com/file/d/1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8/view?usp=sharing", 
+      type: "drive",
+      driveId: "1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8",
+      src: "https://drive.google.com/file/d/1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8/preview", 
       caption: "Independence Day Cultural Performance", 
       category: "National Festivals",
       views: "1.5K", 
@@ -166,8 +536,9 @@ const VideoGallery = () => {
     },
     { 
       id: 6,
-      // src: "/Video/4.mp4", 
-      src: "https://drive.google.com/file/d/1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3/view?usp=sharing", 
+      type: "drive",
+      driveId: "1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3",
+      src: "https://drive.google.com/file/d/1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3/preview", 
       caption: "Independence Day Guard of Honour", 
       category: "National Festivals",
       views: "1.2K", 
@@ -176,8 +547,9 @@ const VideoGallery = () => {
     },
     { 
       id: 7,
-      // src: "/Video/5.mp4", 
-      src: "https://drive.google.com/file/d/1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve/view?usp=sharing", 
+      type: "drive",
+      driveId: "1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve",
+      src: "https://drive.google.com/file/d/1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve/preview", 
       caption: "Cadet Drills & Physical Training", 
       category: "Student Life",
       views: "3.1K", 
@@ -240,16 +612,26 @@ const VideoGallery = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               
               <div className="lg:col-span-7 relative group rounded-xl overflow-hidden shadow-2xl aspect-video bg-black">
-                <video
-                  className="w-full h-full object-cover"
-                  poster="/hero2.jpeg"
-                  controls
-                  controlsList="nodownload"
-                  preload="metadata"
-                >
-                  <source src={featuredVideo.src} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
+                {featuredVideo.type === "drive" ? (
+                  <iframe
+                    src={featuredVideo.src}
+                    className="w-full h-full border-0"
+                    allow="autoplay; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                    title={featuredVideo.caption}
+                  />
+                ) : (
+                  <video
+                    className="w-full h-full object-cover"
+                    poster="/hero2.jpeg"
+                    controls
+                    controlsList="nodownload"
+                    preload="metadata"
+                  >
+                    <source src={featuredVideo.src} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                )}
               </div>
 
               <div className="lg:col-span-5 flex flex-col justify-center space-y-4">
@@ -314,24 +696,33 @@ const VideoGallery = () => {
             >
               {/* Thumbnail Container */}
               <div className="relative w-full pt-[56.25%] bg-black overflow-hidden">
-                <video
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-90"
-                  preload="metadata"
-                >
-                  <source src={video.src} type="video/mp4" />
-                </video>
+                {video.type === "drive" ? (
+                  <iframe
+                    src={video.src}
+                    className="absolute inset-0 w-full h-full border-0 pointer-events-none opacity-80 group-hover:opacity-95"
+                    tabIndex={-1}
+                    title={video.caption}
+                  />
+                ) : (
+                  <video
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-90"
+                    preload="metadata"
+                  >
+                    <source src={video.src} type="video/mp4" />
+                  </video>
+                )}
 
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent pointer-events-none" />
 
                 {/* Play Badge */}
-                <div className="absolute inset-0 flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="w-14 h-14 rounded-full bg-emerald-500/90 group-hover:bg-emerald-400 text-slate-950 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                     <Play className="w-7 h-7 fill-slate-950 ml-1" />
                   </div>
                 </div>
 
                 {/* Category Badge */}
-                <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-emerald-400 text-[11px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded-md border border-emerald-500/20">
+                <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-emerald-400 text-[11px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded-md border border-emerald-500/20 pointer-events-none">
                   {video.category}
                 </div>
               </div>
@@ -394,16 +785,27 @@ const VideoGallery = () => {
 
             {/* Video Frame */}
             <div className="relative aspect-video bg-black">
-              <video
-                key={activeVideoModal.src}
-                className="w-full h-full"
-                controls
-                autoPlay
-                controlsList="nodownload"
-              >
-                <source src={activeVideoModal.src} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              {activeVideoModal.type === "drive" ? (
+                <iframe
+                  key={activeVideoModal.src}
+                  src={activeVideoModal.src}
+                  className="w-full h-full border-0"
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  allowFullScreen
+                  title={activeVideoModal.caption}
+                />
+              ) : (
+                <video
+                  key={activeVideoModal.src}
+                  className="w-full h-full"
+                  controls
+                  autoPlay
+                  controlsList="nodownload"
+                >
+                  <source src={activeVideoModal.src} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              )}
             </div>
 
             {/* Modal Description */}
