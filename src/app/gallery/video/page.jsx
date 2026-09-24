@@ -580,8 +580,8 @@ const CATEGORIES = ["All", "Campus & Drone", "National Festivals", "Student Life
 const VIDEOS = [
   { 
     id: 1,
-    type: "local",
-    src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4",
+    type: "drive",
+    driveId: "1Fh4jobECGaDmwaeH8IHJ4pLcrxmmiW4r",
     poster: "/hero2.jpeg",
     caption: "Our School & Who We Are", 
     category: "Campus & Drone",
@@ -662,20 +662,12 @@ export default function VideoGallery() {
   const [activeVideoModal, setActiveVideoModal] = useState(null);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
 
-  const featuredVideoRef = useRef(null);
   const modalContainerRef = useRef(null);
   const featuredVideo = VIDEOS[0];
 
   const filteredVideos = activeCategory === "All" 
     ? VIDEOS 
     : VIDEOS.filter((v) => v.category === activeCategory);
-
-  const pauseAllVideos = () => {
-    const allVideos = document.querySelectorAll("video");
-    allVideos.forEach((v) => {
-      if (!v.paused) v.pause();
-    });
-  };
 
   const triggerFullscreen = (element) => {
     if (!element) return;
@@ -698,17 +690,11 @@ export default function VideoGallery() {
     }
   };
 
-  // Open modal with immediate 1-click play and history state for back-button detection
   const openModal = (video) => {
-    pauseAllVideos();
-    if (featuredVideoRef.current && !featuredVideoRef.current.paused) {
-      featuredVideoRef.current.pause();
-    }
-
     setActiveVideoModal(video);
     setShowExitConfirm(false);
 
-    // Push history state to intercept device back button
+    // Push history state to capture back button
     window.history.pushState({ videoModal: true }, "");
 
     setTimeout(() => {
@@ -718,37 +704,29 @@ export default function VideoGallery() {
     }, 50);
   };
 
-  // Safe exit
   const forceCloseModal = () => {
     exitFullscreen();
     setActiveVideoModal(null);
     setShowExitConfirm(false);
-    pauseAllVideos();
   };
 
-  // Click on Red Cross or exit attempt
   const handleRequestClose = () => {
     setShowExitConfirm(true);
   };
 
-  // Confirm exit
   const handleConfirmExit = () => {
     setShowExitConfirm(false);
     forceCloseModal();
   };
 
-  // Cancel exit
   const handleCancelExit = () => {
     setShowExitConfirm(false);
-    // Restore history state so subsequent back presses still work
     window.history.pushState({ videoModal: true }, "");
   };
 
-  // Handle hardware / browser back button and Escape key
   useEffect(() => {
-    const handlePopState = (e) => {
+    const handlePopState = () => {
       if (activeVideoModal) {
-        // Prevent immediate page navigation away and show confirmation
         setShowExitConfirm(true);
       }
     };
@@ -816,39 +794,40 @@ export default function VideoGallery() {
             </div>
           </div>
 
-          {/* Featured Official Spotlight Card */}
+          {/* Official Spotlight Card */}
           <div className="relative rounded-2xl overflow-hidden bg-slate-800/50 border border-slate-700/80 shadow-2xl p-4 sm:p-6 lg:p-8 backdrop-blur-sm">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
-              {/* Spotlight Media Container - Clean Native Framing */}
-              <div className="lg:col-span-7 relative rounded-xl overflow-hidden shadow-2xl aspect-video bg-black flex items-center justify-center">
-                {featuredVideo.type === "local" ? (
-                  <video
-                    ref={featuredVideoRef}
-                    className="w-full h-full object-cover"
-                    poster={featuredVideo.poster}
-                    controls
-                    playsInline
-                    controlsList="nodownload"
-                    preload="metadata"
-                    onPlay={pauseAllVideos}
-                  >
-                    <source src={featuredVideo.src} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                ) : (
+              
+              {/* Contained Video Box - No Overflow */}
+              <div className="lg:col-span-7 w-full">
+                <div 
+                  onClick={() => openModal(featuredVideo)}
+                  className="group relative w-full aspect-video rounded-xl overflow-hidden bg-black shadow-2xl border border-slate-700/60 cursor-pointer"
+                >
                   <iframe
                     src={`https://drive.google.com/file/d/${featuredVideo.driveId}/preview`}
-                    className="w-full h-full border-0"
-                    allow="autoplay; encrypted-media; fullscreen"
+                    className="absolute inset-0 w-full h-full border-0 pointer-events-none"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
                     title={featuredVideo.caption}
                   />
-                )}
+
+                  {/* Play Overlay to guarantee 1-click launch on mobile */}
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-emerald-500/90 text-slate-950 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+                      <Play className="w-7 h-7 fill-slate-950 ml-1" />
+                    </div>
+                  </div>
+
+                  <div className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-emerald-400 text-[10px] sm:text-xs font-semibold tracking-wide uppercase px-2.5 py-1 rounded border border-emerald-500/20">
+                    Official Spotlight
+                  </div>
+                </div>
               </div>
 
               <div className="lg:col-span-5 flex flex-col justify-center space-y-3 sm:space-y-4">
                 <div className="inline-flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
-                  <Award className="w-4 h-4" /> Official Spotlight
+                  <Award className="w-4 h-4" /> Featured Presentation
                 </div>
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white leading-tight">
                   {featuredVideo.caption}
@@ -866,6 +845,7 @@ export default function VideoGallery() {
                   </span>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -961,7 +941,7 @@ export default function VideoGallery() {
           role="dialog"
           aria-modal="true"
         >
-          {/* Modal Header with High-Visibility RED Close Button */}
+          {/* Top Header with Bright Red Close Button */}
           <div className="p-3 sm:p-4 flex items-center justify-between border-b border-slate-800 bg-slate-950/90 z-20 shrink-0">
             <div className="pr-3">
               <span className="text-emerald-400 text-[10px] sm:text-xs uppercase tracking-widest font-bold">
@@ -972,7 +952,6 @@ export default function VideoGallery() {
               </h3>
             </div>
             
-            {/* Prominent Red Close Button */}
             <button 
               onClick={handleRequestClose}
               aria-label="Close video"
@@ -982,34 +961,19 @@ export default function VideoGallery() {
             </button>
           </div>
 
-          {/* Video Player Frame (Clean Viewport with Auto-Play) */}
+          {/* Clean Viewport with Auto-Play */}
           <div className="relative flex-1 w-full bg-black overflow-hidden flex items-center justify-center">
-            {activeVideoModal.type === "drive" ? (
-              <iframe
-                key={activeVideoModal.id}
-                src={`https://drive.google.com/file/d/${activeVideoModal.driveId}/preview?autoplay=1`}
-                className="w-full h-full border-0"
-                allow="autoplay; encrypted-media; fullscreen"
-                allowFullScreen
-                title={activeVideoModal.caption}
-              />
-            ) : (
-              <video
-                key={activeVideoModal.id}
-                className="w-full h-full object-contain"
-                controls
-                autoPlay
-                playsInline
-                controlsList="nodownload"
-                onPlay={pauseAllVideos}
-              >
-                <source src={activeVideoModal.src} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            )}
+            <iframe
+              key={activeVideoModal.id}
+              src={`https://drive.google.com/file/d/${activeVideoModal.driveId}/preview?autoplay=1`}
+              className="w-full h-full border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+              allowFullScreen
+              title={activeVideoModal.caption}
+            />
           </div>
 
-          {/* Clean Sub-Video Footer (Relocated Below Video) */}
+          {/* Modal Footer Description */}
           <div className="p-3 sm:p-4 bg-slate-950 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0 z-20">
             <p className="text-slate-300 text-xs sm:text-sm leading-relaxed line-clamp-2">
               {activeVideoModal.description}
@@ -1021,7 +985,7 @@ export default function VideoGallery() {
             </div>
           </div>
 
-          {/* Back Button / Exit Confirmation Dialog */}
+          {/* Exit Confirmation Dialog */}
           {showExitConfirm && (
             <div 
               className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
