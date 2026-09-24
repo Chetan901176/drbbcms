@@ -571,7 +571,8 @@ import {
   ShieldCheck, 
   Award, 
   Compass, 
-  CheckCircle2 
+  CheckCircle2,
+  AlertTriangle
 } from "lucide-react";
 
 const CATEGORIES = ["All", "Campus & Drone", "National Festivals", "Student Life"];
@@ -579,8 +580,8 @@ const CATEGORIES = ["All", "Campus & Drone", "National Festivals", "Student Life
 const VIDEOS = [
   { 
     id: 1,
-    type: "drive",
-    driveId: "1Fh4jobECGaDmwaeH8IHJ4pLcrxmmiW4r",
+    type: "local",
+    src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4",
     poster: "/hero2.jpeg",
     caption: "Our School & Who We Are", 
     category: "Campus & Drone",
@@ -659,9 +660,10 @@ const VIDEOS = [
 export default function VideoGallery() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeVideoModal, setActiveVideoModal] = useState(null);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
 
   const featuredVideoRef = useRef(null);
-  const modalVideoContainerRef = useRef(null);
+  const modalContainerRef = useRef(null);
   const featuredVideo = VIDEOS[0];
 
   const filteredVideos = activeCategory === "All" 
@@ -675,7 +677,6 @@ export default function VideoGallery() {
     });
   };
 
-  // Trigger browser-level full screen
   const triggerFullscreen = (element) => {
     if (!element) return;
     if (element.requestFullscreen) {
@@ -687,7 +688,6 @@ export default function VideoGallery() {
     }
   };
 
-  // Exit browser-level full screen safely
   const exitFullscreen = () => {
     if (document.fullscreenElement || document.webkitFullscreenElement) {
       if (document.exitFullscreen) {
@@ -698,55 +698,85 @@ export default function VideoGallery() {
     }
   };
 
+  // Open modal with immediate 1-click play and history state for back-button detection
   const openModal = (video) => {
     pauseAllVideos();
     if (featuredVideoRef.current && !featuredVideoRef.current.paused) {
       featuredVideoRef.current.pause();
     }
-    setActiveVideoModal(video);
 
-    // Request fullscreen immediately after opening the modal
+    setActiveVideoModal(video);
+    setShowExitConfirm(false);
+
+    // Push history state to intercept device back button
+    window.history.pushState({ videoModal: true }, "");
+
     setTimeout(() => {
-      if (modalVideoContainerRef.current) {
-        triggerFullscreen(modalVideoContainerRef.current);
+      if (modalContainerRef.current) {
+        triggerFullscreen(modalContainerRef.current);
       }
     }, 50);
   };
 
-  const closeModal = () => {
+  // Safe exit
+  const forceCloseModal = () => {
     exitFullscreen();
     setActiveVideoModal(null);
+    setShowExitConfirm(false);
     pauseAllVideos();
   };
 
+  // Click on Red Cross or exit attempt
+  const handleRequestClose = () => {
+    setShowExitConfirm(true);
+  };
+
+  // Confirm exit
+  const handleConfirmExit = () => {
+    setShowExitConfirm(false);
+    forceCloseModal();
+  };
+
+  // Cancel exit
+  const handleCancelExit = () => {
+    setShowExitConfirm(false);
+    // Restore history state so subsequent back presses still work
+    window.history.pushState({ videoModal: true }, "");
+  };
+
+  // Handle hardware / browser back button and Escape key
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape") closeModal();
+    const handlePopState = (e) => {
+      if (activeVideoModal) {
+        // Prevent immediate page navigation away and show confirmation
+        setShowExitConfirm(true);
+      }
     };
 
-    const handleFullscreenChange = () => {
-      // If user exits browser fullscreen, keep modal state clean
-      if (!document.fullscreenElement && !document.webkitFullscreenElement && activeVideoModal) {
-        // Optional: keep modal open or close based on preference
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        if (showExitConfirm) {
+          handleCancelExit();
+        } else if (activeVideoModal) {
+          setShowExitConfirm(true);
+        }
       }
     };
 
     if (activeVideoModal) {
       document.body.style.overflow = "hidden";
+      window.addEventListener("popstate", handlePopState);
       window.addEventListener("keydown", handleKeyDown);
-      document.addEventListener("fullscreenchange", handleFullscreenChange);
-      document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
     } else {
       document.body.style.overflow = "unset";
     }
 
     return () => {
       document.body.style.overflow = "unset";
+      window.removeEventListener("popstate", handlePopState);
       window.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-      document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
     };
-  }, [activeVideoModal]);
+  }, [activeVideoModal, showExitConfirm]);
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 selection:bg-emerald-500 selection:text-white">
@@ -786,23 +816,15 @@ export default function VideoGallery() {
             </div>
           </div>
 
-          {/* Featured Spotlight Card */}
+          {/* Featured Official Spotlight Card */}
           <div className="relative rounded-2xl overflow-hidden bg-slate-800/50 border border-slate-700/80 shadow-2xl p-4 sm:p-6 lg:p-8 backdrop-blur-sm">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
-              {/* Spotlight Media Container */}
+              {/* Spotlight Media Container - Clean Native Framing */}
               <div className="lg:col-span-7 relative rounded-xl overflow-hidden shadow-2xl aspect-video bg-black flex items-center justify-center">
-                {featuredVideo.type === "drive" ? (
-                  <iframe
-                    src={`https://drive.google.com/file/d/${featuredVideo.driveId}/preview`}
-                    className="w-full h-full border-0"
-                    allow="autoplay; encrypted-media; fullscreen"
-                    allowFullScreen
-                    title={featuredVideo.caption}
-                  />
-                ) : (
+                {featuredVideo.type === "local" ? (
                   <video
                     ref={featuredVideoRef}
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-cover"
                     poster={featuredVideo.poster}
                     controls
                     playsInline
@@ -813,6 +835,14 @@ export default function VideoGallery() {
                     <source src={featuredVideo.src} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
+                ) : (
+                  <iframe
+                    src={`https://drive.google.com/file/d/${featuredVideo.driveId}/preview`}
+                    className="w-full h-full border-0"
+                    allow="autoplay; encrypted-media; fullscreen"
+                    allowFullScreen
+                    title={featuredVideo.caption}
+                  />
                 )}
               </div>
 
@@ -923,77 +953,105 @@ export default function VideoGallery() {
         </div>
       </main>
 
-      {/* Video Modal Player (Fullscreen Container) */}
+      {/* Fullscreen Video Modal Player */}
       {activeVideoModal && (
         <div 
-          ref={modalVideoContainerRef}
-          className="fixed inset-0 z-50 bg-black backdrop-blur-md flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-200"
-          onClick={closeModal}
+          ref={modalContainerRef}
+          className="fixed inset-0 z-50 bg-black flex flex-col justify-between p-0 sm:p-4 animate-in fade-in duration-200"
           role="dialog"
           aria-modal="true"
         >
-          <div 
-            className="relative w-full h-full max-w-6xl max-h-[92vh] flex flex-col bg-slate-900 border border-slate-700/80 sm:rounded-2xl overflow-hidden shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Modal Top Header */}
-            <div className="p-3 sm:p-4 flex items-center justify-between border-b border-slate-800 bg-slate-900 shrink-0">
-              <div className="pr-3">
-                <span className="text-emerald-400 text-[10px] sm:text-xs uppercase tracking-widest font-bold">
-                  {activeVideoModal.category}
-                </span>
-                <h3 className="text-sm sm:text-base font-bold text-white line-clamp-1 mt-0.5">
-                  {activeVideoModal.caption}
-                </h3>
-              </div>
-              <button 
-                onClick={closeModal}
-                aria-label="Close"
-                className="p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors shrink-0"
+          {/* Modal Header with High-Visibility RED Close Button */}
+          <div className="p-3 sm:p-4 flex items-center justify-between border-b border-slate-800 bg-slate-950/90 z-20 shrink-0">
+            <div className="pr-3">
+              <span className="text-emerald-400 text-[10px] sm:text-xs uppercase tracking-widest font-bold">
+                {activeVideoModal.category}
+              </span>
+              <h3 className="text-sm sm:text-base font-bold text-white line-clamp-1 mt-0.5">
+                {activeVideoModal.caption}
+              </h3>
+            </div>
+            
+            {/* Prominent Red Close Button */}
+            <button 
+              onClick={handleRequestClose}
+              aria-label="Close video"
+              className="p-2 sm:p-2.5 rounded-full bg-red-600 hover:bg-red-700 active:bg-red-800 text-white shadow-lg transition-transform active:scale-95 shrink-0 flex items-center justify-center cursor-pointer"
+            >
+              <X className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
+            </button>
+          </div>
+
+          {/* Video Player Frame (Clean Viewport with Auto-Play) */}
+          <div className="relative flex-1 w-full bg-black overflow-hidden flex items-center justify-center">
+            {activeVideoModal.type === "drive" ? (
+              <iframe
+                key={activeVideoModal.id}
+                src={`https://drive.google.com/file/d/${activeVideoModal.driveId}/preview?autoplay=1`}
+                className="w-full h-full border-0"
+                allow="autoplay; encrypted-media; fullscreen"
+                allowFullScreen
+                title={activeVideoModal.caption}
+              />
+            ) : (
+              <video
+                key={activeVideoModal.id}
+                className="w-full h-full object-contain"
+                controls
+                autoPlay
+                playsInline
+                controlsList="nodownload"
+                onPlay={pauseAllVideos}
               >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
+                <source src={activeVideoModal.src} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            )}
+          </div>
 
-            {/* Video Player Frame */}
-            <div className="relative flex-1 w-full bg-black overflow-hidden flex items-center justify-center">
-              {activeVideoModal.type === "drive" ? (
-                <iframe
-                  key={activeVideoModal.id}
-                  src={`https://drive.google.com/file/d/${activeVideoModal.driveId}/preview`}
-                  className="w-full h-full border-0"
-                  allow="autoplay; encrypted-media; fullscreen"
-                  allowFullScreen
-                  title={activeVideoModal.caption}
-                />
-              ) : (
-                <video
-                  key={activeVideoModal.id}
-                  className="w-full h-full object-contain"
-                  controls
-                  autoPlay
-                  playsInline
-                  controlsList="nodownload"
-                  onPlay={pauseAllVideos}
-                >
-                  <source src={activeVideoModal.src} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              )}
-            </div>
-
-            {/* Description Details */}
-            <div className="p-3.5 sm:p-5 bg-slate-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
-              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-                {activeVideoModal.description}
-              </p>
-              <div className="flex items-center gap-3 text-xs text-slate-400 shrink-0">
-                <span>{activeVideoModal.views} Views</span>
-                <span>•</span>
-                <span>{activeVideoModal.date}</span>
-              </div>
+          {/* Clean Sub-Video Footer (Relocated Below Video) */}
+          <div className="p-3 sm:p-4 bg-slate-950 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0 z-20">
+            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed line-clamp-2">
+              {activeVideoModal.description}
+            </p>
+            <div className="flex items-center gap-3 text-xs text-slate-400 shrink-0">
+              <span>{activeVideoModal.views} Views</span>
+              <span>•</span>
+              <span>{activeVideoModal.date}</span>
             </div>
           </div>
+
+          {/* Back Button / Exit Confirmation Dialog */}
+          {showExitConfirm && (
+            <div 
+              className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6 max-w-sm w-full shadow-2xl text-center animate-in zoom-in-95 duration-150">
+                <div className="w-12 h-12 rounded-full bg-red-500/10 text-red-500 mx-auto flex items-center justify-center mb-3">
+                  <AlertTriangle className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-white mb-1">Exit Video?</h3>
+                <p className="text-slate-300 text-xs sm:text-sm mb-6">
+                  Are you sure you want to stop playback and exit this video?
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={handleCancelExit}
+                    className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold transition-colors"
+                  >
+                    Keep Watching
+                  </button>
+                  <button
+                    onClick={handleConfirmExit}
+                    className="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-semibold transition-colors shadow-lg shadow-red-600/30"
+                  >
+                    Exit Video
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
