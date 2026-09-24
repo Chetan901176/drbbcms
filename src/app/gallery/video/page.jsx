@@ -460,193 +460,287 @@
 // };
 
 // export default VideoGallery;
-"use client";
+// import React from "react";
+// import { Home } from "lucide-react";
+// import Link from "next/link";
 
-import React, { useState, useEffect, useRef } from "react";
-import { 
-  Play, 
-  Eye, 
-  Clock, 
-  X, 
-  Sparkles, 
-  ShieldCheck, 
-  Award, 
-  Compass, 
-  CheckCircle2 
-} from "lucide-react";
+// const VideoGallery = () => {
+//   const videos = [
+//     { src: "/Video/1.mp4", caption: "Republic Day" },
+//     { src: "/Video/2.mp4", caption: "Independence Day" },
+//     { src: "/Video/3.mp4", caption: "Independence Day" },
+//     { src: "/Video/4.mp4", caption: "Independence Day" },
+//     { src: "/Video/5.mp4", caption: "Student Participation" },
+//     { src: "/Video/6.mp4", caption: "Drone view of Campus" },
+//     { src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", caption: "Our School & Who we are" }
+//   ];
 
-const CATEGORIES = ["All", "Campus & Drone", "National Festivals", "Student Life"];
+//   return (
+//     <div className="min-h-screen bg-gray-50 mt-0 sm:mt-0">
+//       {/* Hero Section */}
+//       <div 
+//         className="text-white py-20"
+//         style={{
+//           backgroundImage: 'linear-gradient(rgba(92,108,63,0.35), rgba(92,108,63,0.55)), url(/hero2.jpeg)',
+//           backgroundSize: 'cover',
+//           backgroundPosition: 'center'
+//         }}
+//       >
+//         <div className="max-w-7xl mx-auto px-4">
+//           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-center">
+//             Video Gallery
+//           </h1>
+//           {/* Breadcrumb */}
+//           {/* <div className="flex justify-center items-center space-x-2 text-sm md:text-base">
+//             <Home className="text-gray-300 w-4 h-4" />
+//             <span className="text-gray-300">/</span>
+//             <Link href="/" className="text-gray-300 hover:text-white">
+//               Home
+//             </Link>
+//             <span className="text-gray-300">/</span>
+//             <span className="text-white">Video Gallery</span>
+//           </div> */}
+//           <p className="text-xl text-center max-w-3xl mx-auto mt-4">
+//             Explore our military school campus through this gallery. From
+//             state-of-the-art facilities to sprawling green grounds, our
+//             infrastructure is designed to provide a perfect balance of education
+//             and extracurricular activities.
+//           </p>
+//         </div>
+//       </div>
+//       <div className="bg-gray-100 py-8">
+//         <div className="space-y-11 max-w-5xl mx-auto px-4">
+//           {/*{videos.map((video, index) => (
+//             <div
+//               key={index}
+//               className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+//             >
+//               <iframe
+//                 className="w-full h-64 md:h-80 lg:h-96"
+//                 src={video.url}
+//                 title={video.title}
+//                 frameBorder="0"
+//                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+//                 allowFullScreen
+//               ></iframe>
+//               <div className="p-4 bg-white">
+//                 <h3 className="text-lg font-semibold text-gray-700">
+//                   {video.title}
+//                 </h3>
+//               </div>
+//             </div>
+//           ))}*/}
 
-const VIDEOS = [
-  { 
-    id: 1,
-    type: "drive",
-    driveId: "1Fh4jobECGaDmwaeH8IHJ4pLcrxmmiW4r",
-    poster: "/hero2.jpeg",
-    caption: "Our School & Who We Are", 
-    category: "Campus & Drone",
-    views: "8.2K", 
-    date: "Featured",
-    description: "Take a comprehensive virtual tour through our grounds, discipline, training infrastructure, and academic wings."
-  },
-  { 
-    id: 2,
-    type: "drive",
-    driveId: "12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K",
-    poster: "https://drive.google.com/thumbnail?id=12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K&sz=w800",
-    caption: "Drone View of Campus & Grounds", 
-    category: "Campus & Drone",
-    views: "4.7K", 
-    date: "1 month ago",
-    description: "Aerial footage capturing the expansive sports fields, obstacle courses, and parade grounds."
-  },
-  { 
-    id: 3,
-    type: "drive",
-    driveId: "1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB",
-    poster: "https://drive.google.com/thumbnail?id=1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB&sz=w800",
-    caption: "75th Republic Day Grand Parade", 
-    category: "National Festivals",
-    views: "2.3K", 
-    date: "2 weeks ago",
-    description: "Cadet parade drill, national anthem honor guard, and ceremonial flag hoisting."
-  },
-  { 
-    id: 4,
-    type: "drive",
-    driveId: "1a9_M975c70qkoj64CdB8s12FVGpICdKi",
-    poster: "https://drive.google.com/thumbnail?id=1a9_M975c70qkoj64CdB8s12FVGpICdKi&sz=w800",
-    caption: "Independence Day Celebrations - March Past", 
-    category: "National Festivals",
-    views: "1.8K", 
-    date: "3 weeks ago",
-    description: "Precision marching squad showing synchronization, valor, and patriotic spirit."
-  },
-  { 
-    id: 5,
-    type: "drive",
-    driveId: "1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8",
-    poster: "https://drive.google.com/thumbnail?id=1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8&sz=w800",
-    caption: "Independence Day Cultural Performance", 
-    category: "National Festivals",
-    views: "1.5K", 
-    date: "3 weeks ago",
-    description: "Music and drama presentations commemorating India's freedom fighters."
-  },
-  { 
-    id: 6,
-    type: "drive",
-    driveId: "1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3",
-    poster: "https://drive.google.com/thumbnail?id=1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3&sz=w800",
-    caption: "Independence Day Guard of Honour", 
-    category: "National Festivals",
-    views: "1.2K", 
-    date: "1 month ago",
-    description: "Salute drill presentation by our senior student division."
-  },
-  { 
-    id: 7,
-    type: "drive",
-    driveId: "1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve",
-    poster: "https://drive.google.com/thumbnail?id=1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve&sz=w800",
-    caption: "Cadet Drills & Physical Training", 
-    category: "Student Life",
-    views: "3.1K", 
-    date: "2 weeks ago",
-    description: "Morning stamina building, endurance hurdles, teamwork, and daily discipline routine."
-  }
-];
+//           {videos.map((video, index) => (
+//   <div
+//     key={index}
+//     className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+//   >
+//     <video
+//       className="w-full h-64 md:h-80 lg:h-96"
+//       controls
+//       controlsList="nodownload"
+//     >
+//       <source src={video.src} type="video/mp4" />
+//       Your browser does not support the video tag.
+//     </video>
+//     <div className="p-4 bg-white">
+//       <h3 className="text-lg font-semibold text-gray-700">
+//         {video.caption}
+//       </h3>
+//     </div>
+//   </div>
+// ))}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
-export default function VideoGallery() {
+// export default VideoGallery;
+
+// "use client";
+// import React, { useState } from "react";
+// import { 
+//   Play, 
+//   Eye, 
+//   Clock, 
+//   X, 
+//   Sparkles, 
+//   ShieldCheck, 
+//   Award, 
+//   Compass, 
+//   CheckCircle2 
+// } from "lucide-react";
+
+// const VideoGallery = () => {
+//   const categories = ["All", "Campus & Drone", "National Festivals", "Student Life"];
+
+//   const videos = [
+//     { 
+//       id: 1,
+//       src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", 
+//       caption: "Our School & Who We Are", 
+//       category: "Campus & Drone",
+//       views: "8.2K", 
+//       date: "Featured",
+//       description: "Take a comprehensive virtual tour through our grounds, discipline, training infrastructure, and academic wings."
+//     },
+//     { 
+//       id: 2,
+//       // src: "/Video/6.mp4", 
+//       src: "https://drive.google.com/file/d/12Qj9-F1etgXfVbD4N5acJA5kfo9pV38K/view?usp=sharing", 
+//       caption: "Drone View of Campus & Grounds", 
+//       category: "Campus & Drone",
+//       views: "4.7K", 
+//       date: "1 month ago",
+//       description: "Aerial footage capturing the expansive sports fields, obstacle courses, and parade grounds."
+//     },
+//     { 
+//       id: 3,
+//       // src: "/Video/1.mp4", 
+//       src: "https://drive.google.com/file/d/1sSo07UuU4Hv9vD6koJQoXToQ4Pbc9uBB/view?usp=sharing", 
+//       caption: "75th Republic Day Grand Parade", 
+//       category: "National Festivals",
+//       views: "2.3K", 
+//       date: "2 weeks ago",
+//       description: "Cadet parade drill, national anthem honor guard, and ceremonial flag hoisting."
+//     },
+//     { 
+//       id: 4,
+//       // src: "/Video/2.mp4", 
+//       src: "https://drive.google.com/file/d/1a9_M975c70qkoj64CdB8s12FVGpICdKi/view?usp=sharing", 
+//       caption: "Independence Day Celebrations - March Past", 
+//       category: "National Festivals",
+//       views: "1.8K", 
+//       date: "3 weeks ago",
+//       description: "Precision marching squad showing synchronization, valor, and patriotic spirit."
+//     },
+//     { 
+//       id: 5,
+//       // src: "/Video/3.mp4", 
+//       src: "https://drive.google.com/file/d/1UsT2__r_NdvRkP4cEJR_0JVCF9OfHix8/view?usp=sharing", 
+//       caption: "Independence Day Cultural Performance", 
+//       category: "National Festivals",
+//       views: "1.5K", 
+//       date: "3 weeks ago",
+//       description: "Music and drama presentations commemorating India's freedom fighters."
+//     },
+//     { 
+//       id: 6,
+//       // src: "/Video/4.mp4", 
+//       src: "https://drive.google.com/file/d/1kBQPyEFwMDaG2cnieJJXvagPCjSLfNL3/view?usp=sharing", 
+//       caption: "Independence Day Guard of Honour", 
+//       category: "National Festivals",
+//       views: "1.2K", 
+//       date: "1 month ago",
+//       description: "Salute drill presentation by our senior student division."
+//     },
+//     { 
+//       id: 7,
+//       // src: "/Video/5.mp4", 
+//       src: "https://drive.google.com/file/d/1chS3OJ-VYGP_YVZR36IA0oxpt-pgbPve/view?usp=sharing", 
+//       caption: "Cadet Drills & Physical Training", 
+//       category: "Student Life",
+//       views: "3.1K", 
+//       date: "2 weeks ago",
+//       description: "Morning stamina building, endurance hurdles, teamwork, and daily discipline routine."
+//     }
+//   ];
+
+//   const [activeCategory, setActiveCategory] = useState("All");
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeVideoModal, setActiveVideoModal] = useState(null);
 
   const featuredVideoRef = useRef(null);
-  const modalVideoContainerRef = useRef(null);
+  const modalVideoRef = useRef(null);
+  const historyStateRef = useRef(false);
   const featuredVideo = VIDEOS[0];
 
-  const filteredVideos = activeCategory === "All" 
-    ? VIDEOS 
+  const filteredVideos = activeCategory === "All"
+    ? VIDEOS
     : VIDEOS.filter((v) => v.category === activeCategory);
 
+  // Google Drive preview iframes have their own controls, black bars and
+  // mobile navigation behavior. Use Drive's file endpoint in a native video
+  // element instead so the player always fills the modal viewport cleanly.
+  const getVideoSource = (video) => {
+    if (video.type === "drive") {
+      return `https://drive.google.com/uc?export=download&id=${video.driveId}`;
+    }
+    return video.src;
+  };
+
   const pauseAllVideos = () => {
-    const allVideos = document.querySelectorAll("video");
-    allVideos.forEach((v) => {
-      if (!v.paused) v.pause();
+    document.querySelectorAll("video").forEach((video) => {
+      if (!video.paused) video.pause();
     });
-  };
-
-  // Trigger browser-level full screen
-  const triggerFullscreen = (element) => {
-    if (!element) return;
-    if (element.requestFullscreen) {
-      element.requestFullscreen().catch(() => {});
-    } else if (element.webkitRequestFullscreen) {
-      element.webkitRequestFullscreen();
-    } else if (element.msRequestFullscreen) {
-      element.msRequestFullscreen();
-    }
-  };
-
-  // Exit browser-level full screen safely
-  const exitFullscreen = () => {
-    if (document.fullscreenElement || document.webkitFullscreenElement) {
-      if (document.exitFullscreen) {
-        document.exitFullscreen().catch(() => {});
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      }
-    }
   };
 
   const openModal = (video) => {
     pauseAllVideos();
-    if (featuredVideoRef.current && !featuredVideoRef.current.paused) {
-      featuredVideoRef.current.pause();
-    }
+    featuredVideoRef.current?.pause();
     setActiveVideoModal(video);
 
-    // Request fullscreen immediately after opening the modal
-    setTimeout(() => {
-      if (modalVideoContainerRef.current) {
-        triggerFullscreen(modalVideoContainerRef.current);
-      }
-    }, 50);
+    // Add one history entry for the modal. Android/browser Back will
+    // therefore close this video first instead of leaving the gallery page.
+    if (!historyStateRef.current) {
+      window.history.pushState(
+        { ...(window.history.state || {}), videoGalleryModal: video.id },
+        "",
+        window.location.href
+      );
+      historyStateRef.current = true;
+    }
   };
 
   const closeModal = () => {
-    exitFullscreen();
-    setActiveVideoModal(null);
     pauseAllVideos();
+
+    if (historyStateRef.current) {
+      // Let popstate perform the actual close so browser Back and the X button
+      // follow exactly the same path.
+      window.history.back();
+      return;
+    }
+
+    setActiveVideoModal(null);
   };
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "Escape") closeModal();
+      if (e.key === "Escape" && activeVideoModal) closeModal();
     };
 
-    const handleFullscreenChange = () => {
-      // If user exits browser fullscreen, keep modal state clean
-      if (!document.fullscreenElement && !document.webkitFullscreenElement && activeVideoModal) {
-        // Optional: keep modal open or close based on preference
+    const handlePopState = () => {
+      // Browser/Android Back (or the modal X button): close only the open
+      // player and remain on this gallery page.
+      if (historyStateRef.current) {
+        historyStateRef.current = false;
+        pauseAllVideos();
+        setActiveVideoModal(null);
       }
     };
 
-    if (activeVideoModal) {
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKeyDown);
-      document.addEventListener("fullscreenchange", handleFullscreenChange);
-      document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("popstate", handlePopState);
+
+    document.body.style.overflow = activeVideoModal ? "hidden" : "";
 
     return () => {
-      document.body.style.overflow = "unset";
       window.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-      document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
+      window.removeEventListener("popstate", handlePopState);
+      document.body.style.overflow = "";
     };
+  }, [activeVideoModal]);
+
+  // Start playback after the modal has mounted. Native <video> keeps the
+  // controls limited to the browser/player rather than showing Drive UI.
+  useEffect(() => {
+    if (!activeVideoModal || !modalVideoRef.current) return;
+    const video = modalVideoRef.current;
+    const playPromise = video.play();
+    if (playPromise?.catch) playPromise.catch(() => {});
   }, [activeVideoModal]);
 
   return (
@@ -692,29 +786,19 @@ export default function VideoGallery() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
               {/* Spotlight Media Container */}
               <div className="lg:col-span-7 relative rounded-xl overflow-hidden shadow-2xl aspect-video bg-black flex items-center justify-center">
-                {featuredVideo.type === "drive" ? (
-                  <iframe
-                    src={`https://drive.google.com/file/d/${featuredVideo.driveId}/preview`}
-                    className="w-full h-full border-0"
-                    allow="autoplay; encrypted-media; fullscreen"
-                    allowFullScreen
-                    title={featuredVideo.caption}
-                  />
-                ) : (
-                  <video
-                    ref={featuredVideoRef}
-                    className="w-full h-full object-contain"
-                    poster={featuredVideo.poster}
-                    controls
-                    playsInline
-                    controlsList="nodownload"
-                    preload="metadata"
-                    onPlay={pauseAllVideos}
-                  >
-                    <source src={featuredVideo.src} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                )}
+                <video
+                  ref={featuredVideoRef}
+                  className="w-full h-full object-contain bg-black"
+                  poster={featuredVideo.poster}
+                  controls
+                  playsInline
+                  controlsList="nodownload noremoteplayback"
+                  preload="metadata"
+                  onPlay={pauseAllVideos}
+                >
+                  <source src={getVideoSource(featuredVideo)} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
               </div>
 
               <div className="lg:col-span-5 flex flex-col justify-center space-y-3 sm:space-y-4">
@@ -771,6 +855,14 @@ export default function VideoGallery() {
             <article
               key={video.id}
               onClick={() => openModal(video)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  openModal(video);
+                }
+              }}
+              role="button"
+              tabIndex={0}
               className="group relative bg-slate-800/60 border border-slate-700/60 hover:border-emerald-500/50 rounded-2xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer flex flex-col hover:-translate-y-1 active:scale-[0.99]"
             >
               <div className="relative w-full aspect-video bg-slate-950 overflow-hidden">
@@ -827,14 +919,13 @@ export default function VideoGallery() {
       {/* Video Modal Player (Fullscreen Container) */}
       {activeVideoModal && (
         <div 
-          ref={modalVideoContainerRef}
-          className="fixed inset-0 z-50 bg-black backdrop-blur-md flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 bg-black flex items-center justify-center p-0 sm:p-3 animate-in fade-in duration-200"
           onClick={closeModal}
           role="dialog"
           aria-modal="true"
         >
           <div 
-            className="relative w-full h-full max-w-6xl max-h-[92vh] flex flex-col bg-slate-900 border border-slate-700/80 sm:rounded-2xl overflow-hidden shadow-2xl"
+            className="relative w-full h-full sm:h-[calc(100dvh-1.5rem)] max-w-6xl flex flex-col bg-slate-900 border border-slate-700/80 sm:rounded-2xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Top Header */}
@@ -857,30 +948,22 @@ export default function VideoGallery() {
             </div>
 
             {/* Video Player Frame */}
-            <div className="relative flex-1 w-full bg-black overflow-hidden flex items-center justify-center">
-              {activeVideoModal.type === "drive" ? (
-                <iframe
-                  key={activeVideoModal.id}
-                  src={`https://drive.google.com/file/d/${activeVideoModal.driveId}/preview`}
-                  className="w-full h-full border-0"
-                  allow="autoplay; encrypted-media; fullscreen"
-                  allowFullScreen
-                  title={activeVideoModal.caption}
-                />
-              ) : (
-                <video
-                  key={activeVideoModal.id}
-                  className="w-full h-full object-contain"
-                  controls
-                  autoPlay
-                  playsInline
-                  controlsList="nodownload"
-                  onPlay={pauseAllVideos}
-                >
-                  <source src={activeVideoModal.src} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              )}
+            <div className="relative flex-1 min-h-0 w-full bg-black overflow-hidden flex items-center justify-center">
+              <video
+                ref={modalVideoRef}
+                key={activeVideoModal.id}
+                className="block w-full h-full object-contain bg-black"
+                poster={activeVideoModal.poster}
+                controls
+                autoPlay
+                playsInline
+                controlsList="nodownload noremoteplayback"
+                preload="metadata"
+                onPlay={pauseAllVideos}
+              >
+                <source src={getVideoSource(activeVideoModal)} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
 
             {/* Description Details */}
