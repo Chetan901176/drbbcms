@@ -480,8 +480,8 @@ const CATEGORIES = ["All", "Campus & Drone", "National Festivals", "Student Life
 const VIDEOS = [
   { 
     id: 1,
-    type: "local",
-    src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4", 
+    type: "drive",
+    driveId: "1Fh4jobECGaDmwaeH8IHJ4pLcrxmmiW4r",
     poster: "/hero2.jpeg",
     caption: "Our School & Who We Are", 
     category: "Campus & Drone",
