@@ -482,6 +482,8 @@ const VIDEOS = [
     id: 1,
     type: "drive",
     driveId: "1Fh4jobECGaDmwaeH8IHJ4pLcrxmmiW4r",
+    // If you prefer the local mp4 file, set type: "local" and provide src:
+    // src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4",
     poster: "/hero2.jpeg",
     caption: "Our School & Who We Are", 
     category: "Campus & Drone",
@@ -568,7 +570,6 @@ export default function VideoGallery() {
     ? VIDEOS 
     : VIDEOS.filter((v) => v.category === activeCategory);
 
-  // Pause all playing videos
   const pauseAllVideos = () => {
     const allVideos = document.querySelectorAll("video");
     allVideos.forEach((v) => {
@@ -649,19 +650,37 @@ export default function VideoGallery() {
           <div className="relative rounded-2xl overflow-hidden bg-slate-800/50 border border-slate-700/80 shadow-2xl p-4 sm:p-6 lg:p-8 backdrop-blur-sm">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
               <div className="lg:col-span-7 relative rounded-xl overflow-hidden shadow-2xl aspect-video bg-black">
-                <video
-                  ref={featuredVideoRef}
-                  className="w-full h-full object-cover"
-                  poster={featuredVideo.poster}
-                  controls
-                  playsInline
-                  controlsList="nodownload"
-                  preload="metadata"
-                  onPlay={pauseAllVideos}
-                >
-                  <source src={featuredVideo.src} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
+                {featuredVideo.type === "drive" ? (
+                  <div className="relative w-full h-full overflow-hidden bg-black">
+                    <iframe
+                      src={`https://drive.google.com/file/d/${featuredVideo.driveId}/preview`}
+                      className="w-full border-0 absolute"
+                      style={{
+                        top: "-68px",
+                        left: "0",
+                        width: "100%",
+                        height: "calc(100% + 72px)"
+                      }}
+                      allow="autoplay; encrypted-media; fullscreen"
+                      allowFullScreen
+                      title={featuredVideo.caption}
+                    />
+                  </div>
+                ) : (
+                  <video
+                    ref={featuredVideoRef}
+                    className="w-full h-full object-cover"
+                    poster={featuredVideo.poster}
+                    controls
+                    playsInline
+                    controlsList="nodownload"
+                    preload="metadata"
+                    onPlay={pauseAllVideos}
+                  >
+                    <source src={featuredVideo.src} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                )}
               </div>
 
               <div className="lg:col-span-5 flex flex-col justify-center space-y-3 sm:space-y-4">
@@ -734,7 +753,6 @@ export default function VideoGallery() {
 
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
 
-                {/* Emerald Green Play Badge */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-emerald-500/90 text-slate-950 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                     <Play className="w-6 h-6 fill-slate-950 ml-0.5" />
@@ -772,7 +790,7 @@ export default function VideoGallery() {
         </div>
       </main>
 
-      {/* Video Modal Player (Clean view: No top progress bar, no black shade overlay) */}
+      {/* Video Modal Player */}
       {activeVideoModal && (
         <div 
           className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-in fade-in duration-200"
@@ -784,7 +802,6 @@ export default function VideoGallery() {
             className="relative w-full max-w-4xl flex flex-col bg-slate-900 border border-slate-700/80 rounded-2xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Top Header */}
             <div className="p-3.5 sm:p-4 flex items-center justify-between border-b border-slate-800 bg-slate-900 shrink-0">
               <div className="pr-3">
                 <span className="text-emerald-400 text-[10px] sm:text-xs uppercase tracking-widest font-bold">
@@ -803,13 +820,8 @@ export default function VideoGallery() {
               </button>
             </div>
 
-            {/* Video Player Container */}
             <div className="relative w-full aspect-video bg-black overflow-hidden">
               {activeVideoModal.type === "drive" ? (
-                /* 
-                   Negative top offset + calculated height pushes Google Drive's
-                   native header, top timeline, and overlay out of the visible screen.
-                */
                 <div className="relative w-full h-full overflow-hidden bg-black">
                   <iframe
                     key={activeVideoModal.id}
@@ -842,7 +854,6 @@ export default function VideoGallery() {
               )}
             </div>
 
-            {/* Description Details */}
             <div className="p-3.5 sm:p-5 bg-slate-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
                 {activeVideoModal.description}
