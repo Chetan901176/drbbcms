@@ -482,8 +482,6 @@ const VIDEOS = [
     id: 1,
     type: "drive",
     driveId: "1Fh4jobECGaDmwaeH8IHJ4pLcrxmmiW4r",
-    // If you prefer the local mp4 file, set type: "local" and provide src:
-    // src: "/School_Promo_Updated_Name_To_Swarajya_compressed.mp4",
     poster: "/hero2.jpeg",
     caption: "Our School & Who We Are", 
     category: "Campus & Drone",
@@ -564,6 +562,7 @@ export default function VideoGallery() {
   const [activeVideoModal, setActiveVideoModal] = useState(null);
 
   const featuredVideoRef = useRef(null);
+  const modalVideoContainerRef = useRef(null);
   const featuredVideo = VIDEOS[0];
 
   const filteredVideos = activeCategory === "All" 
@@ -577,15 +576,46 @@ export default function VideoGallery() {
     });
   };
 
+  // Trigger browser-level full screen
+  const triggerFullscreen = (element) => {
+    if (!element) return;
+    if (element.requestFullscreen) {
+      element.requestFullscreen().catch(() => {});
+    } else if (element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+    }
+  };
+
+  // Exit browser-level full screen safely
+  const exitFullscreen = () => {
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
+    }
+  };
+
   const openModal = (video) => {
     pauseAllVideos();
     if (featuredVideoRef.current && !featuredVideoRef.current.paused) {
       featuredVideoRef.current.pause();
     }
     setActiveVideoModal(video);
+
+    // Request fullscreen immediately after opening the modal
+    setTimeout(() => {
+      if (modalVideoContainerRef.current) {
+        triggerFullscreen(modalVideoContainerRef.current);
+      }
+    }, 50);
   };
 
   const closeModal = () => {
+    exitFullscreen();
     setActiveVideoModal(null);
     pauseAllVideos();
   };
@@ -595,9 +625,18 @@ export default function VideoGallery() {
       if (e.key === "Escape") closeModal();
     };
 
+    const handleFullscreenChange = () => {
+      // If user exits browser fullscreen, keep modal state clean
+      if (!document.fullscreenElement && !document.webkitFullscreenElement && activeVideoModal) {
+        // Optional: keep modal open or close based on preference
+      }
+    };
+
     if (activeVideoModal) {
       document.body.style.overflow = "hidden";
       window.addEventListener("keydown", handleKeyDown);
+      document.addEventListener("fullscreenchange", handleFullscreenChange);
+      document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
     } else {
       document.body.style.overflow = "unset";
     }
@@ -605,6 +644,8 @@ export default function VideoGallery() {
     return () => {
       document.body.style.overflow = "unset";
       window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
     };
   }, [activeVideoModal]);
 
@@ -649,27 +690,20 @@ export default function VideoGallery() {
           {/* Featured Spotlight Card */}
           <div className="relative rounded-2xl overflow-hidden bg-slate-800/50 border border-slate-700/80 shadow-2xl p-4 sm:p-6 lg:p-8 backdrop-blur-sm">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
-              <div className="lg:col-span-7 relative rounded-xl overflow-hidden shadow-2xl aspect-video bg-black">
+              {/* Spotlight Media Container */}
+              <div className="lg:col-span-7 relative rounded-xl overflow-hidden shadow-2xl aspect-video bg-black flex items-center justify-center">
                 {featuredVideo.type === "drive" ? (
-                  <div className="relative w-full h-full overflow-hidden bg-black">
-                    <iframe
-                      src={`https://drive.google.com/file/d/${featuredVideo.driveId}/preview`}
-                      className="w-full border-0 absolute"
-                      style={{
-                        top: "-68px",
-                        left: "0",
-                        width: "100%",
-                        height: "calc(100% + 72px)"
-                      }}
-                      allow="autoplay; encrypted-media; fullscreen"
-                      allowFullScreen
-                      title={featuredVideo.caption}
-                    />
-                  </div>
+                  <iframe
+                    src={`https://drive.google.com/file/d/${featuredVideo.driveId}/preview`}
+                    className="w-full h-full border-0"
+                    allow="autoplay; encrypted-media; fullscreen"
+                    allowFullScreen
+                    title={featuredVideo.caption}
+                  />
                 ) : (
                   <video
                     ref={featuredVideoRef}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                     poster={featuredVideo.poster}
                     controls
                     playsInline
@@ -790,19 +824,21 @@ export default function VideoGallery() {
         </div>
       </main>
 
-      {/* Video Modal Player */}
+      {/* Video Modal Player (Fullscreen Container) */}
       {activeVideoModal && (
         <div 
-          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-in fade-in duration-200"
+          ref={modalVideoContainerRef}
+          className="fixed inset-0 z-50 bg-black backdrop-blur-md flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-200"
           onClick={closeModal}
           role="dialog"
           aria-modal="true"
         >
           <div 
-            className="relative w-full max-w-4xl flex flex-col bg-slate-900 border border-slate-700/80 rounded-2xl overflow-hidden shadow-2xl"
+            className="relative w-full h-full max-w-6xl max-h-[92vh] flex flex-col bg-slate-900 border border-slate-700/80 sm:rounded-2xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-3.5 sm:p-4 flex items-center justify-between border-b border-slate-800 bg-slate-900 shrink-0">
+            {/* Modal Top Header */}
+            <div className="p-3 sm:p-4 flex items-center justify-between border-b border-slate-800 bg-slate-900 shrink-0">
               <div className="pr-3">
                 <span className="text-emerald-400 text-[10px] sm:text-xs uppercase tracking-widest font-bold">
                   {activeVideoModal.category}
@@ -820,24 +856,17 @@ export default function VideoGallery() {
               </button>
             </div>
 
-            <div className="relative w-full aspect-video bg-black overflow-hidden">
+            {/* Video Player Frame */}
+            <div className="relative flex-1 w-full bg-black overflow-hidden flex items-center justify-center">
               {activeVideoModal.type === "drive" ? (
-                <div className="relative w-full h-full overflow-hidden bg-black">
-                  <iframe
-                    key={activeVideoModal.id}
-                    src={`https://drive.google.com/file/d/${activeVideoModal.driveId}/preview`}
-                    className="w-full border-0 absolute"
-                    style={{
-                      top: "-68px",
-                      left: "0",
-                      width: "100%",
-                      height: "calc(100% + 72px)"
-                    }}
-                    allow="autoplay; encrypted-media; fullscreen"
-                    allowFullScreen
-                    title={activeVideoModal.caption}
-                  />
-                </div>
+                <iframe
+                  key={activeVideoModal.id}
+                  src={`https://drive.google.com/file/d/${activeVideoModal.driveId}/preview`}
+                  className="w-full h-full border-0"
+                  allow="autoplay; encrypted-media; fullscreen"
+                  allowFullScreen
+                  title={activeVideoModal.caption}
+                />
               ) : (
                 <video
                   key={activeVideoModal.id}
@@ -854,7 +883,8 @@ export default function VideoGallery() {
               )}
             </div>
 
-            <div className="p-3.5 sm:p-5 bg-slate-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            {/* Description Details */}
+            <div className="p-3.5 sm:p-5 bg-slate-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
               <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
                 {activeVideoModal.description}
               </p>
