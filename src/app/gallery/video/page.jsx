@@ -804,6 +804,11 @@ export default function VideoGallery() {
                   onClick={() => openModal(featuredVideo)}
                   className="group relative w-full aspect-video rounded-xl overflow-hidden bg-black shadow-2xl border border-slate-700/60 cursor-pointer"
                 >
+                <img
+                    src={featuredVideo.poster}
+                    alt={featuredVideo.caption}
+                    className="absolute inset-0 z-10 w-full h-full object-cover pointer-events-none"
+                />
                   <iframe
                     src={`https://drive.google.com/file/d/${featuredVideo.driveId}/preview`}
                     className="absolute inset-0 w-full h-full border-0 pointer-events-none"
