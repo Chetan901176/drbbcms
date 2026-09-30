@@ -127,7 +127,7 @@
 
 // export default SamplePapers;
 
-
+"use client";
 import React, { useState } from "react";
 import { 
   Download, 
