@@ -479,7 +479,7 @@ export default function AdmissionPage() {
                     <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 sm:p-4">
                       <p className="text-xs sm:text-sm md:text-base text-yellow-800 font-medium text-center">
                         <span className="block sm:inline">
-                          ⚠️ Pay ₹250/- on the QR provided as the confirmation of
+                          ⚠️ Pay ₹300/- on the QR provided as the confirmation of
                         </span>
                         <span className="block sm:inline"> Registration/Entrance Exam</span>
                       </p>
