@@ -276,6 +276,9 @@ const Navbar = () => {
                     onMouseLeave={() => handleMouseLeave(item.key)}
                   >
                     <button 
+                      type="button"
+                      onClick={(e) => toggleDropdown(item.key, e)}
+                      onTouchStart={(e) => toggleDropdown(item.key, e)}
                       className={`flex items-center px-2 py-1 rounded ${isDropdownActive(item) ? 'text-yellow-300' : 'hover:text-yellow-300'} hover:underline transition-all duration-200`}
                     >
                       {item.label}
@@ -299,6 +302,9 @@ const Navbar = () => {
                               onMouseLeave={() => handleMouseLeave(sublink.key)}
                             >
                               <button
+                                type="button"
+                                onClick={(e) => toggleDropdown(sublink.key, e)}
+                                onTouchStart={(e) => toggleDropdown(sublink.key, e)}
                                 className="w-full flex items-center justify-between px-4 py-2 text-gray-700 hover:bg-gray-100 text-left"
                               >
                                 {sublink.label}
@@ -400,6 +406,7 @@ const Navbar = () => {
                   return (
                     <div key={index} className="border-b border-gray-200">
                       <button
+                        type="button"
                         onClick={(e) => toggleDropdown(item.key, e)}
                         className={`w-full flex items-center justify-between px-6 py-3 text-left ${isDropdownActive(item) ? 'text-primary bg-secondary font-semibold' : 'text-gray-700 hover:bg-gray-50'}`}
                       >
@@ -414,6 +421,7 @@ const Navbar = () => {
                             return (
                               <div key={subIndex}>
                                 <button
+                                  type="button"
                                   onClick={(e) => toggleDropdown(sublink.key, e)}
                                   className="w-full flex items-center justify-between px-10 py-2.5 text-sm text-gray-600 hover:bg-gray-50 text-left"
                                 >
