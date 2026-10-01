@@ -5,18 +5,16 @@ import Marquee from "@/components/layout/Marquee";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
-
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
-
-
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata = {
@@ -30,11 +28,11 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header/>
-        <Marquee/>
-        <Navbar/>
+        <Header />
+        <Marquee />
+        <Navbar />
         {children}
-        <Footer/>
+        <Footer />
       </body>
     </html>
   );
