@@ -1,3 +1,4 @@
+{/* 
 "use client";
 
 import { useEffect, useState } from "react";
@@ -206,3 +207,7 @@ export default function VideoGallery() {
 function Metric({ value, label, bordered }) { return <div className={`text-center ${bordered ? "border-x border-slate-700/80 px-2" : ""}`}><p className="text-xl font-black text-emerald-400 sm:text-2xl">{value}</p><p className="mt-0.5 text-[10px] uppercase tracking-wider text-slate-400 sm:text-xs">{label}</p></div>; }
 function VideoThumbnail({ video, featured = false, onClick }) { return <div onClick={onClick} className={`${featured ? "lg:col-span-7" : ""} group relative aspect-video w-full cursor-pointer overflow-hidden rounded-xl bg-black`}><img src={video.poster} alt={video.caption} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" /><div className="absolute inset-0 bg-black/35" /><div className="absolute inset-0 flex items-center justify-center"><span className={`${featured ? "h-16 w-16 sm:h-20 sm:w-20" : "h-12 w-12 sm:h-14 sm:w-14"} flex items-center justify-center rounded-full bg-emerald-500/90 text-slate-950 shadow-2xl transition group-hover:scale-110`}><Play className={`${featured ? "h-8 w-8 sm:h-10 sm:w-10" : "h-6 w-6"} ml-1 fill-slate-950`} /></span></div><span className="absolute left-3 top-3 rounded border border-emerald-500/30 bg-slate-900/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-400">{featured ? "Official Spotlight" : video.category}</span></div>; }
 function Value({ icon, title, text }) { return <div className="flex items-start gap-3 sm:gap-4"><div className="shrink-0 rounded-xl bg-slate-800 p-2.5 text-emerald-400 sm:p-3">{icon}</div><div><h4 className="text-sm font-bold text-white sm:text-base">{title}</h4><p className="mt-0.5 text-xs leading-relaxed text-slate-400">{text}</p></div></div>; }
+
+
+
+*/}  
