@@ -1,4 +1,4 @@
-{/* 
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -209,5 +209,3 @@ function VideoThumbnail({ video, featured = false, onClick }) { return <div onCl
 function Value({ icon, title, text }) { return <div className="flex items-start gap-3 sm:gap-4"><div className="shrink-0 rounded-xl bg-slate-800 p-2.5 text-emerald-400 sm:p-3">{icon}</div><div><h4 className="text-sm font-bold text-white sm:text-base">{title}</h4><p className="mt-0.5 text-xs leading-relaxed text-slate-400">{text}</p></div></div>; }
 
 
-
-*/}  
